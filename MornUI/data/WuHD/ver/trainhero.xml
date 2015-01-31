@@ -1,0 +1,10 @@
+<lib>
+  <bitmapdata class="png.trainhero.bg_barrack_item" file="D:\工作\UI\HD\morn\assets\trainhero\bg_barrack_item.png" compression="false" quality="80" create="14117029273258692"/>
+  <bitmapdata class="png.trainhero.bg_barrack_titlebar" file="D:\工作\UI\HD\morn\assets\trainhero\bg_barrack_titlebar.png" compression="false" quality="80" create="14117029299207718"/>
+  <bitmapdata class="png.trainhero.icon_barrack_arrow" file="D:\工作\UI\HD\morn\assets\trainhero\icon_barrack_arrow.png" compression="false" quality="80" create="1404369027908695"/>
+  <bitmapdata class="png.trainhero.icon_barrack_arrow2" file="D:\工作\UI\HD\morn\assets\trainhero\icon_barrack_arrow2.png" compression="false" quality="80" create="1404897133262807"/>
+  <bitmapdata class="png.trainhero.icon_barrack_cir_blue" file="D:\工作\UI\HD\morn\assets\trainhero\icon_barrack_cir_blue.png" compression="false" quality="80" create="1404369027815128301"/>
+  <bitmapdata class="png.trainhero.icon_barrack_cir_red" file="D:\工作\UI\HD\morn\assets\trainhero\icon_barrack_cir_red.png" compression="false" quality="80" create="1404369027908130769"/>
+  <bitmapdata class="png.trainhero.icon_barrack_friendtitle" file="D:\工作\UI\HD\morn\assets\trainhero\icon_barrack_friendtitle.png" compression="false" quality="80" create="14117014748904629"/>
+  <bitmapdata class="png.trainhero.icon_barrack_title" file="D:\工作\UI\HD\morn\assets\trainhero\icon_barrack_title.png" compression="false" quality="80" create="14117014751616151"/>
+</lib>

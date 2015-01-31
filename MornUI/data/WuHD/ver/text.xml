@@ -1,0 +1,32 @@
+<lib>
+  <bitmapdata class="png.text.clip_all" file="D:\工作\UI\HD\morn\assets\text\clip_all.png" compression="false" quality="80" create="141147073477620041"/>
+  <bitmapdata class="png.text.icom_get" file="D:\工作\UI\HD\morn\assets\text\icom_get.png" compression="false" quality="80" create="141190728775210552"/>
+  <bitmapdata class="png.text.icon_account" file="D:\工作\UI\HD\morn\assets\text\icon_account.png" compression="false" quality="80" create="14117954834209667"/>
+  <bitmapdata class="png.text.icon_alreadGet" file="D:\工作\UI\HD\morn\assets\text\icon_alreadGet.png" compression="false" quality="80" create="14134455010566500"/>
+  <bitmapdata class="png.text.icon_code" file="D:\工作\UI\HD\morn\assets\text\icon_code.png" compression="false" quality="80" create="141197554226925305"/>
+  <bitmapdata class="png.text.icon_codetitle" file="D:\工作\UI\HD\morn\assets\text\icon_codetitle.png" compression="false" quality="80" create="141197405640021818"/>
+  <bitmapdata class="png.text.icon_energyTitle" file="D:\工作\UI\HD\morn\assets\text\icon_energyTitle.png" compression="false" quality="80" create="141188006090614523"/>
+  <bitmapdata class="png.text.icon_first_pay" file="D:\工作\UI\HD\morn\assets\text\icon_first_pay.png" compression="false" quality="80" create="141664316456970002"/>
+  <bitmapdata class="png.text.icon_go" file="D:\工作\UI\HD\morn\assets\text\icon_go.png" compression="false" quality="80" create="141186666026610273"/>
+  <bitmapdata class="png.text.icon_ime" file="D:\工作\UI\HD\morn\assets\text\icon_ime.png" compression="false" quality="80" create="141197405505724271"/>
+  <bitmapdata class="png.text.icon_logout" file="D:\工作\UI\HD\morn\assets\text\icon_logout.png" compression="false" quality="80" create="141197553635618487"/>
+  <bitmapdata class="png.text.icon_logouttitle" file="D:\工作\UI\HD\morn\assets\text\icon_logouttitle.png" compression="false" quality="80" create="141197405760614283"/>
+  <bitmapdata class="png.text.icon_moneyExchange" file="D:\工作\UI\HD\morn\assets\text\icon_moneyExchange.png" compression="false" quality="80" create="141188006090415110"/>
+  <bitmapdata class="png.text.icon_num" file="D:\工作\UI\HD\morn\assets\text\icon_num.png" compression="false" quality="80" create="141467301983354253"/>
+  <bitmapdata class="png.text.icon_pay" file="D:\工作\UI\HD\morn\assets\text\icon_pay.png" compression="false" quality="80" create="141197405532710452"/>
+  <bitmapdata class="png.text.icon_recharge100" file="D:\工作\UI\HD\morn\assets\text\icon_recharge100.png" compression="false" quality="80" create="141664316456937644"/>
+  <bitmapdata class="png.text.icon_recharge1000" file="D:\工作\UI\HD\morn\assets\text\icon_recharge1000.png" compression="false" quality="80" create="141664316456938798"/>
+  <bitmapdata class="png.text.icon_recharge10000" file="D:\工作\UI\HD\morn\assets\text\icon_recharge10000.png" compression="false" quality="80" create="141664316456951278"/>
+  <bitmapdata class="png.text.icon_recharge2000" file="D:\工作\UI\HD\morn\assets\text\icon_recharge2000.png" compression="false" quality="80" create="141664316456939971"/>
+  <bitmapdata class="png.text.icon_recharge20000" file="D:\工作\UI\HD\morn\assets\text\icon_recharge20000.png" compression="false" quality="80" create="141664316456951584"/>
+  <bitmapdata class="png.text.icon_recharge3000" file="D:\工作\UI\HD\morn\assets\text\icon_recharge3000.png" compression="false" quality="80" create="141664316456940037"/>
+  <bitmapdata class="png.text.icon_recharge500" file="D:\工作\UI\HD\morn\assets\text\icon_recharge500.png" compression="false" quality="80" create="141664316456938886"/>
+  <bitmapdata class="png.text.icon_recharge5000" file="D:\工作\UI\HD\morn\assets\text\icon_recharge5000.png" compression="false" quality="80" create="141664316456940028"/>
+  <bitmapdata class="png.text.icon_school_title" file="D:\工作\UI\HD\morn\assets\text\icon_school_title.png" compression="false" quality="80" create="14143730516427697"/>
+  <bitmapdata class="png.text.icon_school_title2" file="D:\工作\UI\HD\morn\assets\text\icon_school_title2.png" compression="false" quality="80" create="141437305189513702"/>
+  <bitmapdata class="png.text.icon_service" file="D:\工作\UI\HD\morn\assets\text\icon_service.png" compression="false" quality="80" create="141179546899510078"/>
+  <bitmapdata class="png.text.icon_service_title" file="D:\工作\UI\HD\morn\assets\text\icon_service_title.png" compression="false" quality="80" create="141180696896012438"/>
+  <bitmapdata class="png.text.icon_vip" file="D:\工作\UI\HD\morn\assets\text\icon_vip.png" compression="false" quality="80" create="141178001540910955"/>
+  <bitmapdata class="png.text.icon_voice" file="D:\工作\UI\HD\morn\assets\text\icon_voice.png" compression="false" quality="80" create="141197405663715593"/>
+  <bitmapdata class="png.text.icon_voice_off" file="D:\工作\UI\HD\morn\assets\text\icon_voice_off.png" compression="false" quality="80" create="141285829888916142"/>
+</lib>

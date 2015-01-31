@@ -1,0 +1,8 @@
+<lib>
+  <bitmapdata class="png.mall.bg_mall_item" file="D:\工作\UI\HD\morn\assets\mall\bg_mall_item.png" compression="false" quality="80" create="141152712373233758"/>
+  <bitmapdata class="png.mall.icon_mall_girl" file="D:\工作\UI\HD\morn\assets\mall\icon_mall_girl.png" compression="false" quality="80" create="1411527123974688461"/>
+  <bitmapdata class="png.mall.icon_mall_refresh" file="D:\工作\UI\HD\morn\assets\mall\icon_mall_refresh.png" compression="false" quality="80" create="141152712422520809"/>
+  <bitmapdata class="png.mall.icon_mall_sold" file="D:\工作\UI\HD\morn\assets\mall\icon_mall_sold.png" compression="false" quality="80" create="141161114833610100"/>
+  <bitmapdata class="png.mall.icon_mall_title" file="D:\工作\UI\HD\morn\assets\mall\icon_mall_title.png" compression="false" quality="80" create="141152712473711213"/>
+  <bitmapdata class="png.mall.icon_mall_titlebar" file="D:\工作\UI\HD\morn\assets\mall\icon_mall_titlebar.png" compression="false" quality="80" create="1411527124982101792"/>
+</lib>

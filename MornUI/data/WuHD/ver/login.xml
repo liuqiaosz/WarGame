@@ -1,0 +1,13 @@
+<lib>
+  <bitmapdata class="png.login.bg_login_banner" file="D:\工作\UI\HD\morn\assets\login\bg_login_banner.png" compression="false" quality="80" create="141179547137166516"/>
+  <bitmapdata class="png.login.clip_logo" file="D:\工作\UI\HD\morn\assets\login\clip_logo.png" compression="false" quality="80" create="14089512516251598454"/>
+  <bitmapdata class="png.login.icon_login_bottom" file="D:\工作\UI\HD\morn\assets\login\icon_login_bottom.png" compression="false" quality="80" create="141177999801778552"/>
+  <bitmapdata class="png.login.icon_logo" file="D:\工作\UI\HD\morn\assets\login\icon_logo.png" compression="false" quality="80" create="1416550714238203638"/>
+  <bitmapdata class="png.login.login_card" file="D:\工作\UI\HD\morn\assets\login\login_card.png" compression="false" quality="80" create="140332075681486197"/>
+  <bitmapdata class="png.login.login_cube1" file="D:\工作\UI\HD\morn\assets\login\login_cube1.png" compression="false" quality="80" create="14033162824245638"/>
+  <bitmapdata class="png.login.login_cube5" file="D:\工作\UI\HD\morn\assets\login\login_cube5.png" compression="false" quality="80" create="14033323622333599"/>
+  <bitmapdata class="png.login.login_line" file="D:\工作\UI\HD\morn\assets\login\login_line.png" compression="false" quality="80" create="14031757733817878"/>
+  <bitmapdata class="png.login.login_random" file="D:\工作\UI\HD\morn\assets\login\login_random.png" compression="false" quality="80" create="140331567785421556"/>
+  <bitmapdata class="png.login.text_login_name" file="D:\工作\UI\HD\morn\assets\login\text_login_name.png" compression="false" quality="80" create="14117954684806577"/>
+  <bitmapdata class="png.login.text_login_start" file="D:\工作\UI\HD\morn\assets\login\text_login_start.png" compression="false" quality="80" create="141179546874817094"/>
+</lib>

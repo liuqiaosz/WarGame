@@ -1,0 +1,31 @@
+<lib>
+  <bitmapdata class="png.task.bg_di" file="D:\工作\UI\HD\morn\assets\task\bg_di.png" compression="false" quality="80" create="14080966533353128"/>
+  <bitmapdata class="png.task.bg_kuang" file="D:\工作\UI\HD\morn\assets\task\bg_kuang.png" compression="false" quality="80" create="140809665333112327"/>
+  <bitmapdata class="png.task.bg_line" file="D:\工作\UI\HD\morn\assets\task\bg_line.png" compression="false" quality="80" create="140809665333318024"/>
+  <bitmapdata class="png.task.clip_achieveIcon" file="D:\工作\UI\HD\morn\assets\task\clip_achieveIcon.png" compression="false" quality="80" create="141653704661819485"/>
+  <bitmapdata class="png.task.clip_taskIcon" file="D:\工作\UI\HD\morn\assets\task\clip_taskIcon.png" compression="false" quality="80" create="141653704661815901"/>
+  <bitmapdata class="png.task.icon_complete" file="D:\工作\UI\HD\morn\assets\task\icon_complete.png" compression="false" quality="80" create="141186666028325996"/>
+  <bitmapdata class="png.task.icon_task_bukexianliang" file="D:\工作\UI\HD\morn\assets\task\icon_task_bukexianliang.png" compression="false" quality="80" create="141506534938628202"/>
+  <bitmapdata class="png.task.icon_task_buyTili" file="D:\工作\UI\HD\morn\assets\task\icon_task_buyTili.png" compression="false" quality="80" create="141506534938524985"/>
+  <bitmapdata class="png.task.icon_task_buyTongqian" file="D:\工作\UI\HD\morn\assets\task\icon_task_buyTongqian.png" compression="false" quality="80" create="141506534940025062"/>
+  <bitmapdata class="png.task.icon_task_Fb" file="D:\工作\UI\HD\morn\assets\task\icon_task_Fb.png" compression="false" quality="80" create="141506534939129255"/>
+  <bitmapdata class="png.task.icon_task_fengyizushi" file="D:\工作\UI\HD\morn\assets\task\icon_task_fengyizushi.png" compression="false" quality="80" create="141506534937239351"/>
+  <bitmapdata class="png.task.icon_task_hulangzhishi" file="D:\工作\UI\HD\morn\assets\task\icon_task_hulangzhishi.png" compression="false" quality="80" create="141506534939720807"/>
+  <bitmapdata class="png.task.icon_task_jingbingqiangjiang" file="D:\工作\UI\HD\morn\assets\task\icon_task_jingbingqiangjiang.png" compression="false" quality="80" create="141506534938426593"/>
+  <bitmapdata class="png.task.icon_task_jingyinFb" file="D:\工作\UI\HD\morn\assets\task\icon_task_jingyinFb.png" compression="false" quality="80" create="141506534938232644"/>
+  <bitmapdata class="png.task.icon_task_jinyumantang" file="D:\工作\UI\HD\morn\assets\task\icon_task_jinyumantang.png" compression="false" quality="80" create="141506534937127554"/>
+  <bitmapdata class="png.task.icon_task_manfujinglun" file="D:\工作\UI\HD\morn\assets\task\icon_task_manfujinglun.png" compression="false" quality="80" create="141506534939521680"/>
+  <bitmapdata class="png.task.icon_task_process" file="D:\工作\UI\HD\morn\assets\task\icon_task_process.png" compression="false" quality="80" create="141653704660811205"/>
+  <bitmapdata class="png.task.icon_task_putongFb" file="D:\工作\UI\HD\morn\assets\task\icon_task_putongFb.png" compression="false" quality="80" create="141506534939032522"/>
+  <bitmapdata class="png.task.icon_task_qiancuibailian" file="D:\工作\UI\HD\morn\assets\task\icon_task_qiancuibailian.png" compression="false" quality="80" create="141506534937737684"/>
+  <bitmapdata class="png.task.icon_task_qianghuazhaugnbei" file="D:\工作\UI\HD\morn\assets\task\icon_task_qianghuazhaugnbei.png" compression="false" quality="80" create="141506534939323424"/>
+  <bitmapdata class="png.task.icon_task_qijaing" file="D:\工作\UI\HD\morn\assets\task\icon_task_qijaing.png" compression="false" quality="80" create="141506534938832161"/>
+  <bitmapdata class="png.task.icon_task_wujiangxunlian" file="D:\工作\UI\HD\morn\assets\task\icon_task_wujiangxunlian.png" compression="false" quality="80" create="141506534936936167"/>
+  <bitmapdata class="png.task.icon_task_xinqidianji" file="D:\工作\UI\HD\morn\assets\task\icon_task_xinqidianji.png" compression="false" quality="80" create="141506534937532799"/>
+  <bitmapdata class="png.task.icon_task_xuefuwunian" file="D:\工作\UI\HD\morn\assets\task\icon_task_xuefuwunian.png" compression="false" quality="80" create="141506534938032022"/>
+  <bitmapdata class="png.task.icon_task_yiqunzhicai" file="D:\工作\UI\HD\morn\assets\task\icon_task_yiqunzhicai.png" compression="false" quality="80" create="141506534939831826"/>
+  <bitmapdata class="png.task.icon_task_zhaonaxianshi" file="D:\工作\UI\HD\morn\assets\task\icon_task_zhaonaxianshi.png" compression="false" quality="80" create="141506534937425729"/>
+  <bitmapdata class="png.task.icon_task_zhengshou" file="D:\工作\UI\HD\morn\assets\task\icon_task_zhengshou.png" compression="false" quality="80" create="141506534937923442"/>
+  <bitmapdata class="png.task.icon_title_achieve" file="D:\工作\UI\HD\morn\assets\task\icon_title_achieve.png" compression="false" quality="80" create="141653704661815927"/>
+  <bitmapdata class="png.task.icon_title_task" file="D:\工作\UI\HD\morn\assets\task\icon_title_task.png" compression="false" quality="80" create="141653704660813571"/>
+</lib>

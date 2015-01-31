@@ -1,0 +1,28 @@
+<lib>
+  <bitmapdata class="png.huodong.bg_huodong_itemBg" file="D:\工作\UI\HD\morn\assets\huodong\bg_huodong_itemBg.png" compression="false" quality="80" create="141653704669839784"/>
+  <bitmapdata class="png.huodong.icon_gainTitle" file="D:\工作\UI\HD\morn\assets\huodong\icon_gainTitle.png" compression="false" quality="80" create="141517846623932552"/>
+  <bitmapdata class="png.huodong.icon_huodong_breakEggTab" file="D:\工作\UI\HD\morn\assets\huodong\icon_huodong_breakEggTab.png" compression="false" quality="80" create="141515061718920218"/>
+  <bitmapdata class="png.huodong.icon_huodong_consuem" file="D:\工作\UI\HD\morn\assets\huodong\icon_huodong_consuem.png" compression="false" quality="80" create="1414672411387148653"/>
+  <bitmapdata class="png.huodong.icon_huodong_desk" file="D:\工作\UI\HD\morn\assets\huodong\icon_huodong_desk.png" compression="false" quality="80" create="1414672411396177788"/>
+  <bitmapdata class="png.huodong.icon_huodong_eggList" file="D:\工作\UI\HD\morn\assets\huodong\icon_huodong_eggList.png" compression="false" quality="80" create="141467241140053959"/>
+  <bitmapdata class="png.huodong.icon_huodong_eggTitle" file="D:\工作\UI\HD\morn\assets\huodong\icon_huodong_eggTitle.png" compression="false" quality="80" create="141467241137795671"/>
+  <bitmapdata class="png.huodong.icon_huodong_fireWork" file="D:\工作\UI\HD\morn\assets\huodong\icon_huodong_fireWork.png" compression="false" quality="80" create="141467241139717263"/>
+  <bitmapdata class="png.huodong.icon_huodong_firstCon" file="D:\工作\UI\HD\morn\assets\huodong\icon_huodong_firstCon.png" compression="false" quality="80" create="141515061718577626"/>
+  <bitmapdata class="png.huodong.icon_huodong_gain" file="D:\工作\UI\HD\morn\assets\huodong\icon_huodong_gain.png" compression="false" quality="80" create="141467241139132552"/>
+  <bitmapdata class="png.huodong.icon_huodong_goldIcon" file="D:\工作\UI\HD\morn\assets\huodong\icon_huodong_goldIcon.png" compression="false" quality="80" create="141560478309410658"/>
+  <bitmapdata class="png.huodong.icon_huodong_hammer" file="D:\工作\UI\HD\morn\assets\huodong\icon_huodong_hammer.png" compression="false" quality="80" create="141467241138564582"/>
+  <bitmapdata class="png.huodong.icon_huodong_lastFirst" file="D:\工作\UI\HD\morn\assets\huodong\icon_huodong_lastFirst.png" compression="false" quality="80" create="141467241138815062"/>
+  <bitmapdata class="png.huodong.icon_huodong_light" file="D:\工作\UI\HD\morn\assets\huodong\icon_huodong_light.png" compression="false" quality="80" create="141467241138324208"/>
+  <bitmapdata class="png.huodong.icon_huodong_lookPrize" file="D:\工作\UI\HD\morn\assets\huodong\icon_huodong_lookPrize.png" compression="false" quality="80" create="141515061718114680"/>
+  <bitmapdata class="png.huodong.icon_huodong_monthMain" file="D:\工作\UI\HD\morn\assets\huodong\icon_huodong_monthMain.png" compression="false" quality="80" create="141467241139810296"/>
+  <bitmapdata class="png.huodong.icon_huodong_numBg" file="D:\工作\UI\HD\morn\assets\huodong\icon_huodong_numBg.png" compression="false" quality="80" create="141506534940911248"/>
+  <bitmapdata class="png.huodong.icon_huodong_rechargeTab" file="D:\工作\UI\HD\morn\assets\huodong\icon_huodong_rechargeTab.png" compression="false" quality="80" create="141653704669829967"/>
+  <bitmapdata class="png.huodong.icon_huodong_seeTreasur" file="D:\工作\UI\HD\morn\assets\huodong\icon_huodong_seeTreasur.png" compression="false" quality="80" create="141467241139210470"/>
+  <bitmapdata class="png.huodong.icon_huodong_tips" file="D:\工作\UI\HD\morn\assets\huodong\icon_huodong_tips.png" compression="false" quality="80" create="141515061718332340"/>
+  <bitmapdata class="png.huodong.icon_huodong_tipsBg" file="D:\工作\UI\HD\morn\assets\huodong\icon_huodong_tipsBg.png" compression="false" quality="80" create="141515061718613930"/>
+  <bitmapdata class="png.huodong.icon_huodong_treasureGive" file="D:\工作\UI\HD\morn\assets\huodong\icon_huodong_treasureGive.png" compression="false" quality="80" create="1414672411380407536"/>
+  <bitmapdata class="png.huodong.icon_huodong_treasureGiveTab" file="D:\工作\UI\HD\morn\assets\huodong\icon_huodong_treasureGiveTab.png" compression="false" quality="80" create="141515061718830663"/>
+  <bitmapdata class="png.huodong.icon_huodong_treasureLight" file="D:\工作\UI\HD\morn\assets\huodong\icon_huodong_treasureLight.png" compression="false" quality="80" create="1414672411393154381"/>
+  <bitmapdata class="png.huodong.icon_rechargeBig" file="D:\工作\UI\HD\morn\assets\huodong\icon_rechargeBig.png" compression="false" quality="80" create="1416537046698220805"/>
+  <bitmapdata class="png.huodong.icon_title_treasureGive" file="D:\工作\UI\HD\morn\assets\huodong\icon_title_treasureGive.png" compression="false" quality="80" create="1414672411395108892"/>
+</lib>

@@ -1,0 +1,14 @@
+<lib>
+  <bitmapdata class="png.mail.bg_mail_di " file="D:\工作\UI\HD\morn\assets\mail\bg_mail_di .png" compression="false" quality="80" create="140738843308312035"/>
+  <bitmapdata class="png.mail.bg_mail_eage" file="D:\工作\UI\HD\morn\assets\mail\bg_mail_eage.png" compression="false" quality="80" create="14074895783547539"/>
+  <bitmapdata class="png.mail.bg_mail_tiao" file="D:\工作\UI\HD\morn\assets\mail\bg_mail_tiao.png" compression="false" quality="80" create="14073884330853511"/>
+  <bitmapdata class="png.mail.bg_mail_top" file="D:\工作\UI\HD\morn\assets\mail\bg_mail_top.png" compression="false" quality="80" create="140738843307724446"/>
+  <bitmapdata class="png.mail.bg_mail_unreadBg" file="D:\工作\UI\HD\morn\assets\mail\bg_mail_unreadBg.png" compression="false" quality="80" create="14073884330787552"/>
+  <bitmapdata class="png.mail.icon_mail_delete" file="D:\工作\UI\HD\morn\assets\mail\icon_mail_delete.png" compression="false" quality="80" create="141188971482410403"/>
+  <bitmapdata class="png.mail.icon_mail_mailicon" file="D:\工作\UI\HD\morn\assets\mail\icon_mail_mailicon.png" compression="false" quality="80" create="14118897148287239"/>
+  <bitmapdata class="png.mail.icon_mail_new" file="D:\工作\UI\HD\morn\assets\mail\icon_mail_new.png" compression="false" quality="80" create="14118897148277025"/>
+  <bitmapdata class="png.mail.icon_mail_read" file="D:\工作\UI\HD\morn\assets\mail\icon_mail_read.png" compression="false" quality="80" create="141188971482926723"/>
+  <bitmapdata class="png.mail.icon_mail_smicon" file="D:\工作\UI\HD\morn\assets\mail\icon_mail_smicon.png" compression="false" quality="80" create="14118897148253055"/>
+  <bitmapdata class="png.mail.icon_mail_unread" file="D:\工作\UI\HD\morn\assets\mail\icon_mail_unread.png" compression="false" quality="80" create="141188971483024734"/>
+  <bitmapdata class="png.mail.icon_mail_unreadIcon" file="D:\工作\UI\HD\morn\assets\mail\icon_mail_unreadIcon.png" compression="false" quality="80" create="14073884330809778"/>
+</lib>

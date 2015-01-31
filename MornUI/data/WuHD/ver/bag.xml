@@ -1,0 +1,11 @@
+<lib>
+  <bitmapdata class="png.bag.bg_bagInfo" file="D:\工作\UI\HD\morn\assets\bag\bg_bagInfo.png" compression="false" quality="80" create="140843808842430426"/>
+  <bitmapdata class="png.bag.bg_bag_logo" file="D:\工作\UI\HD\morn\assets\bag\bg_bag_logo.png" compression="false" quality="80" create="1411469563631620794"/>
+  <bitmapdata class="png.bag.bg_itemSell" file="D:\工作\UI\HD\morn\assets\bag\bg_itemSell.png" compression="false" quality="80" create="13970935210008175"/>
+  <bitmapdata class="png.bag.clip_bag_title_equip" file="D:\工作\UI\HD\morn\assets\bag\clip_bag_title_equip.png" compression="false" quality="80" create="141147066678321310"/>
+  <bitmapdata class="png.bag.clip_bag_title_goods" file="D:\工作\UI\HD\morn\assets\bag\clip_bag_title_goods.png" compression="false" quality="80" create="141147066631517757"/>
+  <bitmapdata class="png.bag.clip_bag_title_soul" file="D:\工作\UI\HD\morn\assets\bag\clip_bag_title_soul.png" compression="false" quality="80" create="141147066655523829"/>
+  <bitmapdata class="png.bag.icon_bag_saletitle" file="D:\工作\UI\HD\morn\assets\bag\icon_bag_saletitle.png" compression="false" quality="80" create="141146956206818458"/>
+  <bitmapdata class="png.bag.icon_instoneFlag" file="D:\工作\UI\HD\morn\assets\bag\icon_instoneFlag.png" compression="false" quality="80" create="14084380884244986"/>
+  <bitmapdata class="png.bag.icon_new" file="D:\工作\UI\HD\morn\assets\bag\icon_new.png" compression="false" quality="80" create="14086821344979808"/>
+</lib>

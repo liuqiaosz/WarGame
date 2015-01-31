@@ -1,0 +1,16 @@
+<lib>
+  <bitmapdata class="png.beghero.bg_begdiamond" file="D:\工作\UI\HD\morn\assets\beghero\bg_begdiamond.png" compression="false" quality="80" create="1406967320339735370"/>
+  <bitmapdata class="png.beghero.bg_beggold" file="D:\工作\UI\HD\morn\assets\beghero\bg_beggold.png" compression="false" quality="80" create="1416536240657668463"/>
+  <bitmapdata class="png.beghero.bg_begnormal" file="D:\工作\UI\HD\morn\assets\beghero\bg_begnormal.png" compression="false" quality="80" create="1406967803116682136"/>
+  <bitmapdata class="png.beghero.clip_beghero_num" file="D:\工作\UI\HD\morn\assets\beghero\clip_beghero_num.png" compression="false" quality="80" create="14074633859213661"/>
+  <bitmapdata class="png.beghero.icon_baghero_star" file="D:\工作\UI\HD\morn\assets\beghero\icon_baghero_star.png" compression="false" quality="80" create="140566753938527224"/>
+  <bitmapdata class="png.beghero.icon_beghero_getfree" file="D:\工作\UI\HD\morn\assets\beghero\icon_beghero_getfree.png" compression="false" quality="80" create="140696786128210582"/>
+  <bitmapdata class="png.beghero.icon_beghero_oncefree" file="D:\工作\UI\HD\morn\assets\beghero\icon_beghero_oncefree.png" compression="false" quality="80" create="140740678947217655"/>
+  <bitmapdata class="png.beghero.icon_beghero_prefix" file="D:\工作\UI\HD\morn\assets\beghero\icon_beghero_prefix.png" compression="false" quality="80" create="14069674827934404"/>
+  <bitmapdata class="png.beghero.icon_beghero_price_10" file="D:\工作\UI\HD\morn\assets\beghero\icon_beghero_price_10.png" compression="false" quality="80" create="140696794570717689"/>
+  <bitmapdata class="png.beghero.icon_beghero_price_198" file="D:\工作\UI\HD\morn\assets\beghero\icon_beghero_price_198.png" compression="false" quality="80" create="140696800381020777"/>
+  <bitmapdata class="png.beghero.icon_beghero_remain" file="D:\工作\UI\HD\morn\assets\beghero\icon_beghero_remain.png" compression="false" quality="80" create="140740658202812291"/>
+  <bitmapdata class="png.beghero.icon_beghero_title" file="D:\工作\UI\HD\morn\assets\beghero\icon_beghero_title.png" compression="false" quality="80" create="140696756902923891"/>
+  <bitmapdata class="png.beghero.icon_beghero_total" file="D:\工作\UI\HD\morn\assets\beghero\icon_beghero_total.png" compression="false" quality="80" create="14074072115835556"/>
+  <bitmapdata class="png.beghero.icon_firsttip" file="D:\工作\UI\HD\morn\assets\beghero\icon_firsttip.png" compression="false" quality="80" create="141653624141820359"/>
+</lib>

@@ -1,0 +1,38 @@
+<lib>
+  <bitmapdata class="png.chapter.bg_chapter_bar" file="D:\工作\UI\HD\morn\assets\chapter\bg_chapter_bar.png" compression="false" quality="80" create="14113733837546211"/>
+  <bitmapdata class="png.chapter.clip_boxCopper" file="D:\工作\UI\HD\morn\assets\chapter\clip_boxCopper.png" compression="false" quality="80" create="1413360162283117976"/>
+  <bitmapdata class="png.chapter.clip_boxDiamond " file="D:\工作\UI\HD\morn\assets\chapter\clip_boxDiamond .png" compression="false" quality="80" create="1413360162288160139"/>
+  <bitmapdata class="png.chapter.clip_boxSilver" file="D:\工作\UI\HD\morn\assets\chapter\clip_boxSilver.png" compression="false" quality="80" create="1413360162287140062"/>
+  <bitmapdata class="png.chapter.clip_chapter_table" file="D:\工作\UI\HD\morn\assets\chapter\clip_chapter_table.png" compression="false" quality="80" create="140651203452944961"/>
+  <bitmapdata class="png.chapter.clip_num" file="D:\工作\UI\HD\morn\assets\chapter\clip_num.png" compression="false" quality="80" create="141534688513433875"/>
+  <bitmapdata class="png.chapter.icon_chapterReward" file="D:\工作\UI\HD\morn\assets\chapter\icon_chapterReward.png" compression="false" quality="80" create="141134946134714512"/>
+  <bitmapdata class="png.chapter.icon_chapter_1" file="D:\工作\UI\HD\morn\assets\chapter\icon_chapter_1.png" compression="false" quality="80" create="1406356765728313"/>
+  <bitmapdata class="png.chapter.icon_chapter_2" file="D:\工作\UI\HD\morn\assets\chapter\icon_chapter_2.png" compression="false" quality="80" create="140635676651911804"/>
+  <bitmapdata class="png.chapter.icon_chapter_3" file="D:\工作\UI\HD\morn\assets\chapter\icon_chapter_3.png" compression="false" quality="80" create="14063567665225108"/>
+  <bitmapdata class="png.chapter.icon_chapter_4" file="D:\工作\UI\HD\morn\assets\chapter\icon_chapter_4.png" compression="false" quality="80" create="1406356765727610"/>
+  <bitmapdata class="png.chapter.icon_chapter_assisttitle" file="D:\工作\UI\HD\morn\assets\chapter\icon_chapter_assisttitle.png" compression="false" quality="80" create="141134854670963585"/>
+  <bitmapdata class="png.chapter.icon_chapter_back" file="D:\工作\UI\HD\morn\assets\chapter\icon_chapter_back.png" compression="false" quality="80" create="14131637776018308"/>
+  <bitmapdata class="png.chapter.icon_chapter_bosssign" file="D:\工作\UI\HD\morn\assets\chapter\icon_chapter_bosssign.png" compression="false" quality="80" create="14113485365389900"/>
+  <bitmapdata class="png.chapter.icon_chapter_eliteIcon" file="D:\工作\UI\HD\morn\assets\chapter\icon_chapter_eliteIcon.png" compression="false" quality="80" create="14139705788039799"/>
+  <bitmapdata class="png.chapter.icon_chapter_fight" file="D:\工作\UI\HD\morn\assets\chapter\icon_chapter_fight.png" compression="false" quality="80" create="141336016228523915"/>
+  <bitmapdata class="png.chapter.icon_chapter_firstatk" file="D:\工作\UI\HD\morn\assets\chapter\icon_chapter_firstatk.png" compression="false" quality="80" create="141134853713110909"/>
+  <bitmapdata class="png.chapter.icon_chapter_friend" file="D:\工作\UI\HD\morn\assets\chapter\icon_chapter_friend.png" compression="false" quality="80" create="141134854031310870"/>
+  <bitmapdata class="png.chapter.icon_chapter_hline" file="D:\工作\UI\HD\morn\assets\chapter\icon_chapter_hline.png" compression="false" quality="80" create="14113485458983457"/>
+  <bitmapdata class="png.chapter.icon_chapter_normalIcon" file="D:\工作\UI\HD\morn\assets\chapter\icon_chapter_normalIcon.png" compression="false" quality="80" create="14139705788026818"/>
+  <bitmapdata class="png.chapter.icon_chapter_selected" file="D:\工作\UI\HD\morn\assets\chapter\icon_chapter_selected.png" compression="false" quality="80" create="141397057880012698"/>
+  <bitmapdata class="png.chapter.icon_chapter_table_5" file="D:\工作\UI\HD\morn\assets\chapter\icon_chapter_table_5.png" compression="false" quality="80" create="14063566593895181"/>
+  <bitmapdata class="png.chapter.icon_chapter_table_7" file="D:\工作\UI\HD\morn\assets\chapter\icon_chapter_table_7.png" compression="false" quality="80" create="140635663255211093"/>
+  <bitmapdata class="png.chapter.icon_chatper_star_b" file="D:\工作\UI\HD\morn\assets\chapter\icon_chatper_star_b.png" compression="false" quality="80" create="14107704404523736"/>
+  <bitmapdata class="png.chapter.icon_chatper_star_s" file="D:\工作\UI\HD\morn\assets\chapter\icon_chatper_star_s.png" compression="false" quality="80" create="14107704404521629"/>
+  <bitmapdata class="png.chapter.icon_comleteLight" file="D:\工作\UI\HD\morn\assets\chapter\icon_comleteLight.png" compression="false" quality="80" create="141534688513545703"/>
+  <bitmapdata class="png.chapter.icon_elite" file="D:\工作\UI\HD\morn\assets\chapter\icon_elite.png" compression="false" quality="80" create="141336016228430887"/>
+  <bitmapdata class="png.chapter.icon_elite_flag" file="D:\工作\UI\HD\morn\assets\chapter\icon_elite_flag.png" compression="false" quality="80" create="140956215456910987"/>
+  <bitmapdata class="png.chapter.icon_normal" file="D:\工作\UI\HD\morn\assets\chapter\icon_normal.png" compression="false" quality="80" create="141336016228130133"/>
+  <bitmapdata class="png.chapter.icon_saodangOnce" file="D:\工作\UI\HD\morn\assets\chapter\icon_saodangOnce.png" compression="false" quality="80" create="141517846621017932"/>
+  <bitmapdata class="png.chapter.icon_saodangQuan" file="D:\工作\UI\HD\morn\assets\chapter\icon_saodangQuan.png" compression="false" quality="80" create="14153468851365994"/>
+  <bitmapdata class="png.chapter.icon_saodang_ci" file="D:\工作\UI\HD\morn\assets\chapter\icon_saodang_ci.png" compression="false" quality="80" create="141534688513317361"/>
+  <bitmapdata class="png.chapter.icon_saodang_complete" file="D:\工作\UI\HD\morn\assets\chapter\icon_saodang_complete.png" compression="false" quality="80" create="141517846620734493"/>
+  <bitmapdata class="png.chapter.icon_startBattle" file="D:\工作\UI\HD\morn\assets\chapter\icon_startBattle.png" compression="false" quality="80" create="141134946134714709"/>
+  <bitmapdata class="png.chapter.icon_title_alert" file="D:\工作\UI\HD\morn\assets\chapter\icon_title_alert.png" compression="false" quality="80" create="141534688513712652"/>
+  <bitmapdata class="png.chapter.stage_point" file="D:\工作\UI\HD\morn\assets\chapter\stage_point.png" compression="false" quality="80" create="140063659800021326"/>
+</lib>
