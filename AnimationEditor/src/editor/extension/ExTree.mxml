@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Tree xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%" dataProvider="{dataSource}" itemClick="onDirectoryClick(event)">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	
+	<fx:Metadata>
+		[Event(name="onProgress", type="editor.extension.ExEvent")]
+		[Event(name="onTreeFileSelect", type="editor.extension.ExEvent")]
+		[Event(name="onTreeDirectorySelect", type="editor.extension.ExEvent")]
+	</fx:Metadata>
+	<fx:Script>
+		<![CDATA[
+			import editor.extension.vo.TreeNode;
+			import editor.ui.EditorProgressManager;
+			import editor.utility.FileInfo;
+			import editor.utility.FileSystemSelector;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.ListEvent;
+			
+			[Bindable]
+			private var dataSource:ArrayCollection = null;
+			
+			private var _rootDirectory:String = "";
+			public function set filePath(value:String):void
+			{
+				refreshByFilePath(value);
+			}
+			
+			private var swapSource:ArrayCollection = null;
+			private var rootDir:File = null;
+			private function refreshByFilePath(value:String):void
+			{
+				_rootDirectory = value;	
+				rootDir = new File(value);
+				if(rootDir.exists)
+				{
+					swapSource = new ArrayCollection();
+					rootDir.addEventListener(FileListEvent.DIRECTORY_LISTING,onListingComplete);
+					rootDir.getDirectoryListingAsync();
+				}
+			}
+			
+			private var childFiles:Array = null;
+			private function onListingComplete(event:FileListEvent):void
+			{
+				rootDir.removeEventListener(FileListEvent.DIRECTORY_LISTING,onListingComplete);
+				childFiles = event.files;
+				
+				for each(var child:File in childFiles)
+				{
+					if(child.isDirectory)
+					{
+						createTreeNode(child);
+					}
+				}
+				
+				if(dataSource)
+				{
+					dataSource.removeAll();
+					dataSource.addAll(swapSource);
+				}
+				else
+				{
+					dataSource = swapSource;
+				}
+			}
+			
+			private function createTreeNode(child:File):void
+			{
+				var node:TreeNode = new TreeNode();
+				node.filePath = child.nativePath;
+				node.fileName = child.name;
+				node.id = child.name;
+				node.isDirectory = true;
+				swapSource.addItem(node);
+			}
+			
+			protected function onDirectoryClick(event:ListEvent):void
+			{
+				var notify:ExEvent = null;
+				var directory:TreeNode = dataSource.getItemAt(event.rowIndex) as TreeNode;
+				if(directory.isDirectory)
+				{
+					//选择了文件夹
+					if(!directory.loaded)
+					{
+						EditorProgressManager.instance.showProgress();
+						//文件夹还没有加载子文件
+						FileSystemSelector.selectChildFile(directory.filePath,function(cur:int,total:int):void{
+							EditorProgressManager.instance.update("Reading...",cur + "/" + total);
+						},function(files:Vector.<FileInfo>):void{
+							EditorProgressManager.instance.hideProgress();
+							directory.childrenFiles = files;
+							directory.loaded = true;
+							notify = new ExEvent(ExEvent.UI_TREE_SELECT_DIR);
+							notify.params = directory;
+							dispatchEvent(notify);
+						});
+					}
+					else
+					{
+						notify = new ExEvent(ExEvent.UI_TREE_SELECT_DIR);
+						notify.params = directory;
+						dispatchEvent(notify);
+					}
+				}
+				else
+				{
+					//选择了文件
+					notify = new ExEvent(ExEvent.UI_TREE_SELECT_FILE);
+					notify.params = directory;
+					dispatchEvent(notify);
+				}
+			}
+			
+			private function loadChildFiles(dir:TreeNode):void
+			{
+			}
+			
+		]]>
+	</fx:Script>
+</mx:Tree>

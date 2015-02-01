@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ui:PopUpWindowProxy xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:extension="editor.extension.*"
+			   xmlns:ui="editor.ui.*"
+			   width="600" height="400" title="文件夹路径设置">
+	<ui:layout>
+		<s:VerticalLayout paddingLeft="5" paddingTop="5" />
+	</ui:layout>
+
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import editor.setting.EditorSetting;
+			override protected function onShow():void
+			{
+				super.onShow();
+			}
+			
+			override protected function onClose():void
+			{
+				super.onClose();
+			}
+			
+			/**
+			 * 保存设置
+			 **/
+			protected function saveSetting(event:MouseEvent):void
+			{
+				EditorSetting.instance.setting.directory.cfgDirectory = cfgDir.getDirectoryPath();
+				EditorSetting.instance.setting.directory.avatarDirectory = avatarDir.getDirectoryPath();
+				EditorSetting.instance.setting.directory.effectDirectory = effectDir.getDirectoryPath();
+				EditorSetting.instance.setting.directory.publisherDirectory = publishDir.getDirectoryPath();
+				EditorSetting.instance.save();
+			}
+			
+		]]>
+	</fx:Script>
+	<extension:ExFormDirectoryChoice id="cfgDir" labelWidth="90" textWidth="200" labelText="配置目录" />
+	<extension:ExFormDirectoryChoice id="avatarDir" labelWidth="90" textWidth="200" labelText="角色动画目录" />
+	<extension:ExFormDirectoryChoice id="effectDir" labelWidth="90" textWidth="200" labelText="技能特效目录" />
+	<extension:ExFormDirectoryChoice id="publishDir" labelWidth="90" textWidth="200" labelText="发布目录" />
+	
+	<s:HGroup>
+		<s:Button label="保存设置"  click="saveSetting(event)" />
+	</s:HGroup>
+</ui:PopUpWindowProxy>

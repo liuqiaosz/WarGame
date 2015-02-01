@@ -1,8 +1,147 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" 
-					   xmlns:s="library://ns.adobe.com/flex/spark" 
-					   xmlns:mx="library://ns.adobe.com/flex/mx" width="1200" height="650">
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009"
+					   xmlns:s="library://ns.adobe.com/flex/spark"
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   xmlns:extension="editor.extension.*"
+					   xmlns:ui="editor.ui.*"
+					   width="1200" height="800" showStatusBar="false"
+					   uncaughtError="onApplicationRuntimeError(event)" applicationComplete="editorInit(event)" >
 	<fx:Declarations>
 		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
 	</fx:Declarations>
+	
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		@namespace extension "editor.extension.*";
+		
+		@font-face
+		{  
+			src:url("font/LangMan.ttf");
+			fontFamily:defaultFont;  
+			fontStyle:normal;
+			fontWeight:normal;
+		}  
+		
+		global
+		{
+			fontSize:12;  
+			fontFamily:defaultFont;
+		}
+	</fx:Style>
+	
+	<fx:Script>
+		<![CDATA[
+			import editor.extension.ExEvent;
+			import editor.extension.vo.TreeNode;
+			import editor.setting.EditorSetting;
+			import editor.ui.DirectorySettingWindow;
+			import editor.utility.AvatarConfigManager;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.core.FlexGlobals;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			
+			import spark.components.Application;
+			public static const MENU_SETTING:String = "Setting";
+			public static const CHILD_SETTING_PATH:String = "SettingPath";
+			
+			[Bindable]
+			private var menuData:Array = [
+				{
+					label: "设置",
+					children: [
+						{
+							id: CHILD_SETTING_PATH,
+							label: "路径设置"
+						}
+					]
+				}
+			];
+			
+			/**
+			 * 菜单选择
+			 **/
+			protected function onMenuSelected(event:ExEvent):void
+			{
+				switch(event.params)
+				{
+					case CHILD_SETTING_PATH:
+						//路径设置
+						PopUpManager.createPopUp(FlexGlobals.topLevelApplication as DisplayObject,DirectorySettingWindow,true);
+						
+						break;
+				}
+			}
+			
+			protected function onApplicationRuntimeError(event:UncaughtErrorEvent):void
+			{
+				Alert.show("运行时异常，异常信息[" + event.text + "]");
+			}
+			
+			/**
+			 * 树菜单构建中
+			 **/
+			protected function onTreeBuildProgress(event:ExEvent):void
+			{
+				// TODO Auto-generated method stub
+			}
+			
+			/**
+			 * 角色动画文件夹选择
+			 **/
+			protected function onAvatarDirectorySelect(event:ExEvent):void
+			{
+				var node:TreeNode = event.params as TreeNode;
+				if(node)
+				{
+					avatarWorkspace.appendToWorkspace(node);
+				}
+			}
+			
+			protected function editorInit(event:FlexEvent):void
+			{
+				EditorSetting.instance;
+				onSettingUpdate();
+			}
+			
+			/**
+			 * 编辑器配置发生变更
+			 **/
+			private function onSettingUpdate():void
+			{
+				//刷新avatar配置
+				AvatarConfigManager.instance.refresh();
+				initAvatarTree();
+				initEffectTree();
+			}
+			
+			private function initAvatarTree():void
+			{
+				avatarFileTree.filePath = "D:\\果游工作代码\\美术资源\\角色特效\\特效";
+			}
+			private function initEffectTree():void
+			{
+				
+			}
+		]]>
+	</fx:Script>
+	
+	<extension:ExMenuBar width="100%" height="20" dataProvider="{menuData}" onMenuSelect="onMenuSelected(event)" />
+	<mx:Accordion x="10" y="28" width="200" height="763">
+		
+		<s:NavigatorContent width="100%" height="100%" label="角色">
+			<extension:ExTree width="100%" height="100%" id="avatarFileTree" labelField="fileName" onProgress="onTreeBuildProgress(event)" onTreeDirectorySelect="onAvatarDirectorySelect(event)" />
+		</s:NavigatorContent>
+		
+		<s:NavigatorContent width="100%" height="100%" label="特效">
+			<mx:Tree width="100%" height="100%" id="effectFileTree" />
+		</s:NavigatorContent>
+		
+	</mx:Accordion>
+	<ui:AvatarWorkspace x="218" y="28" width="973" height="762" id="avatarWorkspace">
+	</ui:AvatarWorkspace>
+
 </s:WindowedApplication>

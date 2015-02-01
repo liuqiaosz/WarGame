@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			xmlns:s="library://ns.adobe.com/flex/spark" 
+			xmlns:extension="editor.extension.*"
+			xmlns:mx="library://ns.adobe.com/flex/mx" width="973" height="762" borderColor="0x000000" borderVisible="true">
+	<fx:Declarations>
+
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import editor.extension.vo.TreeNode;
+			
+			[Bindable]
+			private var tabItemClass:Class = null;
+			
+			public function appendToWorkspace(value:TreeNode):void
+			{
+				labelStateId.text = "ID:" + value.fileName;
+				labelFrameCount.text = "Frames:" + (value.childrenFiles ? value.childrenFiles.length:0);
+				
+				workspace.appendTab(value.fileName,value);
+			}
+		]]>
+	</fx:Script>
+	
+	<s:layout>
+		<s:HorizontalLayout />
+	</s:layout>
+	<s:Group width="750" height="100%">
+		<extension:ExTabNavigator width="100%" height="100%" borderStyle="solid" horizontalGap="5" paddingLeft="5" id="workspace"
+						 paddingTop="5" tabOffset="5" itemClass="{tabItemClass}">
+		</extension:ExTabNavigator>
+		
+		<s:BorderContainer x="5" y="5" width="150" height="150" cornerRadius="2" borderColor="0x5d5d5d" borderWeight="2" borderVisible="true">
+			<s:layout>
+				<s:VerticalLayout gap="5" paddingLeft="5" paddingTop="5" />
+			</s:layout>
+			
+			<s:Label width="120" id="labelStateId" />
+			<s:Label width="120" id="labelFrameCount" />
+		</s:BorderContainer>
+	</s:Group>
+	
+	<s:Scroller width="262" height="100%" horizontalScrollPolicy="off">
+		<s:VGroup y="24" width="262" height="100%" id="frameList"/>
+	</s:Scroller>
+	
+</s:BorderContainer>

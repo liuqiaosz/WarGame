@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TabNavigator xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				 xmlns:s="library://ns.adobe.com/flex/spark" 
+				 xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%" tabWidth="100">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			private var _itemClass:Class = null;
+			public function set itemClass(value:Class):void
+			{
+				_itemClass = value;
+			}
+			
+			private var tabs:Vector.<ExTabContent> = new Vector.<ExTabContent>();
+			
+			public function appendTab(title:String,content:Object):void
+			{
+				var tab:ExTabContent = null;
+				if(!_itemClass)
+				{
+					tab = new _itemClass();
+				}
+				else
+				{
+					tab = new ExTabContent();
+				}
+				if(tab)
+				{
+					tab.label = title;
+				}
+				
+				tab.content = content;
+				tabs.push(tab);
+				addChild(tab);
+			}
+			
+		]]>
+	</fx:Script>
+</mx:TabNavigator>

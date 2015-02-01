@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:events="starling.events.*">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	
+	<fx:Metadata>
+		[Event(name="onMenuSelect", type="editor.extension.ExEvent")]
+	</fx:Metadata>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			import mx.events.MenuEvent;
+			
+			[Bindable]
+			private var _dataSource:ArrayCollection = null;
+			public function set dataProvider(value:Object):void
+			{
+				if(value is Array)
+				{
+					jsonParse(value as Array);
+				}
+				//_dataSource = value;
+			}
+			
+			private var _dictionary:Dictionary = new Dictionary();
+			
+			private function jsonParse(data:Array):void
+			{
+				for(var idx:int = 0; idx< data.length; idx++)
+				{
+					jsonNodeParse(data[idx]);	
+				}
+				_dataSource = new ArrayCollection(data as Array);
+			}
+			
+			private function jsonNodeParse(node:Object):void
+			{
+				if(node.hasOwnProperty("id") && null != node.id)
+				{
+					_dictionary[node.id] = node;
+				}
+				
+				if(node.hasOwnProperty("children") && node.children.length > 0)
+				{
+					for(var idx:int = 0; idx< node.children.length; idx++)
+					{
+						jsonNodeParse(node.children[idx]);
+					}
+				}
+			}
+			
+			public function enableItemById(value:String):void
+			{
+				var item:Object = findItemById(value);
+				if(item)
+				{
+					item.enabled = true;
+				}
+			}
+			public function disabledItemById(value:String):void
+			{
+				var item:Object = findItemById(value);
+				if(item)
+				{
+					item.enabled = false;
+				}
+			}
+			
+			private function findItemById(value:String):Object
+			{
+				if(value in _dictionary)
+				{
+					return _dictionary[value];
+				}
+				return null;
+			}
+			
+			protected function itemClick(event:MenuEvent):void
+			{
+				var notify:ExEvent = new ExEvent(ExEvent.UI_MENU_SELECT);
+				notify.params = event.item.id;
+				dispatchEvent(notify);
+			}
+		]]>
+	</fx:Script>
+	<mx:MenuBar width="100%" height="100%" dataProvider="{_dataSource}" itemClick="itemClick(event)" />
+</s:Group>

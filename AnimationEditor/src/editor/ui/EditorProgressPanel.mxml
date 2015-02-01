@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="400" height="190">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			public function set title(value:String):void
+			{
+				labelTitle.text = value;
+			}
+			
+			public function set content(value:String):void
+			{
+				labelContent.text = value;
+			}
+		]]>
+	</fx:Script>
+	<s:BorderContainer width="100%" height="100%" borderColor="0x5d5d5d" borderStyle="solid" borderVisible="true">
+		<s:Label id="labelTitle" x="10" y="10" width="380" height="20" text="" verticalAlign="middle"/>
+		<s:Label id="labelContent" x="10" y="50" width="378" height="102" text=""/>
+	</s:BorderContainer>
+	
+</s:Group>
