@@ -1,5 +1,7 @@
 package starling.utils
 {
+    import extension.asset.AtlasPackage;
+    
     import flash.display.Bitmap;
     import flash.display.Loader;
     import flash.events.HTTPStatusEvent;
@@ -778,6 +780,14 @@ package starling.utils
                         process(new XML(bytes));
                         bytes.clear();
                     }
+					else if(AtlasPackage.isAtlasPack(bytes))
+					{
+						var tap:AtlasPackage = new AtlasPackage(bytes);
+						process(tap.tex);
+						process(new XML(tap.xml));
+						tap = null;
+						bytes.clear();
+					}
                     else
                     {
                         addByteArray(name, bytes);

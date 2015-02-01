@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="true" version="3">
+  <includeClasses>
+    <classEntry path="lib.avatarkit.IAvatar"/>
+    <classEntry path="lib.avatarkit.Avatar"/>
+    <classEntry path="lib.avatarkit.cfg.ConfigAvatar"/>
+    <classEntry path="lib.avatarkit.AvatarAssetManager"/>
+    <classEntry path="lib.avatarkit.AvatarManager"/>
+    <classEntry path="lib.avatarkit.cfg.ConfigAvatarAction"/>
+    <classEntry path="lib.avatarkit.cfg.ConfigActionTrigger"/>
+    <classEntry path="lib.avatarkit.AvatarEnum"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>
