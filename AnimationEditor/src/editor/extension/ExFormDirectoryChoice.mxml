@@ -8,7 +8,7 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import editor.utility.FileSystemSelector;
+			import editor.utility.FileSystemTool;
 			
 			[Bindable]
 			private var _labelWidth:int = LABEL_MIN_WIDTH;
@@ -40,7 +40,7 @@
 			
 			protected function browserDirectory(event:MouseEvent):void
 			{
-				FileSystemSelector.selectDirectory(onComplete);
+				FileSystemTool.selectDirectory(onComplete);
 			}
 			
 			private function onComplete(nav:String):void

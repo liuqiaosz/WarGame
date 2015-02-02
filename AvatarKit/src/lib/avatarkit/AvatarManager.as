@@ -43,8 +43,7 @@ package lib.avatarkit
 				var avatar:ConfigAvatar = null;
 				for each(var avr:Object in value)
 				{
-					avatar = new ConfigAvatar();
-					avatar.decode(avr);
+					avatar = ConfigAvatar.decode(avr);
 					configDict[avatar.id] = avatar;
 				}
 			}

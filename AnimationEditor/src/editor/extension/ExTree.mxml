@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:Tree xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
-		 xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%" dataProvider="{dataSource}" itemClick="onDirectoryClick(event)">
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%" dataProvider="{dataSource}">
 	<fx:Declarations>
 		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
 	</fx:Declarations>
@@ -16,7 +16,7 @@
 			import editor.extension.vo.TreeNode;
 			import editor.ui.EditorProgressManager;
 			import editor.utility.FileInfo;
-			import editor.utility.FileSystemSelector;
+			import editor.utility.FileSystemTool;
 			
 			import mx.collections.ArrayCollection;
 			import mx.events.ListEvent;
@@ -28,6 +28,7 @@
 			public function set filePath(value:String):void
 			{
 				refreshByFilePath(value);
+				addEventListener(ListEvent.ITEM_CLICK,onDirectoryClick);
 			}
 			
 			private var swapSource:ArrayCollection = null;
@@ -90,7 +91,7 @@
 					{
 						EditorProgressManager.instance.showProgress();
 						//文件夹还没有加载子文件
-						FileSystemSelector.selectChildFile(directory.filePath,function(cur:int,total:int):void{
+						FileSystemTool.selectChildFile(directory.filePath,function(cur:int,total:int):void{
 							EditorProgressManager.instance.update("Reading...",cur + "/" + total);
 						},function(files:Vector.<FileInfo>):void{
 							EditorProgressManager.instance.hideProgress();
@@ -115,10 +116,6 @@
 					notify.params = directory;
 					dispatchEvent(notify);
 				}
-			}
-			
-			private function loadChildFiles(dir:TreeNode):void
-			{
 			}
 			
 		]]>

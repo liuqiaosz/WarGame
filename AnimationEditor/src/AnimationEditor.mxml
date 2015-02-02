@@ -32,16 +32,23 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import editor.cfg.ConfigManager;
 			import editor.extension.ExEvent;
 			import editor.extension.vo.TreeNode;
 			import editor.setting.EditorSetting;
 			import editor.ui.DirectorySettingWindow;
 			import editor.utility.AvatarConfigManager;
+			import editor.vo.AvatarTreeNode;
+			
+			import lib.avatarkit.cfg.ConfigAvatar;
+			import lib.avatarkit.cfg.atom.ConfigSkill;
+			import lib.avatarkit.cfg.atom.ConfigUnit;
 			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
 			import mx.core.FlexGlobals;
 			import mx.events.FlexEvent;
+			import mx.events.ListEvent;
 			import mx.managers.PopUpManager;
 			
 			import spark.components.Application;
@@ -94,11 +101,11 @@
 			 **/
 			protected function onAvatarDirectorySelect(event:ExEvent):void
 			{
-				var node:TreeNode = event.params as TreeNode;
-				if(node)
-				{
-					avatarWorkspace.appendToWorkspace(node);
-				}
+//				var node:TreeNode = event.params as TreeNode;
+//				if(node)
+//				{
+//					avatarWorkspace.appendToWorkspace(node);
+//				}
 			}
 			
 			protected function editorInit(event:FlexEvent):void
@@ -107,6 +114,8 @@
 				onSettingUpdate();
 			}
 			
+			
+			
 			/**
 			 * 编辑器配置发生变更
 			 **/
@@ -114,27 +123,75 @@
 			{
 				//刷新avatar配置
 				AvatarConfigManager.instance.refresh();
+				ConfigManager.instance.refresh();
 				initAvatarTree();
 				initEffectTree();
+				initiSkillTree();
 			}
 			
+			[Bindable]
+			private var avatarConfigs:ArrayCollection = null;
 			private function initAvatarTree():void
 			{
-				avatarFileTree.filePath = "D:\\果游工作代码\\美术资源\\角色特效\\特效";
+				//avatarFileTree.filePath = "D:\\果游工作代码\\美术资源\\角色特效\\特效";
+				//unitConfigs = new ArrayCollection();
+//				for each(var unit:ConfigUnit in ConfigManager.instance.units)
+				avatarConfigs = new ArrayCollection();
+				var node:AvatarTreeNode = null;
+				for each(var cfg:ConfigAvatar in ConfigManager.instance.avatars)
+				{
+					node = new AvatarTreeNode();
+					node.avatar = cfg;
+					node.atom = ConfigManager.instance.findUnitAtomById(cfg.id);
+					avatarConfigs.addItem(node);
+					//unitConfigs.addItem(unit);
+				}
 			}
 			private function initEffectTree():void
 			{
 				
 			}
+			
+
+			[Bindable]
+			private var skillConfigs:ArrayCollection = null;
+			private function initiSkillTree():void
+			{
+				skillConfigs = new ArrayCollection();
+				for each(var skill:ConfigSkill in ConfigManager.instance.skills)
+				{
+					skillConfigs.addItem(skill);
+				}
+			}
+			
+			protected function onAvatarTreeItemClick(event:ListEvent):void
+			{
+				
+			}
+			
+			protected function onSkillTreeItemClick(event:ListEvent):void
+			{
+				
+			}
+			
 		]]>
 	</fx:Script>
 	
 	<extension:ExMenuBar width="100%" height="20" dataProvider="{menuData}" onMenuSelect="onMenuSelected(event)" />
 	<mx:Accordion x="10" y="28" width="200" height="763">
+		<s:NavigatorContent width="100%" height="100%" label="角色配置">
+			<extension:ExTree width="100%" height="100%" id="avatarCfgTree" labelField="name" dataProvider="{avatarConfigs}" itemClick="onAvatarTreeItemClick(event)" />
+		</s:NavigatorContent>
 		
-		<s:NavigatorContent width="100%" height="100%" label="角色">
+		
+		<s:NavigatorContent width="100%" height="100%" label="技能配置">
+			<extension:ExTree width="100%" height="100%" id="skillCfgTree" labelField="name" dataProvider="{skillConfigs}" itemClick="onSkillTreeItemClick(event)" />
+		</s:NavigatorContent>
+		<!--
+		<s:NavigatorContent width="100%" height="100%" label="角色动画">
 			<extension:ExTree width="100%" height="100%" id="avatarFileTree" labelField="fileName" onProgress="onTreeBuildProgress(event)" onTreeDirectorySelect="onAvatarDirectorySelect(event)" />
 		</s:NavigatorContent>
+		-->
 		
 		<s:NavigatorContent width="100%" height="100%" label="特效">
 			<mx:Tree width="100%" height="100%" id="effectFileTree" />

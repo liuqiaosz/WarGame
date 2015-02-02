@@ -13,28 +13,35 @@ package lib.avatarkit.cfg
 		public var end:int = 0;
 		//帧间隔(毫秒)
 		public var duration:int = 0;
+		
 		public var triggers:Vector.<ConfigActionTrigger> = null;
 		public function ConfigAvatarAction()
 		{
 			triggers = new Vector.<ConfigActionTrigger>();
 		}
 		
-		public function decode(value:Object):void
+		public static function decode(value:Object):ConfigAvatarAction
 		{
-			name = value.name;
-			start = value.start;
-			end = value.end;
-			duration = value.duration;
-			if(value.triggers && value.triggers is Array)
+			var action:ConfigAvatarAction = null;
+			if(value)
 			{
-				var trigger:ConfigActionTrigger = null;
-				for each(var triggerCfg:Object in value.triggers)
+				action = new ConfigAvatarAction();
+				action.name = value.name;
+				action.start = value.start;
+				action.end = value.end;
+				action.duration = value.duration;
+				
+				if(value.triggers && value.triggers is Array)
 				{
-					trigger = new ConfigActionTrigger();
-					trigger.decode(triggerCfg);
-					triggers.push(trigger);
+					var trigger:ConfigActionTrigger = null;
+					for each(var triggerCfg:Object in value.triggers)
+					{
+						trigger = ConfigActionTrigger.decode(triggerCfg);
+						action.triggers.push(trigger);
+					}
 				}
 			}
+			return action;
 		}
 	}
 }

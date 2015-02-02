@@ -9,17 +9,29 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import editor.asset.AvatarAssetManager;
 			import editor.extension.vo.TreeNode;
+			import editor.setting.EditorSetting;
+			import editor.vo.AvatarTreeNode;
 			
 			[Bindable]
 			private var tabItemClass:Class = null;
 			
-			public function appendToWorkspace(value:TreeNode):void
+//			public function appendToWorkspace(value:TreeNode):void
+			public function appendToWorkspace(value:AvatarTreeNode):void
 			{
-				labelStateId.text = "ID:" + value.fileName;
-				labelFrameCount.text = "Frames:" + (value.childrenFiles ? value.childrenFiles.length:0);
-				
-				workspace.appendTab(value.fileName,value);
+//				labelStateId.text = "ID:" + value.fileName;
+//				labelFrameCount.text = "Frames:" + (value.childrenFiles ? value.childrenFiles.length:0);
+				labelStateId.text = "ID:" + value.atom.id;
+				if(!AvatarAssetManager.instance.hasAsset(value.atom.id))
+				{
+					AvatarAssetManager.instance.loadAssetDirectory(value.atom.id,
+						EditorSetting.instance.setting.directory.avatarDirectory + "/" + value.atom.id,
+						function(imgs:Vector.<Bitmap>):void{
+							labelFrameCount.text = "Frames:" + imgs.length;
+						});
+				}
+				workspace.appendTab(value.atom.name,value);
 			}
 		]]>
 	</fx:Script>

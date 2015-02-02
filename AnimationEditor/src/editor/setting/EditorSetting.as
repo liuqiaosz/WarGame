@@ -31,14 +31,13 @@ package editor.setting
 		}
 		private function initializer():void
 		{
+			_setting = new Setting();
 			//load config from storage
 			var data:ByteArray = EditorStorageTools.load(Constants.EDITOR_SETTING_FILE);
 			if(data)
 			{
 				var json:String = data.readUTFBytes(data.length);
 				var obj:Object = JSON.parse(json);
-				
-				_setting = new Setting();
 				if(obj.hasOwnProperty("directory"))
 				{
 					_setting.directory = new SettingDirectory();

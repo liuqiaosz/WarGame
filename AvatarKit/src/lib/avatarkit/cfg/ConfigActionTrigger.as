@@ -17,13 +17,19 @@ package lib.avatarkit.cfg
 		{
 		}
 		
-		public function decode(trigger:Object):void
+		public static function decode(trigger:Object):ConfigActionTrigger
 		{
-			triggerType = trigger.triggerType;
-			triggerFrame = trigger.triggerFrame;
-			effectPosition = trigger.effectPosition;
-			value = trigger.value;
-			offset = trigger.offset;
+			var value:ConfigActionTrigger = null;
+			if(trigger)
+			{
+				value = new ConfigActionTrigger();
+				value.triggerType = trigger.triggerType;
+				value.triggerFrame = trigger.triggerFrame;
+				value.effectPosition = trigger.effectPosition;
+				value.value = trigger.value;
+				value.offset = trigger.offset;
+			}
+			return value;
 		}
 	}
 }

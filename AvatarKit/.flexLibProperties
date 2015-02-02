@@ -9,6 +9,11 @@
     <classEntry path="lib.avatarkit.cfg.ConfigAvatarAction"/>
     <classEntry path="lib.avatarkit.cfg.ConfigActionTrigger"/>
     <classEntry path="lib.avatarkit.AvatarEnum"/>
+    <classEntry path="lib.avatarkit.cfg.atom.ConfigUnitLevel"/>
+    <classEntry path="lib.avatarkit.cfg.atom.ConfigSkillLevel"/>
+    <classEntry path="lib.avatarkit.cfg.atom.ConfigConstants"/>
+    <classEntry path="lib.avatarkit.cfg.atom.ConfigSkill"/>
+    <classEntry path="lib.avatarkit.cfg.atom.ConfigUnit"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
