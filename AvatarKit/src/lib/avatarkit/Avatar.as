@@ -125,7 +125,7 @@ package lib.avatarkit
 					lastChange = 0;
 					navTexture = frames[currentFrame];
 					content.texture = navTexture;
-					content.x = navTexture.width >> 1;
+					content.x = -(navTexture.width >> 1);
 					content.y = -navTexture.height;
 					currentFrame++;
 					if(currentFrame > currentAction.end)

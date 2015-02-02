@@ -33,10 +33,12 @@
 	<fx:Script>
 		<![CDATA[
 			import editor.cfg.ConfigManager;
+			import editor.debug.Logger;
 			import editor.extension.ExEvent;
 			import editor.extension.vo.TreeNode;
 			import editor.setting.EditorSetting;
 			import editor.ui.DirectorySettingWindow;
+			import editor.ui.LoggerPanel;
 			import editor.utility.AvatarConfigManager;
 			import editor.vo.AvatarTreeNode;
 			
@@ -68,7 +70,7 @@
 				}
 			];
 			
-			/**
+			/** 
 			 * 菜单选择
 			 **/
 			protected function onMenuSelected(event:ExEvent):void
@@ -78,7 +80,7 @@
 					case CHILD_SETTING_PATH:
 						//路径设置
 						PopUpManager.createPopUp(FlexGlobals.topLevelApplication as DisplayObject,DirectorySettingWindow,true);
-						
+					
 						break;
 				}
 			}
@@ -112,9 +114,43 @@
 			{
 				EditorSetting.instance;
 				onSettingUpdate();
+				
+				stage.addEventListener(KeyboardEvent.KEY_DOWN,onKeyPressed);
+				
+				Logger.instance.onAppend(function(msg:String):void{
+					if(logPanel)
+					{
+						logPanel.appendLog(msg);
+					}
+				});
 			}
 			
-			
+			private var logPanel:LoggerPanel = null;
+			private function onKeyPressed(event:KeyboardEvent):void
+			{
+				if(event.keyCode == Keyboard.F1)
+				{
+					if(!logPanel)
+					{
+						logPanel = new LoggerPanel();
+						
+						PopUpManager.addPopUp(logPanel,FlexGlobals.topLevelApplication as DisplayObject,false);
+					}
+					else
+					{
+						if(logPanel.visible)
+						{
+							PopUpManager.removePopUp(logPanel);
+							logPanel.visible = false;
+						}
+						else
+						{
+							logPanel.visible = true;
+							PopUpManager.addPopUp(logPanel,FlexGlobals.topLevelApplication as DisplayObject,false);
+						}
+					}
+				}
+			}
 			
 			/**
 			 * 编辑器配置发生变更
@@ -166,6 +202,8 @@
 			
 			protected function onAvatarTreeItemClick(event:ListEvent):void
 			{
+				var avatar:AvatarTreeNode = avatarConfigs.getItemAt(event.rowIndex) as AvatarTreeNode;
+				avatarWorkspace.appendToWorkspace(avatar);
 				
 			}
 			
@@ -200,5 +238,5 @@
 	</mx:Accordion>
 	<ui:AvatarWorkspace x="218" y="28" width="973" height="762" id="avatarWorkspace">
 	</ui:AvatarWorkspace>
-
+	
 </s:WindowedApplication>

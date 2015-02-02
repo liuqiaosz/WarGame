@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension:ExTabContent xmlns:fx="http://ns.adobe.com/mxml/2009" 
+						xmlns:s="library://ns.adobe.com/flex/spark" 
+						xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:extension="editor.extension.*" width="100%" height="100%">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import editor.animation.avatar.AvatarManager;
+			import editor.animation.avatar.AvatarNav;
+			import editor.asset.AvatarAssetManager;
+			import editor.vo.AvatarTreeNode;
+			
+			import mx.events.FlexEvent;
+			
+			private var node:AvatarTreeNode = null;
+			
+			private var avatar:AvatarNav = null;
+			override public function set content(value:Object):void
+			{
+				node = value as AvatarTreeNode;
+
+				
+			}
+			
+			override protected function onCreated(event:FlexEvent):void
+			{
+				if(null != node)
+				{
+					//avatar = AvatarManager.instance.createtAvatarById(node.atom.id) as AvatarNav;
+					avatar = new AvatarNav(node.avatar,AvatarAssetManager.instance.getAssetById(node.atom.id));
+					avatar.x = container.width >> 1;
+					avatar.y = container.height >> 1;
+					container.addChild(avatar);
+				}
+			}
+		]]>
+	</fx:Script>
+	<s:Scroller width="100%" height="100%">
+		<s:Group width="100%" height="100%" >
+			<extension:ExSpriteContainer width="100%" height="100%" id="container"/>
+		</s:Group>
+	</s:Scroller>
+</extension:ExTabContent>

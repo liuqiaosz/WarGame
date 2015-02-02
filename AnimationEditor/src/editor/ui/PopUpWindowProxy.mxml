@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
 			   xmlns:s="library://ns.adobe.com/flex/spark" 
-			   xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%" close="onCloseWindow(event)" addedToStage="onAdded(event)" removedFromStage="onRemove(event)">
+			   xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%" close="onCloseWindow(event)" addedToStage="onAdded(event)" removedFromStage="onRemove(event)" creationComplete="onCreateComplete(event)">
 	<fx:Script>
 		<![CDATA[
 			import mx.events.CloseEvent;
+			import mx.events.FlexEvent;
 			import mx.managers.PopUpManager;
 			
 			protected function onCloseWindow(event:CloseEvent):void
@@ -27,9 +28,19 @@
 				
 			}
 			
+			protected function onCreated():void
+			{
+				
+			}
+			
 			protected function onRemove(event:Event):void
 			{
 				onClose();
+			}
+			
+			protected function onCreateComplete(event:FlexEvent):void
+			{
+				onCreated();
 			}
 			
 		]]>

@@ -1,8 +1,12 @@
-package lib.avatarkit
+package editor.animation.avatar
 {
+	import editor.animation.avatar.AvatarManager;
+	
 	import flash.display.Bitmap;
+	import flash.display.Shape;
 	import flash.display.Sprite;
 	
+	import lib.avatarkit.IAvatar;
 	import lib.avatarkit.cfg.ConfigAvatar;
 	import lib.avatarkit.cfg.ConfigAvatarAction;
 
@@ -14,6 +18,7 @@ package lib.avatarkit
 		{
 			return config;
 		}
+
 		private var content:Bitmap = null;
 		protected var _running:Boolean = false;
 		private var currentAction:ConfigAvatarAction = null;
@@ -39,10 +44,20 @@ package lib.avatarkit
 			return _running;
 		}
 		
-		public function AvatarNav(config:ConfigAvatar,frames:Vector.<Bitmap>)
+		public function AvatarNav(config:ConfigAvatar,frames:Vector.<Bitmap> = null)
 		{
 			this.config = config;
 			this.frames = frames;
+			
+			content = new Bitmap();
+			addChild(content);
+			gotoAndStop(0);
+			
+			var point:Shape = new Shape();
+			point.graphics.beginFill(0xff0000);
+			point.graphics.drawCircle(0,0,5);
+			point.graphics.endFill();
+			addChild(point);
 		}
 		
 		private var playCompleteFunc:Function = null;
@@ -85,7 +100,15 @@ package lib.avatarkit
 		
 		public function gotoAndStop(frame:int):void
 		{
-			
+			running = false;
+			if(frames && frame < frames.length)
+			{
+				navTexture = frames[frame];
+				currentFrame = frame;
+				content.bitmapData = navTexture.bitmapData;
+				content.x = -(navTexture.width >> 1);
+				content.y = -navTexture.height;
+			}
 		}
 		
 		private var navTexture:Bitmap = null;
@@ -100,7 +123,7 @@ package lib.avatarkit
 					lastChange = 0;
 					navTexture = frames[currentFrame];
 					content.bitmapData = navTexture.bitmapData;
-					content.x = navTexture.width >> 1;
+					content.x = -(navTexture.width >> 1);
 					content.y = -navTexture.height;
 					currentFrame++;
 					if(currentFrame > currentAction.end)

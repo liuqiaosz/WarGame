@@ -17,9 +17,22 @@
 	<fx:Script>
 		<![CDATA[
 			import editor.setting.EditorSetting;
+			import editor.setting.vo.SettingDirectory;
 			override protected function onShow():void
 			{
 				super.onShow();
+			}
+			
+			override protected function onCreated():void
+			{
+				if(EditorSetting.instance.setting.directory)
+				{
+					cfgDir.directoryPath = EditorSetting.instance.setting.directory.cfgDirectory;
+					avatarDir.directoryPath = EditorSetting.instance.setting.directory.avatarDirectory;
+					effectDir.directoryPath = EditorSetting.instance.setting.directory.effectDirectory;
+					publishDir.directoryPath = EditorSetting.instance.setting.directory.publisherDirectory;
+				}
+				super.onCreated();
 			}
 			
 			override protected function onClose():void
@@ -32,6 +45,10 @@
 			 **/
 			protected function saveSetting(event:MouseEvent):void
 			{
+				if(!EditorSetting.instance.setting.directory)
+				{
+					EditorSetting.instance.setting.directory = new SettingDirectory();
+				}
 				EditorSetting.instance.setting.directory.cfgDirectory = cfgDir.getDirectoryPath();
 				EditorSetting.instance.setting.directory.avatarDirectory = avatarDir.getDirectoryPath();
 				EditorSetting.instance.setting.directory.effectDirectory = effectDir.getDirectoryPath();

@@ -36,6 +36,7 @@ package editor.utility
 				reader.open(file,FileMode.READ);
 				var data:ByteArray = new ByteArray();
 				reader.readBytes(data);
+				reader.close();
 				return data;
 			}
 			return null;

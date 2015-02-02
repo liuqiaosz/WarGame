@@ -37,6 +37,10 @@
 			{
 				return _directoryPath;
 			}
+			public function set directoryPath(value:String):void
+			{
+				_directoryPath = value;
+			}
 			
 			protected function browserDirectory(event:MouseEvent):void
 			{

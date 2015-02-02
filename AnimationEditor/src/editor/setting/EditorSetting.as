@@ -38,13 +38,17 @@ package editor.setting
 			{
 				var json:String = data.readUTFBytes(data.length);
 				var obj:Object = JSON.parse(json);
+				_setting.directory = new SettingDirectory();
 				if(obj.hasOwnProperty("directory"))
 				{
-					_setting.directory = new SettingDirectory();
 					_setting.directory.cfgDirectory = obj.directory.cfgDirectory;
 					_setting.directory.avatarDirectory = obj.directory.avatarDirectory;
 					_setting.directory.effectDirectory = obj.directory.effectDirectory;
 					_setting.directory.publisherDirectory = obj.directory.publisherDirectory;
+				}
+				else
+				{
+					
 				}
 			}
 		}

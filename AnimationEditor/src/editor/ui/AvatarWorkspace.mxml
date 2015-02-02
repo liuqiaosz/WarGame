@@ -2,7 +2,7 @@
 <s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
 			xmlns:s="library://ns.adobe.com/flex/spark" 
 			xmlns:extension="editor.extension.*"
-			xmlns:mx="library://ns.adobe.com/flex/mx" width="973" height="762" borderColor="0x000000" borderVisible="true">
+			xmlns:mx="library://ns.adobe.com/flex/mx" width="973" height="762" borderColor="0x000000" borderVisible="false" creationComplete="onCreated(event)" xmlns:ui="editor.ui.*">
 	<fx:Declarations>
 
 	</fx:Declarations>
@@ -10,28 +10,63 @@
 	<fx:Script>
 		<![CDATA[
 			import editor.asset.AvatarAssetManager;
+			import editor.extension.ExTabAvatarContent;
 			import editor.extension.vo.TreeNode;
 			import editor.setting.EditorSetting;
 			import editor.vo.AvatarTreeNode;
 			
-			[Bindable]
-			private var tabItemClass:Class = null;
+			import mx.events.FlexEvent;
 			
+			[Bindable]
+			private var tabItemClass:Class = ExTabAvatarContent;
+			
+			private var currentAvatar:AvatarTreeNode = null;
 //			public function appendToWorkspace(value:TreeNode):void
 			public function appendToWorkspace(value:AvatarTreeNode):void
 			{
 //				labelStateId.text = "ID:" + value.fileName;
 //				labelFrameCount.text = "Frames:" + (value.childrenFiles ? value.childrenFiles.length:0);
-				labelStateId.text = "ID:" + value.atom.id;
+				debug("select avatar:" + value.atom.id);
 				if(!AvatarAssetManager.instance.hasAsset(value.atom.id))
 				{
 					AvatarAssetManager.instance.loadAssetDirectory(value.atom.id,
 						EditorSetting.instance.setting.directory.avatarDirectory + "/" + value.atom.id,
 						function(imgs:Vector.<Bitmap>):void{
+							labelStateId.text = "ID:" + value.atom.id;
 							labelFrameCount.text = "Frames:" + imgs.length;
+							statePanel.visible = true;
+							workspace.appendTab(value.atom.name,value);
 						});
 				}
-				workspace.appendTab(value.atom.name,value);
+				else
+				{
+					labelStateId.text = "ID:" + value.atom.id;
+					labelFrameCount.text = "Frames:" + AvatarAssetManager.instance.getAssetById(value.atom.id).length;
+					statePanel.visible = true;
+					workspace.appendTab(value.atom.name,value);
+				}
+				
+			}
+			
+			/**
+			 * 初始化编辑区舞台
+			 **/
+			private function appendToStage(value:AvatarTreeNode):void
+			{
+				currentAvatar = value;
+			}
+			
+			protected function onCreated(event:FlexEvent):void
+			{
+
+			}
+			
+			/**
+			 * 增加新动作
+			 **/
+			private function onAddAction(event:MouseEvent):void
+			{
+				
 			}
 		]]>
 	</fx:Script>
@@ -44,7 +79,7 @@
 						 paddingTop="5" tabOffset="5" itemClass="{tabItemClass}">
 		</extension:ExTabNavigator>
 		
-		<s:BorderContainer x="5" y="5" width="150" height="150" cornerRadius="2" borderColor="0x5d5d5d" borderWeight="2" borderVisible="true">
+		<s:BorderContainer x="5" y="25" width="150" height="150" cornerRadius="2" borderColor="0x5d5d5d" borderWeight="2" borderVisible="true" id="statePanel" visible="false">
 			<s:layout>
 				<s:VerticalLayout gap="5" paddingLeft="5" paddingTop="5" />
 			</s:layout>
@@ -54,8 +89,23 @@
 		</s:BorderContainer>
 	</s:Group>
 	
-	<s:Scroller width="262" height="100%" horizontalScrollPolicy="off">
-		<s:VGroup y="24" width="262" height="100%" id="frameList"/>
-	</s:Scroller>
+	<s:VGroup width="100%" height="100%">
+
+		<ui:ActionWorkspace width="100%" height="250" borderVisible="true" dropShadowVisible="false" title="动作" id="actionPanel">
+			<ui:controlBarContent>
+				<s:Image width="18" height="18" smooth="true" smoothingQuality="high"
+						 source="@Embed('../assets/icon/Add.png')" buttonMode="true" click="onAddAction(event)"/>
+				
+				<s:Image width="18" height="18" smooth="true" smoothingQuality="high"
+						 source="@Embed('../assets/icon/Delete.png')"/>
+			</ui:controlBarContent>
+			<s:Scroller width="100%" height="100%" horizontalScrollPolicy="off">
+				<s:VGroup paddingLeft="2" paddingTop="5">
+					
+				</s:VGroup>
+			</s:Scroller>
+		</ui:ActionWorkspace>
+	</s:VGroup>
+	
 	
 </s:BorderContainer>

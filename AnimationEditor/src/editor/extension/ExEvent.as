@@ -10,6 +10,9 @@ package editor.extension
 		public static const UI_TREE_SELECT_FILE:String = "onTreeFileSelect";
 		public static const UI_TREE_SELECT_DIR:String = "onTreeDirectorySelect";
 		
+		public static const UI_TAB_CHANGE:String = "onTabChanged";
+		public static const UI_TAB_UPDATE:String = "onTabUpdate";
+		
 		public var params:Object = null;
 		public function ExEvent(type:String,bubbles:Boolean = true)
 		{
