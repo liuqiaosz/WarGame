@@ -13,7 +13,10 @@
 			import editor.extension.ExTabAvatarContent;
 			import editor.extension.vo.TreeNode;
 			import editor.setting.EditorSetting;
+			import editor.utility.FileSystemTool;
 			import editor.vo.AvatarTreeNode;
+			
+			import flexlib.events.SuperTabEvent;
 			
 			import mx.events.FlexEvent;
 			
@@ -26,17 +29,27 @@
 			{
 //				labelStateId.text = "ID:" + value.fileName;
 //				labelFrameCount.text = "Frames:" + (value.childrenFiles ? value.childrenFiles.length:0);
+				currentAvatar = value;
 				debug("select avatar:" + value.atom.id);
+				var directory:String = EditorSetting.instance.setting.directory.avatarDirectory + "/" + value.atom.id;
 				if(!AvatarAssetManager.instance.hasAsset(value.atom.id))
 				{
-					AvatarAssetManager.instance.loadAssetDirectory(value.atom.id,
-						EditorSetting.instance.setting.directory.avatarDirectory + "/" + value.atom.id,
-						function(imgs:Vector.<Bitmap>):void{
-							labelStateId.text = "ID:" + value.atom.id;
-							labelFrameCount.text = "Frames:" + imgs.length;
-							statePanel.visible = true;
-							workspace.appendTab(value.atom.name,value);
-						});
+					if(FileSystemTool.fileExists(directory))
+					{
+						AvatarAssetManager.instance.loadAssetDirectory(value.atom.id,
+							EditorSetting.instance.setting.directory.avatarDirectory + "/" + value.atom.id,
+							function(imgs:Vector.<Bitmap>):void{
+								
+								labelFrameCount.text = "Frames:" + imgs.length;
+								workspace.appendTab(value.atom.name,value);
+							});
+					}
+					else
+					{
+						labelStateId.text = "ID:" + value.atom.id;
+						statePanel.visible = true;
+						labelFrameCount.text = "Empty";
+					}
 				}
 				else
 				{
@@ -45,7 +58,6 @@
 					statePanel.visible = true;
 					workspace.appendTab(value.atom.name,value);
 				}
-				
 			}
 			
 			/**
@@ -66,8 +78,28 @@
 			 **/
 			private function onAddAction(event:MouseEvent):void
 			{
+				var window:CreateActionWindow = CreateActionWindow(popup(CreateActionWindow));
+				window.avatar = currentAvatar.avatar;
+			}
+			
+			/**
+			 * TAB标签关闭
+			 **/
+			protected function onTabClose(event:SuperTabEvent):void
+			{
 				
 			}
+			
+			/**
+			 * 根据文件名自动生成动作
+			 * 
+			 * 动作名@帧数
+			 **/
+			protected function onNameParseAction(event:MouseEvent):void
+			{
+				
+			}
+			
 		]]>
 	</fx:Script>
 	
@@ -75,7 +107,7 @@
 		<s:HorizontalLayout />
 	</s:layout>
 	<s:Group width="750" height="100%">
-		<extension:ExTabNavigator width="100%" height="100%" borderStyle="solid" horizontalGap="5" paddingLeft="5" id="workspace"
+		<extension:ExTabNavigator width="100%" height="100%" borderStyle="solid" horizontalGap="5" paddingLeft="5" id="workspace" tabClose="onTabClose(event)"
 						 paddingTop="5" tabOffset="5" itemClass="{tabItemClass}">
 		</extension:ExTabNavigator>
 		
@@ -98,6 +130,9 @@
 				
 				<s:Image width="18" height="18" smooth="true" smoothingQuality="high"
 						 source="@Embed('../assets/icon/Delete.png')"/>
+				
+				<s:Image width="18" height="18" smooth="true" smoothingQuality="high"
+						 source="@Embed('../assets/icon/Add.png')" buttonMode="true" click="onAddAction(event)"/>
 			</ui:controlBarContent>
 			<s:Scroller width="100%" height="100%" horizontalScrollPolicy="off">
 				<s:VGroup paddingLeft="2" paddingTop="5">
@@ -105,6 +140,8 @@
 				</s:VGroup>
 			</s:Scroller>
 		</ui:ActionWorkspace>
+		
+		<ui:ActionInspector width="100%" height="100%" />
 	</s:VGroup>
 	
 	

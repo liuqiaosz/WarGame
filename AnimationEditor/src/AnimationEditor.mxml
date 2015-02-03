@@ -39,6 +39,7 @@
 			import editor.setting.EditorSetting;
 			import editor.ui.DirectorySettingWindow;
 			import editor.ui.LoggerPanel;
+			import editor.ui.PopUpWindowProxy;
 			import editor.utility.AvatarConfigManager;
 			import editor.vo.AvatarTreeNode;
 			
@@ -79,8 +80,8 @@
 				{
 					case CHILD_SETTING_PATH:
 						//路径设置
-						PopUpManager.createPopUp(FlexGlobals.topLevelApplication as DisplayObject,DirectorySettingWindow,true);
-					
+						//PopUpManager.createPopUp(FlexGlobals.topLevelApplication as DisplayObject,DirectorySettingWindow,true);
+						popup(DirectorySettingWindow);
 						break;
 				}
 			}

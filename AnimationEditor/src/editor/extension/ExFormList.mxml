@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension:ExFormItem xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					  xmlns:s="library://ns.adobe.com/flex/spark" 
+					  xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:extension="editor.extension.*" width="100%" height="150">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	
+	<fx:Metadata>
+		[Event(name="onChange", type="editor.extension.ExEvent")]
+	</fx:Metadata>
+	<fx:Script>
+		<![CDATA[
+			import lib.avatarkit.cfg.ConfigActionTrigger;
+			
+			import mx.collections.ArrayCollection;
+			
+			import spark.events.IndexChangeEvent;
+			[Bindable]
+			private var _labelWidth:int = LABEL_MIN_WIDTH;
+			public function set labelWidth(value:int):void
+			{
+				_labelWidth = value;
+			}
+			
+			[Bindable]
+			private var _labelText:String = "Label";
+			public function set labelText(value:String):void
+			{
+				_labelText = value;
+			}
+			
+			[Bindable]
+			private var _listItemClass:Class = null;
+			public function set listItemClass(value:Class):void
+			{
+				_listItemClass = value;
+			}
+			
+			[Bindable]
+			private var listProvider:ArrayCollection = null;
+			public function set dataProvider(value:ArrayCollection):void
+			{
+				listProvider = value;
+			}
+			
+			[Bindable]
+			private var _labelField:String = "";
+			public function set labelField(value:String):void
+			{
+				_labelField = value;
+			}
+			
+			protected function onListItemClick(event:IndexChangeEvent):void
+			{
+				var notify:ExEvent = new ExEvent(ExEvent.UI_CHANGE);
+				notify.params = listProvider.getItemAt(event.newIndex);
+				dispatchEvent(notify);
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:Label width="{_labelWidth}" height="22" minWidth="60" text="{_labelText}" textAlign="right"
+			 verticalAlign="middle"/>
+	
+	<s:List width="100%" height="100%" change="onListItemClick(event)" dataProvider="{listProvider}" labelField="{_labelField}" />
+</extension:ExFormItem>

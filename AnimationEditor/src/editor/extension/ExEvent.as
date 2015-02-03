@@ -13,6 +13,8 @@ package editor.extension
 		public static const UI_TAB_CHANGE:String = "onTabChanged";
 		public static const UI_TAB_UPDATE:String = "onTabUpdate";
 		
+		public static const UI_CHANGE:String = "onChange";
+		
 		public var params:Object = null;
 		public function ExEvent(type:String,bubbles:Boolean = true)
 		{

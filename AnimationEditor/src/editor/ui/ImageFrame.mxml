@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" width="140" height="140" xmlns:layout="flexlib.scheduling.scheduleClasses.layout.*"
+		 borderVisible="true" borderColor="0x5c5c5c" xmlns:extension="editor.extension.*" creationComplete="onCreated(event)">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.events.FlexEvent;
+			private var bmp:Bitmap = null;
+			public function set image(value:Bitmap):void
+			{
+				bmp = new Bitmap(value.bitmapData);
+				if(bmp.width > 128 || bmp.height > 128)
+				{
+					bmp.scaleX = bmp.scaleY = (128 / (Math.max(bmp.width,bmp.height)));
+				}
+				if(container)
+				{
+					container.addChild(bmp);
+					container.x = (140 - bmp.width) >> 1;
+					container.y = (140 - bmp.height) >> 1;
+				}
+			}
+			
+			[Bindable]
+			private var _index:int = 0;
+			public function set index(value:int):void
+			{
+				_index = value;
+			}
+			
+			protected function onCreated(event:FlexEvent):void
+			{
+				if(bmp)
+				{
+					container.addChild(bmp);
+					container.x = (140 - bmp.width) >> 1;
+					container.y = (140 - bmp.height) >> 1;
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<extension:ExSpriteContainer id="container" />
+	
+	<s:BorderContainer width="20" height="20" borderVisible="true" x="1" y="1">
+		<s:Label width="100%" height="100%" text="{String(_index)}" verticalAlign="middle" textAlign="center" />
+	</s:BorderContainer>
+</s:BorderContainer>

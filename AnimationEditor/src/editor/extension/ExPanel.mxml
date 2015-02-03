@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:BorderContainer xmlns:fx="http://ns.adobe.com/mxml/2009"
+				   xmlns:s="library://ns.adobe.com/flex/spark"
+				   xmlns:mx="library://ns.adobe.com/flex/mx"
+				   height="150" minWidth="150" borderAlpha=".3" borderColor="#C5C3C3" borderVisible="true">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			[Bindable]
+			private var titleText:String = "Panel";
+			
+			public function set title(value:String):void
+			{
+				titleText = value;
+				//panelTitle.text = value;
+			}
+		]]>
+	</fx:Script>
+	<s:VGroup width="100%" height="100%">
+		
+		<s:Group width="100%" height="30" id="titleBar">
+			<s:Rect width="100%" height="100%">
+				<s:fill>
+					<s:SolidColor color="0x5d5d5d" alpha=".7" />
+				</s:fill>
+			</s:Rect>
+			
+			<s:HGroup width="100%" height="100%" paddingLeft="5">
+				<s:Label id="panelTitle" height="100%" text="{titleText}" verticalAlign="middle"/>
+			</s:HGroup>
+		</s:Group>
+		
+		<s:Group width="100%" height="100%" id="panelContent">
+		</s:Group>
+		
+	</s:VGroup>
+	
+</s:BorderContainer>

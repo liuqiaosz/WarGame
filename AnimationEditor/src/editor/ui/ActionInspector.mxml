@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Panel xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				   xmlns:s="library://ns.adobe.com/flex/spark" 
+				   xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:extension="editor.extension.*" width="100%" height="100%">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import lib.avatarkit.cfg.ConfigActionTrigger;
+			import lib.avatarkit.cfg.ConfigAvatarAction;
+			
+			import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var _triggers:ArrayCollection = null;
+			
+			public function set action(value:ConfigAvatarAction):void
+			{
+				actionName.labelText = value.name;
+				actionStart.labelText = String(value.start);
+				actionEnd.labelText = String(value.end);
+				duration.sliderValue = Number(value.duration);
+				if(value.triggers && value.triggers.length)
+				{
+					_triggers = new ArrayCollection();
+					for each(var trigger:ConfigActionTrigger in value.triggers)
+					{
+						_triggers.addItem(trigger);
+					}
+				}
+			}
+		]]>
+	</fx:Script>
+	<s:Scroller width="100%" height="100%">
+		<s:VGroup width="100%" height="100%">
+			<extension:ExFormTextItem id="actionName" labelWidth="40" textWidth="160" labelText="名称" editable="false" />
+			<extension:ExFormTextItem id="actionStart" labelWidth="40" textWidth="160" labelText="开始" restrict="0-9" editable="false" />
+			<extension:ExFormTextItem id="actionEnd" labelWidth="40" textWidth="160" labelText="结束" restrict="0-9" editable="false" />
+			<extension:ExFormSliderItem id="duration" width="100%" labelWidth="40" labelText="帧率" />
+			<extension:ExFormList id="actionTrigger" width="100%" labelWidth="40" labelText="触发器" paddingRight="3" labelField="name" dataProvider="{_triggers}" /> 
+		</s:VGroup>
+	</s:Scroller>
+	
+	<s:controlBarContent>
+		<s:Label text="总帧率11" />
+	</s:controlBarContent>
+</s:Panel>

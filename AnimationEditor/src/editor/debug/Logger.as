@@ -43,6 +43,7 @@ package editor.debug
 		
 		private function trigger(value:String):void
 		{
+			trace(value);
 			if(null != _callback)
 			{
 				_callback(value);

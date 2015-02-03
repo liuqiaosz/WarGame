@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <s:HGroup xmlns:fx="http://ns.adobe.com/mxml/2009" 
 		  xmlns:s="library://ns.adobe.com/flex/spark" 
-		  xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%">
+		  xmlns:mx="library://ns.adobe.com/flex/mx" width="100%" height="100%" >
 	<fx:Declarations>
 		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
 	</fx:Declarations>
@@ -9,6 +9,13 @@
 	<fx:Script>
 		<![CDATA[
 			protected static const LABEL_MIN_WIDTH:int = 80;
+			
+			[Bindable]
+			protected var _editable:Boolean = true;
+			public function set editable(value:Boolean):void
+			{
+				_editable = value;
+			}
 		]]>
 	</fx:Script>
 </s:HGroup>

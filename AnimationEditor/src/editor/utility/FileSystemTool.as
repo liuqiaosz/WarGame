@@ -131,5 +131,11 @@ package editor.utility
 				writer.close();
 			}
 		}
+		
+		public static function fileExists(directory:String):Boolean
+		{
+			var file:File = new File(directory);
+			return file.exists;
+		}
 	}
 }

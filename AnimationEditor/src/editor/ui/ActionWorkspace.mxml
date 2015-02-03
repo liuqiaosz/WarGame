@@ -15,7 +15,6 @@
 			protected function onCreated(event:FlexEvent):void
 			{
 				Object(this.titleDisplay).parent.height = 30;
-				
 			}
 			
 		]]>

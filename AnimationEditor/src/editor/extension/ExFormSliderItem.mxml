@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension:ExFormItem xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		  xmlns:s="library://ns.adobe.com/flex/spark" 
+		  xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:extension="editor.extension.*" height="25" verticalAlign="middle">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	
+	<fx:Metadata>
+		[Event(name="onChange", type="editor.extension.ExEvent")]
+	</fx:Metadata>
+	
+	<fx:Script>
+		<![CDATA[
+			
+			[Bindable]
+			private var _labelWidth:int = LABEL_MIN_WIDTH;
+			public function set labelWidth(value:int):void
+			{
+				_labelWidth = value;
+			}
+			
+			[Bindable]
+			private var _labelText:String = "Label";
+			public function set labelText(value:String):void
+			{
+				_labelText = value;
+			}
+			
+			[Bindable]
+			private var _showValue:Boolean = true;
+			public function set showValue(value:Boolean):void
+			{
+				_showValue = value;
+			}
+			public function get showValue():Boolean
+			{
+				return _showValue;
+			}
+			
+			protected function onSliderChange(event:Event):void
+			{
+				var notify:ExEvent = new ExEvent(ExEvent.UI_CHANGE);
+				notify.params = slider.value;
+			}
+			
+			[Bindable]
+			private var _sliderStep:Number = 0.1;
+			public function set sliderStep(value:Number):void
+			{
+				_sliderStep = value;
+			}
+			
+			[Bindable]
+			private var _sliderMax:Number = 1;
+			public function set sliderMax(value:Number):void
+			{
+				_sliderMax = value;
+			}
+			
+			[Bindable]
+			private var _sliderMin:Number = 0;
+			public function set sliderMin(value:Number):void
+			{
+				_sliderMin = value;
+				if(_sliderValue < _sliderMin)
+				{
+					_sliderValue = _sliderMin;
+				}
+			}
+			
+			[Bindable]
+			private var _sliderValue:Number = 0;
+			public function get sliderValue():Number
+			{
+				return _sliderValue;
+			}
+			public function set sliderValue(value:Number):void
+			{
+				_sliderValue = value;
+			}
+		]]>
+	</fx:Script>
+	
+	<s:Label width="{_labelWidth}" height="22" minWidth="60" text="{_labelText}" textAlign="right"
+			 verticalAlign="middle"/>
+	
+	<s:HSlider width="100%" id="slider" value="{_sliderValue}" change="onSliderChange(event)" maximum="{_sliderMax}" minimum="{_sliderMin}" stepSize="{_sliderStep}" enabled="{_editable}" />
+	
+	<s:Label width="60" id="labelValue" visible="{_showValue}" includeInLayout="{_showValue}" verticalAlign="middle" textAlign="center" text="{String(_sliderValue)}" />
+</extension:ExFormItem>

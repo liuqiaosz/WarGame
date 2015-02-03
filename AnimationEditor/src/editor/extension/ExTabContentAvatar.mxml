@@ -10,7 +10,7 @@
 		<![CDATA[
 			import editor.extension.vo.TreeNode;
 			
-			import lib.avatarkit.AvatarNav;
+			import editor.animation.avatar.AvatarNav;
 			
 			import mx.events.ResizeEvent;
 			private var _data:TreeNode = null;

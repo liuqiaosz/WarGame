@@ -7,6 +7,7 @@ package lib.avatarkit.cfg
 	 **/
 	public class ConfigActionTrigger
 	{
+		public var name:String = "";
 		public var triggerType:int = AvatarEnum.NONE;		//触发类型
 		public var triggerFrame:int = 0;								//触发帧
 		public var effectPosition:int = AvatarEnum.NONE;		//特效位置
@@ -23,6 +24,7 @@ package lib.avatarkit.cfg
 			if(trigger)
 			{
 				value = new ConfigActionTrigger();
+				value.name = trigger.name;
 				value.triggerType = trigger.triggerType;
 				value.triggerFrame = trigger.triggerFrame;
 				value.effectPosition = trigger.effectPosition;

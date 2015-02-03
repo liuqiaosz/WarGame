@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:PopUpWindowProxy xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					 xmlns:s="library://ns.adobe.com/flex/spark" 
+					 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:ui="editor.ui.*" width="600" height="340" xmlns:extension="editor.extension.*">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import editor.asset.AvatarAssetManager;
+			
+			import lib.avatarkit.cfg.ConfigAvatar;
+			
+			import mx.core.IVisualElement;
+			
+			private var _avatar:ConfigAvatar = null;
+			private var _images:Vector.<Bitmap> = null;
+			private var _frames:Array = [];
+			public function set avatar(value:ConfigAvatar):void
+			{
+				_avatar = value;
+				_images = AvatarAssetManager.instance.getAssetById(_avatar.id);
+				
+				if(_images && _images.length)
+				{
+					for(var idx:int = 0; idx<_images.length; idx++)
+					{
+						var frame:ImageFrame = new ImageFrame();
+						frame.image = _images[idx];
+						frame.index = idx;
+						_frames.push(frame);
+						if(frames)
+						{
+							frames.addElement(frame);
+						}
+					}
+				}
+//				var frame:ImageFrame = new ImageFrame();
+//				frame.image = _images[0];
+//				if(frames)
+//				{
+//					frames.addElement(frame);
+//				}
+//				else
+//				{
+//					_frames.push(frame);
+//				}
+			}
+			
+			override protected function onClose():void
+			{
+				_avatar = null;
+				_frames.length = 0;
+				_images = null;
+				frames.removeAllElements();
+				super.onClose();
+			}
+			
+			override protected function onCreated():void
+			{
+//				while(_frames && _frames.length)
+				if(_frames)
+				{
+					for each(var frame:ImageFrame in _frames)
+					{
+						frames.addElement(frame);
+					}
+				}
+				super.onCreated();	
+			}
+			
+			protected function onPreview(event:MouseEvent):void
+			{
+				//预览动作
+				
+			}
+			
+			private function checkParameter():Boolean
+			{
+				if(!actionName.labelText)
+				{
+					showAlert("动作名不能为空");
+					return false;
+				}
+				
+				if(actionEnd.labelText)
+				{
+					if(int(actionEnd.labelText) >= _frames.length)
+					{
+						showAlert("");
+					}
+				}
+				return true;
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<ui:layout>
+		<s:VerticalLayout paddingLeft="5" paddingTop="5" />
+	</ui:layout>
+	
+	<extension:ExFormTextItem id="actionName" labelWidth="40" textWidth="160" labelText="名称" />
+	<extension:ExFormTextItem id="actionStart" labelWidth="40" textWidth="160" labelText="开始" restrict="0-9"/>
+	<extension:ExFormTextItem id="actionEnd" labelWidth="40" textWidth="160" labelText="结束" restrict="0-9" />
+	<extension:ExFormSliderItem id="duration" width="100%" labelWidth="40" labelText="帧率" />
+	
+	<s:Scroller width="100%" height="160">
+		<s:HGroup id="frames" width="100%" height="100%">
+		</s:HGroup>
+	</s:Scroller>
+	
+	<s:HGroup>
+		<s:Button label="预览" click="onPreview(event)" />
+		<s:Button label="创建" />
+	</s:HGroup>
+	
+</ui:PopUpWindowProxy>
