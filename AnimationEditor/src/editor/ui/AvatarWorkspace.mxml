@@ -10,6 +10,7 @@
 	<fx:Script>
 		<![CDATA[
 			import editor.asset.AvatarAssetManager;
+			import editor.extension.ExEvent;
 			import editor.extension.ExTabAvatarContent;
 			import editor.extension.vo.TreeNode;
 			import editor.setting.EditorSetting;
@@ -17,6 +18,8 @@
 			import editor.vo.AvatarTreeNode;
 			
 			import flexlib.events.SuperTabEvent;
+			
+			import lib.avatarkit.cfg.ConfigAvatarAction;
 			
 			import mx.events.FlexEvent;
 			
@@ -42,6 +45,7 @@
 								
 								labelFrameCount.text = "Frames:" + imgs.length;
 								workspace.appendTab(value.atom.name,value);
+								onLoaded();
 							});
 					}
 					else
@@ -57,7 +61,13 @@
 					labelFrameCount.text = "Frames:" + AvatarAssetManager.instance.getAssetById(value.atom.id).length;
 					statePanel.visible = true;
 					workspace.appendTab(value.atom.name,value);
+					onLoaded();
 				}
+			}
+			
+			private function onLoaded():void
+			{
+				actionPanel.actions = currentAvatar.avatar.actions;
 			}
 			
 			/**
@@ -80,6 +90,16 @@
 			{
 				var window:CreateActionWindow = CreateActionWindow(popup(CreateActionWindow));
 				window.avatar = currentAvatar.avatar;
+				window.onActionCreate = function(actName:String,start:int,end:int,duration:int):void{
+					var action:ConfigAvatarAction = new ConfigAvatarAction();
+					action.start = start;
+					action.end = end;
+					action.duration = duration;
+					action.name = actName;
+					currentAvatar.avatar.actions.push(action);
+					
+					actionPanel.actions = currentAvatar.avatar.actions;
+				};
 			}
 			
 			/**
@@ -90,14 +110,11 @@
 				
 			}
 			
-			/**
-			 * 根据文件名自动生成动作
-			 * 
-			 * 动作名@帧数
-			 **/
-			protected function onNameParseAction(event:MouseEvent):void
+			protected function onActionSelected(event:ExEvent):void
 			{
-				
+				var action:ConfigAvatarAction = event.params as ConfigAvatarAction;
+				var window:ModifyActionWindow = popup(ModifyActionWindow) as ModifyActionWindow;
+				window.setData(currentAvatar.avatar,action.name);
 			}
 			
 		]]>
@@ -123,7 +140,7 @@
 	
 	<s:VGroup width="100%" height="100%">
 
-		<ui:ActionWorkspace width="100%" height="250" borderVisible="true" dropShadowVisible="false" title="动作" id="actionPanel">
+		<ui:ActionWorkspace width="100%" height="250" borderVisible="true" dropShadowVisible="false" title="动作" id="actionPanel" onChange="onActionSelected(event)">
 			<ui:controlBarContent>
 				<s:Image width="18" height="18" smooth="true" smoothingQuality="high"
 						 source="@Embed('../assets/icon/Add.png')" buttonMode="true" click="onAddAction(event)"/>
@@ -132,13 +149,9 @@
 						 source="@Embed('../assets/icon/Delete.png')"/>
 				
 				<s:Image width="18" height="18" smooth="true" smoothingQuality="high"
-						 source="@Embed('../assets/icon/Add.png')" buttonMode="true" click="onAddAction(event)"/>
+						 source="@Embed('../assets/icon/Add.png')" buttonMode="true" />
 			</ui:controlBarContent>
-			<s:Scroller width="100%" height="100%" horizontalScrollPolicy="off">
-				<s:VGroup paddingLeft="2" paddingTop="5">
-					
-				</s:VGroup>
-			</s:Scroller>
+			
 		</ui:ActionWorkspace>
 		
 		<ui:ActionInspector width="100%" height="100%" />

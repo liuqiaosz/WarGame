@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension:ExFormItem xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					  xmlns:s="library://ns.adobe.com/flex/spark" 
+					  xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:extension="editor.extension.*" width="100%" height="30">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var _labelWidth:int = LABEL_MIN_WIDTH;
+			public function set labelWidth(value:int):void
+			{
+				_labelWidth = value;
+			}
+			
+			[Bindable]
+			private var _labelText:String = "Label";
+			public function set labelText(value:String):void
+			{
+				_labelText = value;
+			}
+			public function get labelText():String
+			{
+				return _labelText;
+			}
+			
+			[Bindable]
+			private var _labelField:String = "";
+			public function set labelField(value:String):void
+			{
+				_labelField = value;
+			}
+			
+			[Bindable]
+			private var _dataProvider:ArrayCollection = new ArrayCollection();
+			public function set dataProvider(value:ArrayCollection):void
+			{
+				_dataProvider = value;
+			}
+			
+			/**
+			 * 获得当前选择的数据
+			 **/
+			public function get selected():Object
+			{
+				return _dataProvider.getItemAt(combobox.selectedIndex);
+			}
+		]]>
+	</fx:Script>
+	
+	<s:Label width="{_labelWidth}" height="22" minWidth="60" text="{_labelText}" textAlign="right"
+			 verticalAlign="middle"/>
+	
+	<s:ComboBox id="combobox" width="150" dataProvider="{_dataProvider}" labelField="{_labelField}" selectedIndex="0"  />
+</extension:ExFormItem>

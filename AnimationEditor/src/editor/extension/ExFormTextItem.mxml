@@ -35,17 +35,24 @@
 			}
 			
 			[Bindable]
-			private var _restrict:String = "";
+			private var _restrict:String = null;
 			public function set restrict(value:String):void
 			{
 				_restrict = value;
 			}
 			
-			
+			public function get textValue():String
+			{
+				return text.text;
+			}
+			public function set textValue(value:String):void
+			{
+				text.text = value;
+			}
 		]]>
 	</fx:Script>
 	
 	<s:Label width="{_labelWidth}" height="22" minWidth="60" text="{_labelText}" textAlign="right"
 			 verticalAlign="middle"/>
-	<s:TextInput minWidth="100" width="{_textWidth}" restrict="{_restrict}" editable="{_editable}" />
+	<s:TextInput minWidth="100" width="{_textWidth}" restrict="{_restrict}" editable="{_editable}" id="text" />
 </extension:ExFormItem>

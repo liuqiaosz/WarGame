@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:PopUpWindowProxy xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					 xmlns:s="library://ns.adobe.com/flex/spark" 
+					 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:ui="editor.ui.*" width="550" height="300" xmlns:extension="editor.extension.*">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import editor.asset.AvatarAssetManager;
+			
+			import flash.utils.getTimer;
+			
+			import mx.core.FlexGlobals;
+			
+			private var frames:Vector.<Bitmap> = null;
+			private var lastUpdate:int = 0;
+			
+			
+			private var currentIndex:int = 0;
+			
+			private var waitPlay:Boolean = false;
+			
+			[Bindable]
+			private var _totalFrame:int = 0;
+			[Bindable]
+			private var _start:int = 0;
+			[Bindable]
+			private var _end:int = 0;
+			[Bindable]
+			private var _duration:int = 0;
+			/**
+			 * 预览动作
+			 **/
+			public function playPreview(id:String,start:int,end:int,duration:int):void
+			{
+				frames = AvatarAssetManager.instance.getAssetById(id);
+				_duration = duration;
+				_totalFrame = end - start;
+				_start = start;
+				_end = end;
+				
+				if(!frames)
+				{
+					showAlert("帧动画未找到或未加载");
+					return;
+				}
+				
+				if(img)
+				{
+					FlexGlobals.topLevelApplication.addEventListener(Event.ENTER_FRAME,onUpdate);
+					lastUpdate = flash.utils.getTimer();
+				}
+				else
+				{
+					waitPlay = true;
+				}
+			}
+			
+			override protected function onShow():void
+			{
+				if(waitPlay)
+				{
+					FlexGlobals.topLevelApplication.addEventListener(Event.ENTER_FRAME,onUpdate);
+					lastUpdate = flash.utils.getTimer();
+					waitPlay = false;
+				}
+				super.onShow();
+			}
+			
+			override protected function onClose():void
+			{
+				FlexGlobals.topLevelApplication.removeEventListener(Event.ENTER_FRAME,onUpdate);
+				frames = null;
+				super.onClose();
+			}
+			
+			private function onUpdate(event:Event):void
+			{
+				var now:int = flash.utils.getTimer();
+				if(now - lastUpdate >= _duration)
+				{
+					img.source = frames[_start + currentIndex];
+					img.x = (container.width - img.width) >> 1;
+					img.y = (container.height - img.height) >> 1;
+					currentIndex++;
+					if(currentIndex >= _totalFrame)
+					{
+						currentIndex = 0;
+					}
+					lastUpdate = now;
+				}
+			}
+		]]>
+	</fx:Script>
+	<s:HGroup width="100%" height="100%" paddingBottom="5" paddingLeft="5" paddingRight="5" paddingTop="5">
+		<s:VGroup>
+			<extension:ExFormLabelItem labelText="总帧数" id="totalFrame"  labelValue="{String(_totalFrame)}" />
+			<extension:ExFormLabelItem labelText="播放速率" id="playDurtaion" labelValue="{String(_duration)}" />
+			<extension:ExFormLabelItem labelText="开始帧" id="start" labelValue="{String(_start)}"/>
+			<extension:ExFormLabelItem labelText="结束帧" id="end" labelValue="{String(_end)}" />
+		</s:VGroup>
+		
+		<s:Group width="100%" height="100%" id="container">
+			<s:Image id="img" />
+		</s:Group>
+
+	</s:HGroup>
+</ui:PopUpWindowProxy>

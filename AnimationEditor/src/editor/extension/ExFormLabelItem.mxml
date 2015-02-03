@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension:ExFormItem xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" height="30" verticalAlign="middle" xmlns:extension="editor.extension.*">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			
+			[Bindable]
+			private var _labelWidth:int = LABEL_MIN_WIDTH;
+			public function set labelWidth(value:int):void
+			{
+				_labelWidth = value;
+			}
+			
+			[Bindable]
+			private var _labelText:String = "Label";
+			public function set labelText(value:String):void
+			{
+				_labelText = value;
+			}
+			public function get labelText():String
+			{
+				return _labelText;
+			}
+			
+			[Bindable]
+			private var _textWidth:int = 100;
+			public function set textWidth(value:int):void
+			{
+				_textWidth = value;
+			}
+			
+			[Bindable]
+			private var _labelValue:String = "";
+			public function set labelValue(value:String):void
+			{
+				_labelValue = value;
+			}
+		]]>
+	</fx:Script>
+	
+	<s:Label width="{_labelWidth}" height="22" minWidth="60" text="{_labelText}" textAlign="right"
+			 verticalAlign="middle"/>
+	<s:Label minWidth="100" width="{_textWidth}" text="{_labelValue}" />
+</extension:ExFormItem>

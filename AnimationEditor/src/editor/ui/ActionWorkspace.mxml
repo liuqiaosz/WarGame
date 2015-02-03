@@ -6,17 +6,66 @@
 		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
 	</fx:Declarations>
 	
+	<fx:Metadata>
+		[Event(name="onChange", type="editor.extension.ExEvent")]
+	</fx:Metadata>
+	
 	<fx:Script>
 		<![CDATA[
+			import editor.extension.ExEvent;
+			
+			import lib.avatarkit.cfg.ConfigAvatar;
+			import lib.avatarkit.cfg.ConfigAvatarAction;
+			
+			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;
+			import mx.events.IndexChangedEvent;
 			
 			import spark.components.Label;
+			import spark.events.IndexChangeEvent;
 			
+			[Bindable]
+			private var _actions:ArrayCollection = new ArrayCollection();
 			protected function onCreated(event:FlexEvent):void
 			{
 				Object(this.titleDisplay).parent.height = 30;
 			}
 			
+			public function set actions(value:Vector.<ConfigAvatarAction>):void
+			{
+				if(value)
+				{
+					_actions.removeAll();
+					for each(var act:ConfigAvatarAction in value)
+					{
+						_actions.addItem(act);
+					}
+				}
+			}
+			
+			protected function onChange(event:IndexChangeEvent):void
+			{
+				var notify:ExEvent = new ExEvent(ExEvent.UI_CHANGE);
+				notify.params = _actions.getItemAt(event.newIndex);
+				dispatchEvent(notify);
+			}
 		]]>
 	</fx:Script>
+	
+	<s:List width="100%" height="100%" dataProvider="{_actions}" borderVisible="false" change="onChange(event)">
+		
+		<s:itemRenderer>
+			<fx:Component>
+				<s:ItemRenderer>
+					<s:HGroup width="100%" >
+						<s:Label width="80" text="{data.name}" textAlign="center" verticalAlign="middle" />
+						<s:Label width="60" text="{data.start + '-' + data.end}" textAlign="center" verticalAlign="middle"/>
+						<s:Label width="60" text="{String(data.duration)}" textAlign="center" verticalAlign="middle"/>
+					</s:HGroup>
+				</s:ItemRenderer>
+				
+			</fx:Component>
+		</s:itemRenderer>
+	</s:List>
+
 </s:Panel>

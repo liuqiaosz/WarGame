@@ -21,8 +21,6 @@
 			override public function set content(value:Object):void
 			{
 				node = value as AvatarTreeNode;
-
-				
 			}
 			
 			override protected function onCreated(event:FlexEvent):void

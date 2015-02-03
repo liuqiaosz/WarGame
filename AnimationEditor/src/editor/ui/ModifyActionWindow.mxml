@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:PopUpWindowProxy xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					 xmlns:s="library://ns.adobe.com/flex/spark" 
+					 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:ui="editor.ui.*" width="600" height="590" xmlns:extension="editor.extension.*">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import editor.asset.AvatarAssetManager;
+			
+			import lib.avatarkit.AvatarEnum;
+			import lib.avatarkit.cfg.ConfigActionTrigger;
+			import lib.avatarkit.cfg.ConfigAvatar;
+			import lib.avatarkit.cfg.ConfigAvatarAction;
+			
+			import mx.collections.ArrayCollection;
+			import mx.core.IVisualElement;
+			
+			private var _avatar:ConfigAvatar = null;
+			private var _action:ConfigAvatarAction = null;
+			private var _images:Vector.<Bitmap> = null;
+			private var _frames:Array = [];
+			
+			[Bindable]
+			private var _totalFrame:int = 0;
+			[Bindable]
+			private var _start:int = 0;
+			[Bindable]
+			private var _end:int = 0;
+			[Bindable]
+			private var _duration:int = 0;
+			[Bindable]
+			private var _triggers:ArrayCollection = new ArrayCollection();
+			public function setData(value:ConfigAvatar,action:String):void
+			{
+				_avatar = value;
+				_images = AvatarAssetManager.instance.getAssetById(_avatar.id);
+				for each(var act:ConfigAvatarAction in _avatar.actions)
+				{
+					if(act.name == action)
+					{
+						_action = act;
+						break;
+					}
+				}
+				if(_images && _images.length)
+				{
+					for(var idx:int = 0; idx<_images.length; idx++)
+					{
+						var frame:ImageFrame = new ImageFrame();
+						frame.image = _images[idx];
+						frame.index = idx;
+						_frames.push(frame);
+						if(frames)
+						{
+							frames.addElement(frame);
+						}
+					}
+				}
+				if(_action)
+				{
+					_start = _action.start;
+					_end = _action.end;
+					_totalFrame = _end - _start;
+					_duration = _action.duration;
+					
+					_triggers.removeAll();
+					for each(var trigger:ConfigActionTrigger in _action.triggers)
+					{
+						_triggers.addItem(trigger);
+					}
+				}
+				
+			}
+			
+			override protected function onClose():void
+			{
+				_avatar = null;
+				_frames.length = 0;
+				_images = null;
+				frames.removeAllElements();
+				super.onClose();
+			}
+			
+			override protected function onCreated():void
+			{
+				//				while(_frames && _frames.length)
+				if(_frames)
+				{
+					for each(var frame:ImageFrame in _frames)
+					{
+						frames.addElement(frame);
+					}
+				}
+				super.onCreated();	
+			}
+			
+			protected function onPreview(event:MouseEvent):void
+			{
+				//预览动作
+				if(checkParameter())
+				{
+					var window:ActionPreviewWindow = popup(ActionPreviewWindow) as ActionPreviewWindow;
+					window.playPreview(_avatar.id,int(actionStart.textValue),int(actionEnd.textValue),int(duration.sliderValue));
+				}
+			}
+			
+			private function checkParameter():Boolean
+			{
+				if(!actionName.textValue)
+				{
+					showAlert("动作名不能为空");
+					return false;
+				}
+				else
+				{
+					for each(var act:ConfigAvatarAction in _avatar.actions)
+					{
+						if(act.name == actionName.textValue)
+						{
+							showAlert("动作名不能重复");
+							return false;
+						}
+					}
+				}
+				
+				if(actionEnd.textValue)
+				{
+					if(int(actionEnd.textValue) >= _frames.length || int(actionEnd.textValue) <= int(actionStart.textValue))
+					{
+						showAlert("结束帧率非法");
+						return false;
+					}
+				}
+				return true;
+			}
+			
+			private var _onCreateHandler:Function = null;
+			public function set onActionModify(value:Function):void
+			{
+				_onCreateHandler = value;
+			}
+			
+			protected function onModifyClick(event:MouseEvent):void
+			{
+				if(checkParameter())
+				{
+					if(null != _onCreateHandler)
+					{
+						_onCreateHandler(actionName.textValue,int(actionStart.textValue),int(actionEnd.textValue),int(duration.sliderValue));
+					}
+				}
+			}
+			
+			public function getTriggerTypeText(type:int):String
+			{
+				
+				switch(type)
+				{
+					case AvatarEnum.Trigger_Effect:
+						return "特效";
+						break;
+					case AvatarEnum.Trigger_Audio:
+						return "音效";
+						break;
+					case AvatarEnum.Trigger_Event:
+						return "事件";
+						break;
+				}
+				return "";
+			}
+			public function getEffectPositionText(type:int):String
+			{
+				switch(type)
+				{
+					case AvatarEnum.EffectPosition_Self:
+						return "释放者";
+						break;
+					case AvatarEnum.EffectPosition_Target:
+						return "目标";
+						break;
+					case AvatarEnum.EffectPosition_Screen:
+						return "屏幕";
+						break;
+				}
+				return "";
+			}
+			
+			protected  function onAddTrigger(event:MouseEvent):void
+			{
+				popup(CraeteTriggerWindow);
+			}
+		]]>
+	</fx:Script>
+	
+	<ui:layout>
+		<s:VerticalLayout paddingLeft="5" paddingTop="5" paddingRight="5" />
+	</ui:layout>
+	
+	<extension:ExFormTextItem id="actionName" labelWidth="40" textWidth="160" labelText="名称" />
+	<extension:ExFormTextItem id="actionStart" labelWidth="40" textWidth="160" labelText="开始" restrict="0-9" textValue="{String(_start)}" />
+	<extension:ExFormTextItem id="actionEnd" labelWidth="40" textWidth="160" labelText="结束" restrict="0-9" textValue="{String(_end)}" />
+	<extension:ExFormSliderItem id="duration" width="100%" labelWidth="40" labelText="帧率"  sliderMax="2000" sliderMin="10" sliderStep="10" sliderValue="{_duration}"  />
+	
+	<s:Image width="24" height="24" smooth="true" smoothingQuality="high" toolTip="添加新的触发器"
+			 source="@Embed('../assets/icon/Add.png')" buttonMode="true" click="onAddTrigger(event)"/>
+	<s:List width="100%" height="200">
+		<s:itemRenderer>
+			<fx:Component>
+				<s:ItemRenderer>
+					<s:HGroup>
+						<s:Label text="{data.name}" width="100"/>
+						<s:Label text="{outerDocument.getTriggerTypeText(data.triggerType)}" width="100" />
+						<s:Label text="{data.triggerFrame}" width="50"/>
+						<s:Label text="{outerDocument.getEffectPositionText(data.effectPosition)}" width="100" />
+						<s:Label text="{data.value}" width="100"/>
+						<s:Label text="{data.offset}" width="100"/>
+					</s:HGroup>
+				</s:ItemRenderer>
+			</fx:Component>
+		</s:itemRenderer>
+	</s:List>
+	<s:Scroller width="100%" height="160">
+		<s:HGroup id="frames" width="100%" height="100%">
+		</s:HGroup>
+	</s:Scroller>
+	
+	<s:HGroup>
+		<s:Button label="预览" click="onPreview(event)" />
+		<s:Button label="修改" click="onModifyClick(event)" />
+	</s:HGroup>
+</ui:PopUpWindowProxy>

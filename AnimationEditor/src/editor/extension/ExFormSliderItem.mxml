@@ -42,6 +42,7 @@
 			{
 				var notify:ExEvent = new ExEvent(ExEvent.UI_CHANGE);
 				notify.params = slider.value;
+				_sliderValue = slider.value;
 			}
 			
 			[Bindable]

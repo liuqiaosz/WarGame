@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ui:PopUpWindowProxy xmlns:fx="http://ns.adobe.com/mxml/2009" 
 					 xmlns:s="library://ns.adobe.com/flex/spark" 
-					 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:ui="editor.ui.*" width="600" height="340" xmlns:extension="editor.extension.*">
+					 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:ui="editor.ui.*" width="600" height="370" xmlns:extension="editor.extension.*">
 	<fx:Declarations>
 		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
 	</fx:Declarations>
@@ -11,6 +11,7 @@
 			import editor.asset.AvatarAssetManager;
 			
 			import lib.avatarkit.cfg.ConfigAvatar;
+			import lib.avatarkit.cfg.ConfigAvatarAction;
 			
 			import mx.core.IVisualElement;
 			
@@ -36,16 +37,6 @@
 						}
 					}
 				}
-//				var frame:ImageFrame = new ImageFrame();
-//				frame.image = _images[0];
-//				if(frames)
-//				{
-//					frames.addElement(frame);
-//				}
-//				else
-//				{
-//					_frames.push(frame);
-//				}
 			}
 			
 			override protected function onClose():void
@@ -73,25 +64,58 @@
 			protected function onPreview(event:MouseEvent):void
 			{
 				//预览动作
-				
+				if(checkParameter())
+				{
+					var window:ActionPreviewWindow = popup(ActionPreviewWindow) as ActionPreviewWindow;
+					window.playPreview(_avatar.id,int(actionStart.textValue),int(actionEnd.textValue),int(duration.sliderValue));
+				}
 			}
 			
 			private function checkParameter():Boolean
 			{
-				if(!actionName.labelText)
+				if(!actionName.textValue)
 				{
 					showAlert("动作名不能为空");
 					return false;
 				}
-				
-				if(actionEnd.labelText)
+				else
 				{
-					if(int(actionEnd.labelText) >= _frames.length)
+					for each(var act:ConfigAvatarAction in _avatar.actions)
 					{
-						showAlert("");
+						if(act.name == actionName.textValue)
+						{
+							showAlert("动作名不能重复");
+							return false;
+						}
+					}
+				}
+				
+				if(actionEnd.textValue)
+				{
+					if(int(actionEnd.textValue) >= _frames.length || int(actionEnd.textValue) <= int(actionStart.textValue))
+					{
+						showAlert("结束帧率非法");
+						return false;
 					}
 				}
 				return true;
+			}
+			
+			private var _onCreateHandler:Function = null;
+			public function set onActionCreate(value:Function):void
+			{
+				_onCreateHandler = value;
+			}
+			
+			protected function onCreateClick(event:MouseEvent):void
+			{
+				if(checkParameter())
+				{
+					if(null != _onCreateHandler)
+					{
+						_onCreateHandler(actionName.textValue,int(actionStart.textValue),int(actionEnd.textValue),int(duration.sliderValue));
+					}
+				}
 			}
 			
 		]]>
@@ -104,7 +128,7 @@
 	<extension:ExFormTextItem id="actionName" labelWidth="40" textWidth="160" labelText="名称" />
 	<extension:ExFormTextItem id="actionStart" labelWidth="40" textWidth="160" labelText="开始" restrict="0-9"/>
 	<extension:ExFormTextItem id="actionEnd" labelWidth="40" textWidth="160" labelText="结束" restrict="0-9" />
-	<extension:ExFormSliderItem id="duration" width="100%" labelWidth="40" labelText="帧率" />
+	<extension:ExFormSliderItem id="duration" width="100%" labelWidth="40" labelText="帧率"  sliderMax="2000" sliderMin="10" sliderStep="10" sliderValue="80" />
 	
 	<s:Scroller width="100%" height="160">
 		<s:HGroup id="frames" width="100%" height="100%">
@@ -113,7 +137,7 @@
 	
 	<s:HGroup>
 		<s:Button label="预览" click="onPreview(event)" />
-		<s:Button label="创建" />
+		<s:Button label="创建" click="onCreateClick(event)" />
 	</s:HGroup>
 	
 </ui:PopUpWindowProxy>

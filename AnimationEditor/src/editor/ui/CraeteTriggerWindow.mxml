@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:PopUpWindowProxy xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					 xmlns:s="library://ns.adobe.com/flex/spark" 
+					 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:ui="editor.ui.*" width="500" height="400" xmlns:extension="editor.extension.*">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import editor.utility.Constants;
+			
+			import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var _triggerType:ArrayCollection = Constants.COMBOBOX_TRIGGER_TYPE;
+			[Bindable]
+			private var _triggerEffPos:ArrayCollection = Constants.COMBOBOX_EFFECT_POS;
+		]]>
+	</fx:Script>
+	<s:VGroup width="100%" height="100%">
+		<extension:ExFormTextItem id="triggerName" labelWidth="60" textWidth="160" labelText="名称" />
+		<extension:ExFormCombobox id="triggerType" labelWidth="60" labelText="类型" labelField="label" dataProvider="{_triggerType}" />
+		<extension:ExFormTextItem id="triggerFrame" labelWidth="60" textWidth="160" labelText="触发帧" />
+		<extension:ExFormCombobox id="effectPos" labelWidth="60" labelText="特效位置" labelField="label" dataProvider="{_triggerEffPos}" />
+		<extension:ExFormTextItem id="triggerValue" labelWidth="60" textWidth="160" labelText="参数" />
+		<extension:ExFormTextItem id="effectOffset" labelWidth="60" textWidth="160" labelText="偏移" />
+	</s:VGroup>
+	
+</ui:PopUpWindowProxy>
