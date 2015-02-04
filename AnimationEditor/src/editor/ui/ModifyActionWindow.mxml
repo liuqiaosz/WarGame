@@ -10,10 +10,10 @@
 		<![CDATA[
 			import editor.asset.AvatarAssetManager;
 			
-			import lib.avatarkit.AvatarEnum;
-			import lib.avatarkit.cfg.ConfigActionTrigger;
-			import lib.avatarkit.cfg.ConfigAvatar;
-			import lib.avatarkit.cfg.ConfigAvatarAction;
+			import lib.animation.avatar.AvatarEnum;
+			import lib.animation.avatar.cfg.ConfigActionTrigger;
+			import lib.animation.avatar.cfg.ConfigAvatar;
+			import lib.animation.avatar.cfg.ConfigAvatarAction;
 			
 			import mx.collections.ArrayCollection;
 			import mx.core.IVisualElement;
@@ -167,6 +167,9 @@
 						break;
 					case AvatarEnum.Trigger_Event:
 						return "事件";
+						break;
+					case AvatarEnum.Trigger_Delay:
+						return "延时";
 						break;
 				}
 				return "";

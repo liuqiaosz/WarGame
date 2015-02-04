@@ -14,6 +14,10 @@
 			{
 				
 			}
+			public function get content():Object
+			{
+				return null;
+			}
 			
 			protected function onAdded(event:Event):void
 			{
@@ -40,6 +44,38 @@
 				
 			}
 			
+			private var _index:int = 0;
+			public function set index(value:int):void
+			{
+				_index = value;
+			}
+			public function get index():int
+			{
+				return _index;
+			}
+			
+			private var _labelValue:String = "";
+			private var _needSave:Boolean = false;
+			public function set isNeedSave(value:Boolean):void
+			{
+				if(!_labelValue)
+				{
+					_labelValue = label;
+				}
+				_needSave = value;
+				if(_needSave)
+				{
+					super.label = "*" + _labelValue;
+				}
+				else
+				{
+					super.label = _labelValue;
+				}
+			}
+			public function get isNeedSave():Boolean
+			{
+				return _needSave;
+			}
 		]]>
 	</fx:Script>
 	

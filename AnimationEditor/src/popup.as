@@ -4,7 +4,7 @@ package
 	
 	import mx.core.IFlexDisplayObject;
 
-	public function popup(window:Class,modal:Boolean = true):IFlexDisplayObject
+	public function popup(window:Object,modal:Boolean = true):IFlexDisplayObject
 	{
 		return PopUpWindowProxy.popup(window,modal);
 	}

@@ -12,6 +12,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import mx.events.FlexEvent;
 			
 			[Bindable]
 			private var _labelWidth:int = LABEL_MIN_WIDTH;
@@ -80,6 +81,29 @@
 			{
 				_sliderValue = value;
 			}
+			
+			[Bindable]
+			private var _quickEditor:Boolean = false;
+			
+			protected function onEnabledEdit(event:MouseEvent):void
+			{
+				_quickEditor = true;
+			}
+			
+			protected function editEnter(event:FlexEvent):void
+			{
+				var num:Number = Number(labelValue.text);
+				_sliderValue = num;
+				_quickEditor = false;
+			}
+			
+			protected function onOutFocus(event:FocusEvent):void
+			{
+				var num:Number = Number(labelValue.text);
+				_sliderValue = num;
+				_quickEditor = false;
+			}
+			
 		]]>
 	</fx:Script>
 	
@@ -88,5 +112,7 @@
 	
 	<s:HSlider width="100%" id="slider" value="{_sliderValue}" change="onSliderChange(event)" maximum="{_sliderMax}" minimum="{_sliderMin}" stepSize="{_sliderStep}" enabled="{_editable}" />
 	
-	<s:Label width="60" id="labelValue" visible="{_showValue}" includeInLayout="{_showValue}" verticalAlign="middle" textAlign="center" text="{String(_sliderValue)}" />
+	<s:TextInput width="60" id="labelValue" visible="{_showValue}" includeInLayout="{_showValue}" 
+				 editable="{_quickEditor}" borderVisible="{_quickEditor}" textAlign="center" 
+				 text="{String(_sliderValue)}" enter="editEnter(event)" doubleClick="onEnabledEdit(event)" focusOut="onOutFocus(event)" />
 </extension:ExFormItem>

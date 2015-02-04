@@ -2,8 +2,8 @@ package editor.vo
 {
 	import flash.display.Bitmap;
 	
-	import lib.avatarkit.cfg.ConfigAvatar;
-	import lib.avatarkit.cfg.atom.ConfigUnit;
+	import lib.animation.avatar.cfg.ConfigAvatar;
+	import lib.animation.avatar.cfg.atom.ConfigUnit;
 
 	public class AvatarTreeNode
 	{

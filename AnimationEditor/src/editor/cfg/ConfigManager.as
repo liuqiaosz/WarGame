@@ -7,10 +7,11 @@ package editor.cfg
 	import flash.filesystem.File;
 	import flash.utils.ByteArray;
 	
-	import lib.avatarkit.cfg.ConfigActionTrigger;
-	import lib.avatarkit.cfg.ConfigAvatar;
-	import lib.avatarkit.cfg.atom.ConfigSkill;
-	import lib.avatarkit.cfg.atom.ConfigUnit;
+	import lib.animation.avatar.cfg.ConfigActionTrigger;
+	import lib.animation.avatar.cfg.ConfigAvatar;
+	import lib.animation.avatar.cfg.atom.ConfigSkill;
+	import lib.animation.avatar.cfg.atom.ConfigUnit;
+	import lib.animation.effect.cfg.ConfigEffect;
 
 	/**
 	 * 配置文件数据管理
@@ -30,6 +31,7 @@ package editor.cfg
 		public var units:Vector.<ConfigUnit> = null;
 		public var skills:Vector.<ConfigSkill> = null;
 		public var avatars:Vector.<ConfigAvatar> = null;
+		public var effects:Vector.<ConfigEffect> = null;
 		public function ConfigManager()
 		{
 			units = new Vector.<ConfigUnit>();
@@ -40,21 +42,22 @@ package editor.cfg
 		{
 			initAtom();
 			initAvatar();
+			initEffect();
 		}
 		
 		private function initAvatar():void
 		{
-//			var cfgDir:File = new File(EditorSetting.instance.setting.directory.cfgDirectory);
-			var cfgDir:File = new File("D:\\Github\\WarGame\\Config");
+			var cfgDir:File = new File(EditorSetting.instance.setting.directory.cfgDirectory);
+			//var cfgDir:File = new File("D:\\Github\\WarGame\\Config");
 			var json:String = "";
 			var data:ByteArray = null;
 			if(cfgDir.exists)
 			{
+				avatars = new Vector.<ConfigAvatar>();
 				var avatarFile:File = cfgDir.resolvePath(Constants.AVATAR_CFG_FILE);
 				if(!avatarFile.exists)
 				{
 					//配置文件不存在,通过原子数据构建初始化配置
-					avatars = new Vector.<ConfigAvatar>();
 					if(units && units.length)
 					{
 						var avatar:ConfigAvatar = null;
@@ -87,13 +90,63 @@ package editor.cfg
 			}
 		}
 		
+		private function initEffect():void
+		{
+			var cfgDir:File = new File(EditorSetting.instance.setting.directory.cfgDirectory);
+			//var cfgDir:File = new File("D:\\Github\\WarGame\\Config");
+			var json:String = "";
+			var data:ByteArray = null;
+			if(cfgDir.exists)
+			{
+				effects = new Vector.<ConfigEffect>();
+				if(!EditorSetting.instance.setting.directory.effectDirectory)
+				{
+					return;
+				}
+				var effectFile:File = cfgDir.resolvePath(Constants.EFFECT_CFG_FILE);
+				if(!effectFile.exists && EditorSetting.instance.setting.directory.effectDirectory)
+				{
+					//加载特效资源目录所有文件夹构建基础配置文件
+					var effAssetDir:File = new File(EditorSetting.instance.setting.directory.effectDirectory);
+					if(effAssetDir.exists)
+					{
+						var subDirs:Array = effAssetDir.getDirectoryListing();
+						var cfg:ConfigEffect = null;
+						for each(var dir:File in subDirs)
+						{
+							cfg = new ConfigEffect();
+							cfg.id = cfg.name = dir.name;
+							effects.push(cfg);
+						}
+						
+						json = JSON.stringify(effects);
+						data = new ByteArray();
+						data.writeUTFBytes(json);
+						FileSystemTool.writeFile(effectFile.nativePath,data);
+					}
+				}
+				else
+				{
+					data = FileSystemTool.readFile(effectFile.nativePath);
+					if(data)
+					{
+						json = data.readUTFBytes(data.length);
+						var jsonArr:Array = JSON.parse(json) as Array;
+						for each(var obj:Object in jsonArr)
+						{
+							effects.push(ConfigEffect.decode(obj));
+						}
+					}
+				}
+			}
+		}
+		
 		/**
 		 * 原子配置数据
 		 **/
 		private function initAtom():void
 		{
-			//var cfgDir:File = new File(EditorSetting.instance.setting.directory.cfgDirectory);
-			var cfgDir:File = new File("D:\\Github\\WarGame\\Config");
+			var cfgDir:File = new File(EditorSetting.instance.setting.directory.cfgDirectory);
 			if(cfgDir.exists)
 			{
 				var data:ByteArray = null;
@@ -157,6 +210,21 @@ package editor.cfg
 				}
 			}
 			return null;
+		}
+		
+		public function saveAvatar():Boolean
+		{
+			var cfgDir:File = new File(EditorSetting.instance.setting.directory.cfgDirectory);
+			if(cfgDir.exists)
+			{
+				var avatarFile:File = cfgDir.resolvePath(Constants.AVATAR_CFG_FILE);
+				var json:String = JSON.stringify(avatars);
+				var data:ByteArray = new ByteArray();
+				data.writeUTFBytes(json);
+				FileSystemTool.writeFile(avatarFile.nativePath,data);
+				return true;
+			}
+			return false;
 		}
 	}
 }

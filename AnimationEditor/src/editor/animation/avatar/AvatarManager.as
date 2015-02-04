@@ -6,8 +6,8 @@ package editor.animation.avatar
 	import flash.utils.Dictionary;
 	import flash.utils.getTimer;
 	
-	import lib.avatarkit.IAvatar;
-	import lib.avatarkit.cfg.ConfigAvatar;
+	import lib.animation.avatar.IAvatar;
+	import lib.animation.avatar.cfg.ConfigAvatar;
 	
 	import mx.core.FlexGlobals;
 
@@ -26,10 +26,10 @@ package editor.animation.avatar
 		private var configDict:Dictionary = null;
 		private var isInit:Boolean = false;
 		private var lastAdvance:int = 0;
-		protected var avatars:Vector.<IAvatar> = null;
+		protected var avatars:Vector.<AvatarNav> = null;
 		public function AvatarManager()
 		{
-			avatars = new Vector.<IAvatar>();
+			avatars = new Vector.<AvatarNav>();
 			lastAdvance = getTimer();
 			configDict = new Dictionary();
 			
@@ -64,7 +64,7 @@ package editor.animation.avatar
 			lastAdvance = now;
 		}
 		
-		public function addAvatar(avatar:IAvatar):void
+		public function addAvatar(avatar:AvatarNav):void
 		{
 			if(avatars.indexOf(avatar) < 0)
 			{
@@ -72,7 +72,7 @@ package editor.animation.avatar
 			}
 		}
 		
-		public function removeAvatar(avatar:IAvatar):void
+		public function removeAvatar(avatar:AvatarNav):void
 		{
 			if(avatars.indexOf(avatar) >= 0)
 			{
@@ -83,7 +83,7 @@ package editor.animation.avatar
 		/**
 		 * 通过ID查找avatar
 		 **/
-		public function createtAvatarById(id:String):IAvatar
+		public function createtAvatarById(id:String):AvatarNav
 		{
 			if(id in configDict)
 			{

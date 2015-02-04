@@ -14,8 +14,8 @@
 		<![CDATA[
 			import editor.extension.ExEvent;
 			
-			import lib.avatarkit.cfg.ConfigAvatar;
-			import lib.avatarkit.cfg.ConfigAvatarAction;
+			import lib.animation.avatar.cfg.ConfigAvatar;
+			import lib.animation.avatar.cfg.ConfigAvatarAction;
 			
 			import mx.collections.ArrayCollection;
 			import mx.events.FlexEvent;

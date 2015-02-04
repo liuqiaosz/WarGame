@@ -21,6 +21,7 @@ package editor.utility
 			{label: "特效",value:1},
 			{label: "音效",value:2},
 			{label: "事件",value:3},
+			{label: "延时",value:4},
 		]);
 		
 		public static const COMBOBOX_EFFECT_POS:ArrayCollection = new ArrayCollection([

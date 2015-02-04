@@ -6,11 +6,11 @@ package editor.animation.avatar
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	
-	import lib.avatarkit.IAvatar;
-	import lib.avatarkit.cfg.ConfigAvatar;
-	import lib.avatarkit.cfg.ConfigAvatarAction;
+	import lib.animation.avatar.IAvatar;
+	import lib.animation.avatar.cfg.ConfigAvatar;
+	import lib.animation.avatar.cfg.ConfigAvatarAction;
 
-	public class AvatarNav extends Sprite implements IAvatar
+	public class AvatarNav extends Sprite
 	{
 		protected var frames:Vector.<Bitmap> = null;
 		private var config:ConfigAvatar = null;
@@ -55,7 +55,7 @@ package editor.animation.avatar
 			
 			var point:Shape = new Shape();
 			point.graphics.beginFill(0xff0000);
-			point.graphics.drawCircle(0,0,5);
+			point.graphics.drawCircle(0,0,2);
 			point.graphics.endFill();
 			addChild(point);
 		}

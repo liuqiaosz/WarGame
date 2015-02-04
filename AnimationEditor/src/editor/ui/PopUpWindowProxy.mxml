@@ -10,9 +10,17 @@
 			import mx.events.FlexEvent;
 			import mx.managers.PopUpManager;
 			
-			public static function popup(windowClass:Class,modal:Boolean = true):IFlexDisplayObject
+			public static function popup(windowClass:Object,modal:Boolean = true):IFlexDisplayObject
 			{
-				var window:IFlexDisplayObject = new windowClass();
+				var window:IFlexDisplayObject = null;
+				if(windowClass is Class)
+				{
+					window = new windowClass();
+				}
+				else
+				{
+					window = windowClass as IFlexDisplayObject;
+				}
 				PopUpManager.addPopUp(window,FlexGlobals.topLevelApplication as DisplayObject,modal);
 				PopUpManager.bringToFront(window);
 				PopUpManager.centerPopUp(window);

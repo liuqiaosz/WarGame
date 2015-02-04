@@ -22,6 +22,10 @@
 			{
 				node = value as AvatarTreeNode;
 			}
+			override public function get content():Object
+			{
+				return node;
+			}
 			
 			override protected function onCreated(event:FlexEvent):void
 			{
@@ -34,6 +38,8 @@
 					container.addChild(avatar);
 				}
 			}
+			
+			
 		]]>
 	</fx:Script>
 	<s:Scroller width="100%" height="100%">

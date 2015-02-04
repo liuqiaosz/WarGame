@@ -1,19 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <flexLibProperties includeAllClasses="true" useMultiPlatformConfig="true" version="3">
   <includeClasses>
-    <classEntry path="lib.avatarkit.IAvatar"/>
-    <classEntry path="lib.avatarkit.Avatar"/>
-    <classEntry path="lib.avatarkit.cfg.ConfigAvatar"/>
-    <classEntry path="lib.avatarkit.AvatarAssetManager"/>
-    <classEntry path="lib.avatarkit.AvatarManager"/>
-    <classEntry path="lib.avatarkit.cfg.ConfigAvatarAction"/>
-    <classEntry path="lib.avatarkit.cfg.ConfigActionTrigger"/>
-    <classEntry path="lib.avatarkit.AvatarEnum"/>
-    <classEntry path="lib.avatarkit.cfg.atom.ConfigUnitLevel"/>
-    <classEntry path="lib.avatarkit.cfg.atom.ConfigSkillLevel"/>
-    <classEntry path="lib.avatarkit.cfg.atom.ConfigConstants"/>
-    <classEntry path="lib.avatarkit.cfg.atom.ConfigSkill"/>
-    <classEntry path="lib.avatarkit.cfg.atom.ConfigUnit"/>
+    <classEntry path="lib.animation.avatar.IAvatar"/>
+    <classEntry path="lib.animation.avatar.Avatar"/>
+    <classEntry path="lib.animation.avatar.cfg.ConfigAvatar"/>
+    <classEntry path="lib.animation.avatar.cfg.ConfigAvatarAction"/>
+    <classEntry path="lib.animation.avatar.cfg.ConfigActionTrigger"/>
+    <classEntry path="lib.animation.avatar.AvatarEnum"/>
+    <classEntry path="lib.animation.avatar.cfg.atom.ConfigUnitLevel"/>
+    <classEntry path="lib.animation.avatar.cfg.atom.ConfigSkillLevel"/>
+    <classEntry path="lib.animation.avatar.cfg.atom.ConfigConstants"/>
+    <classEntry path="lib.animation.avatar.cfg.atom.ConfigSkill"/>
+    <classEntry path="lib.animation.avatar.cfg.atom.ConfigUnit"/>
+    <classEntry path="lib.animation.effect.cfg.ConfigEffect"/>
+    <classEntry path="lib.animation.core.IAnimation"/>
+    <classEntry path="lib.animation.core.Animation"/>
+    <classEntry path="lib.animation.core.AnimationManager"/>
+    <classEntry path="lib.animation.core.AnimAssetManager"/>
+    <classEntry path="lib.animation.effect.Effect"/>
+    <classEntry path="lib.animation.effect.IEffect"/>
+    <classEntry path="lib.animation.effect.EffectManager"/>
+    <classEntry path="lib.animation.avatar.AvatarManager"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

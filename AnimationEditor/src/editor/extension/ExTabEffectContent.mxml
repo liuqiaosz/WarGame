@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension:ExTabContent xmlns:fx="http://ns.adobe.com/mxml/2009" 
+						xmlns:s="library://ns.adobe.com/flex/spark" 
+						xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:extension="editor.extension.*" width="100%" height="100%">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import editor.animation.effect.EffectNative;
+			import editor.asset.AvatarAssetManager;
+			
+			import lib.animation.effect.cfg.ConfigEffect;
+			
+			import mx.events.FlexEvent;
+			
+			private var node:ConfigEffect = null;
+			private var effect:EffectNative = null;
+			
+			override public function set content(value:Object):void
+			{
+				node = value as ConfigEffect;
+			}
+			override public function get content():Object
+			{
+				return node;
+			}
+			
+			override protected function onCreated(event:FlexEvent):void
+			{
+				if(null != node)
+				{
+					//avatar = AvatarManager.instance.createtAvatarById(node.atom.id) as AvatarNav;
+					effect = new EffectNative(node,AvatarAssetManager.instance.getAssetById(node.id));
+					//effect = new AvatarNav(node.avatar,AvatarAssetManager.instance.getAssetById(node.atom.id));
+					effect.x = container.width >> 1;
+					effect.y = container.height >> 1;
+					container.addChild(effect);
+				}
+			}
+			
+			
+		]]>
+	</fx:Script>
+	<s:Scroller width="100%" height="100%">
+		<s:Group width="100%" height="100%" >
+			<extension:ExSpriteContainer width="100%" height="100%" id="container"/>
+		</s:Group>
+	</s:Scroller>
+</extension:ExTabContent>

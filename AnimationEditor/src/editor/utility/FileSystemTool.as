@@ -123,13 +123,14 @@ package editor.utility
 		public static function writeFile(nav:String,data:ByteArray):void
 		{
 			var file:File = new File(nav);
-			if(file.exists && !file.isDirectory)
+			if(file.exists && file.isDirectory)
 			{
-				var writer:FileStream = new FileStream();
-				writer.open(file,FileMode.WRITE);
-				writer.writeBytes(data);
-				writer.close();
+				return;
 			}
+			var writer:FileStream = new FileStream();
+			writer.open(file,FileMode.WRITE);
+			writer.writeBytes(data);
+			writer.close();
 		}
 		
 		public static function fileExists(directory:String):Boolean

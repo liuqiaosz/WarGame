@@ -453,23 +453,40 @@ package flexlib.controls {
 		 * from the dataProvider (which removes it from the ViewStack).
 		 */
 		public function onCloseTabClicked(event:Event):void{
-
 			var index:int = getChildIndex(DisplayObject(event.currentTarget));
-
-			//we will dispatch a SuperTabEvent.TAB_CLOSE event. The only reason we are really doing
-			//this is to allow a developer to listen for the event and call event.preventDefault(), which
-			//will then stop the default action (remove the child)
-			var tabCloseEvent:SuperTabEvent = new SuperTabEvent(SuperTabEvent.TAB_CLOSE, index, false, true);
-			dispatchEvent(tabCloseEvent);
-
-			if(!tabCloseEvent.isDefaultPrevented()) {
-				if(dataProvider is IList){
-					dataProvider.removeItemAt(index);
-				}
-				else if(dataProvider is ViewStack){
-					dataProvider.removeChildAt(index);
+			if(onClosePrepared(index))
+			{
+				
+				//we will dispatch a SuperTabEvent.TAB_CLOSE event. The only reason we are really doing
+				//this is to allow a developer to listen for the event and call event.preventDefault(), which
+				//will then stop the default action (remove the child)
+				var tabCloseEvent:SuperTabEvent = new SuperTabEvent(SuperTabEvent.TAB_CLOSE, index, false, true);
+				dispatchEvent(tabCloseEvent);
+	
+				if(!tabCloseEvent.isDefaultPrevented()) {
+					if(dataProvider is IList){
+						dataProvider.removeItemAt(index);
+					}
+					else if(dataProvider is ViewStack){
+						dataProvider.removeChildAt(index);
+					}
 				}
 			}
+		}
+		
+		protected function onClosePrepared(index:int):Boolean
+		{
+			if(null != _func)
+			{
+				return _func(index);
+			}
+			return true;	
+		}
+		
+		private var _func:Function = null;
+		public function set closePrepared(value:Function):void
+		{
+			_func = value;
 		}
 
 		/**

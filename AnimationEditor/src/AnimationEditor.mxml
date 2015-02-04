@@ -41,11 +41,14 @@
 			import editor.ui.LoggerPanel;
 			import editor.ui.PopUpWindowProxy;
 			import editor.utility.AvatarConfigManager;
+			import editor.utility.KeyboardManager;
 			import editor.vo.AvatarTreeNode;
+			import editor.vo.EffectTreeNode;
 			
-			import lib.avatarkit.cfg.ConfigAvatar;
-			import lib.avatarkit.cfg.atom.ConfigSkill;
-			import lib.avatarkit.cfg.atom.ConfigUnit;
+			import lib.animation.avatar.cfg.ConfigAvatar;
+			import lib.animation.avatar.cfg.atom.ConfigSkill;
+			import lib.animation.avatar.cfg.atom.ConfigUnit;
+			import lib.animation.effect.cfg.ConfigEffect;
 			
 			import mx.collections.ArrayCollection;
 			import mx.controls.Alert;
@@ -116,41 +119,7 @@
 				EditorSetting.instance;
 				onSettingUpdate();
 				
-				stage.addEventListener(KeyboardEvent.KEY_DOWN,onKeyPressed);
-				
-				Logger.instance.onAppend(function(msg:String):void{
-					if(logPanel)
-					{
-						logPanel.appendLog(msg);
-					}
-				});
-			}
-			
-			private var logPanel:LoggerPanel = null;
-			private function onKeyPressed(event:KeyboardEvent):void
-			{
-				if(event.keyCode == Keyboard.F1)
-				{
-					if(!logPanel)
-					{
-						logPanel = new LoggerPanel();
-						
-						PopUpManager.addPopUp(logPanel,FlexGlobals.topLevelApplication as DisplayObject,false);
-					}
-					else
-					{
-						if(logPanel.visible)
-						{
-							PopUpManager.removePopUp(logPanel);
-							logPanel.visible = false;
-						}
-						else
-						{
-							logPanel.visible = true;
-							PopUpManager.addPopUp(logPanel,FlexGlobals.topLevelApplication as DisplayObject,false);
-						}
-					}
-				}
+				KeyboardManager.instance;
 			}
 			
 			/**
@@ -184,9 +153,18 @@
 					//unitConfigs.addItem(unit);
 				}
 			}
+			
+			private var effectConfigs:ArrayCollection = null;
 			private function initEffectTree():void
 			{
-				
+				effectConfigs = new ArrayCollection();
+				var node:EffectTreeNode = null;
+				for each(var cfg:ConfigEffect in ConfigManager.instance.effects)
+				{
+					node = new EffectTreeNode();
+					node.config = cfg;
+					avatarConfigs.addItem(node);
+				}
 			}
 			
 
@@ -204,8 +182,7 @@
 			protected function onAvatarTreeItemClick(event:ListEvent):void
 			{
 				var avatar:AvatarTreeNode = avatarConfigs.getItemAt(event.rowIndex) as AvatarTreeNode;
-				avatarWorkspace.appendToWorkspace(avatar);
-				
+				animWorkspace.appendToWorkspace(avatar);
 			}
 			
 			protected function onSkillTreeItemClick(event:ListEvent):void
@@ -233,11 +210,11 @@
 		-->
 		
 		<s:NavigatorContent width="100%" height="100%" label="特效">
-			<mx:Tree width="100%" height="100%" id="effectFileTree" />
+			<extension:ExTree width="100%" height="100%" id="effectFileTree" labelField="name" dataProvider="{avatarConfigs}" />
 		</s:NavigatorContent>
 		
 	</mx:Accordion>
-	<ui:AvatarWorkspace x="218" y="28" width="973" height="762" id="avatarWorkspace">
-	</ui:AvatarWorkspace>
+	<ui:AnimationWorkspace x="218" y="28" width="973" height="762" id="animWorkspace">
+	</ui:AnimationWorkspace>
 	
 </s:WindowedApplication>

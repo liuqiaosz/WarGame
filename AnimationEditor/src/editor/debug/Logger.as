@@ -1,5 +1,7 @@
 package editor.debug
 {
+	import editor.ui.LoggerPanel;
+
 	public class Logger
 	{
 		private static var _instance:Logger = null;
@@ -43,17 +45,24 @@ package editor.debug
 		
 		private function trigger(value:String):void
 		{
-			trace(value);
-			if(null != _callback)
+			if(logPanel)
 			{
-				_callback(value);
+				logPanel.appendLog(value);
 			}
 		}
 		
-		private var _callback:Function = null;
-		public function onAppend(callback:Function):void
+		private var logPanel:LoggerPanel = null;
+		public function showPanel():void
 		{
-			_callback = callback;
+			if(!logPanel)
+			{
+				logPanel = new LoggerPanel();
+				popup(logPanel,false);
+			}
+		}
+		public function hidePanel():void
+		{
+			
 		}
 	}
 }

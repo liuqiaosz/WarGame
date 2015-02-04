@@ -8,8 +8,8 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import lib.avatarkit.cfg.ConfigActionTrigger;
-			import lib.avatarkit.cfg.ConfigAvatarAction;
+			import lib.animation.avatar.cfg.ConfigActionTrigger;
+			import lib.animation.avatar.cfg.ConfigAvatarAction;
 			
 			import mx.collections.ArrayCollection;
 			
