@@ -15,6 +15,7 @@ package editor.extension
 		
 		public static const UI_CHANGE:String = "onChange";
 		
+		public static const DATA_UPDATE:String = "onDataUpdate";
 		public var params:Object = null;
 		public function ExEvent(type:String,bubbles:Boolean = true)
 		{

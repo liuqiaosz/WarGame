@@ -6,8 +6,18 @@ package editor.vo
 	{
 		public var config:ConfigEffect = null;
 		
-		public function EffectTreeNode()
+		public function EffectTreeNode(value:ConfigEffect)
 		{
+			config = value;
+		}
+		
+		public function get name():String
+		{
+			if(config)
+			{
+				return config.name;
+			}
+			return "";
 		}
 	}
 }

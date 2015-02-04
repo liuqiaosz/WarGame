@@ -36,6 +36,7 @@
 					//effect = new AvatarNav(node.avatar,AvatarAssetManager.instance.getAssetById(node.atom.id));
 					effect.x = container.width >> 1;
 					effect.y = container.height >> 1;
+					effect.play();
 					container.addChild(effect);
 				}
 			}

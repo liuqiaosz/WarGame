@@ -18,7 +18,14 @@ package lib.animation.effect.cfg
 		
 		public static function decode(obj:Object):ConfigEffect
 		{
-			return null;
+			var cfg:ConfigEffect = new ConfigEffect();
+			cfg.id = obj.id;
+			cfg.name = obj.name;
+			cfg.duration = int(obj.duration);
+			cfg.scaleRatio = Number(obj.scaleRatio);
+			cfg.loopCount = int(obj.loopCount);
+			cfg.loopOffset = int(obj.loopOffset);
+			return cfg;
 		}
 	}
 }

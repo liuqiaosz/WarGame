@@ -13,8 +13,8 @@ package editor.animation.effect
 		
 		public function EffectNative(cfg:ConfigEffect,imgs:Vector.<Bitmap>)
 		{
-			this.config = config;
-			this.frames = frames;
+			this.config = cfg;
+			this.frames = imgs;
 			
 			content = new Bitmap();
 			addChild(content);
@@ -56,24 +56,8 @@ package editor.animation.effect
 			return _running;
 		}
 		
-//		public function EffectNative(config:ConfigEffect,frames:Vector.<Bitmap> = null):void
-//		{
-//			this.config = config;
-//			this.frames = frames;
-//			
-//			content = new Bitmap();
-//			addChild(content);
-//			gotoAndStop(0);
-//			
-//			var point:Shape = new Shape();
-//			point.graphics.beginFill(0xff0000);
-//			point.graphics.drawCircle(0,0,2);
-//			point.graphics.endFill();
-//			addChild(point);
-//		}
-		
 		private var playCompleteFunc:Function = null;
-		public function play(name:String,loop:int = 0,complete:Function = null):void
+		public function play(loop:int = 0,complete:Function = null):void
 		{
 			lastChange = 0;
 			playedCount = 0;
@@ -138,6 +122,13 @@ package editor.animation.effect
 						}
 					}
 				}
+			}
+		}
+		public function changeDuration(value:int):void
+		{
+			if(config)
+			{
+				config.duration = value;
 			}
 		}
 	}

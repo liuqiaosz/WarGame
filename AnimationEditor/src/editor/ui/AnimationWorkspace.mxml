@@ -121,6 +121,7 @@
 					statePanel.visible = true;
 					isEffect = false;
 					isAvatar = true;
+					
 				}
 				else if(currentConfig is EffectTreeNode)
 				{
@@ -130,6 +131,7 @@
 					labelFrameCount.text = "Frames:" + AvatarAssetManager.instance.getAssetById(effect.config.id).length;
 					isEffect = true;
 					isAvatar = false;
+					effectPanel.config = effect.config;
 				}
 			}
 			

@@ -154,6 +154,7 @@
 				}
 			}
 			
+			[Bindable]
 			private var effectConfigs:ArrayCollection = null;
 			private function initEffectTree():void
 			{
@@ -161,9 +162,9 @@
 				var node:EffectTreeNode = null;
 				for each(var cfg:ConfigEffect in ConfigManager.instance.effects)
 				{
-					node = new EffectTreeNode();
+					node = new EffectTreeNode(cfg);
 					node.config = cfg;
-					avatarConfigs.addItem(node);
+					effectConfigs.addItem(node);
 				}
 			}
 			
@@ -190,6 +191,12 @@
 				
 			}
 			
+			protected function onEffectTreeItemClick(event:ListEvent):void
+			{
+				var effect:EffectTreeNode = effectConfigs.getItemAt(event.rowIndex) as EffectTreeNode;
+				animWorkspace.appendToWorkspace(effect);
+			}
+			
 		]]>
 	</fx:Script>
 	
@@ -198,19 +205,17 @@
 		<s:NavigatorContent width="100%" height="100%" label="角色配置">
 			<extension:ExTree width="100%" height="100%" id="avatarCfgTree" labelField="name" dataProvider="{avatarConfigs}" itemClick="onAvatarTreeItemClick(event)" />
 		</s:NavigatorContent>
-		
-		
-		<s:NavigatorContent width="100%" height="100%" label="技能配置">
-			<extension:ExTree width="100%" height="100%" id="skillCfgTree" labelField="name" dataProvider="{skillConfigs}" itemClick="onSkillTreeItemClick(event)" />
-		</s:NavigatorContent>
 		<!--
 		<s:NavigatorContent width="100%" height="100%" label="角色动画">
 			<extension:ExTree width="100%" height="100%" id="avatarFileTree" labelField="fileName" onProgress="onTreeBuildProgress(event)" onTreeDirectorySelect="onAvatarDirectorySelect(event)" />
 		</s:NavigatorContent>
 		-->
-		
 		<s:NavigatorContent width="100%" height="100%" label="特效">
-			<extension:ExTree width="100%" height="100%" id="effectFileTree" labelField="name" dataProvider="{avatarConfigs}" />
+			<extension:ExTree width="100%" height="100%" id="effectFileTree" labelField="name" dataProvider="{effectConfigs}" itemClick="onEffectTreeItemClick(event)" />
+		</s:NavigatorContent>
+		
+		<s:NavigatorContent width="100%" height="100%" label="技能配置">
+			<extension:ExTree width="100%" height="100%" id="skillCfgTree" labelField="name" dataProvider="{skillConfigs}" itemClick="onSkillTreeItemClick(event)" />
 		</s:NavigatorContent>
 		
 	</mx:Accordion>
