@@ -13,7 +13,7 @@ package framework.module.scene
 		function onShow():void;					//暂停场景
 		function onHide():void;					//恢复场景
 		function get id():String;				//场景ID
-		function changeView(view:String,offset:Point = null):void;	//切换视图
+//		function changeView(view:String,offset:Point = null):void;	//切换视图
 		function scale(ratio:Number):void;
 		function findLayerById(id:String):Sprite;
 		function addChildToLayer(layerName:String,child:DisplayObject,offset:Point = null,convert:Boolean = false):void;

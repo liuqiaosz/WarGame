@@ -10,7 +10,7 @@
 		<![CDATA[
 			import editor.animation.avatar.AvatarManager;
 			import editor.animation.avatar.AvatarNav;
-			import editor.asset.AvatarAssetManager;
+			import editor.asset.ResourceManager;
 			import editor.vo.AvatarTreeNode;
 			
 			import mx.events.FlexEvent;
@@ -32,7 +32,7 @@
 				if(null != node)
 				{
 					//avatar = AvatarManager.instance.createtAvatarById(node.atom.id) as AvatarNav;
-					avatar = new AvatarNav(node.avatar,AvatarAssetManager.instance.getAssetById(node.atom.id));
+					avatar = new AvatarNav(node.avatar,ResourceManager.instance.getAssetById(node.atom.id));
 					avatar.x = container.width >> 1;
 					avatar.y = container.height >> 1;
 					container.addChild(avatar);

@@ -6,9 +6,15 @@
 		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
 	</fx:Declarations>
 	
+	<fx:Metadata>
+		[Event(name="onChange", type="editor.extension.ExEvent")]
+	</fx:Metadata>
+	
 	<fx:Script>
 		<![CDATA[
 			import mx.collections.ArrayCollection;
+			
+			import spark.events.IndexChangeEvent;
 			
 			[Bindable]
 			private var _labelWidth:int = LABEL_MIN_WIDTH;
@@ -49,11 +55,19 @@
 			{
 				return _dataProvider.getItemAt(combobox.selectedIndex);
 			}
+			
+			protected function onComboboxChange(event:IndexChangeEvent):void
+			{
+				var notify:ExEvent = new ExEvent(ExEvent.UI_CHANGE);
+				notify.params = _dataProvider.getItemAt(event.newIndex);
+				dispatchEvent(notify);
+			}
+			
 		]]>
 	</fx:Script>
 	
 	<s:Label width="{_labelWidth}" height="22" minWidth="60" text="{_labelText}" textAlign="right"
 			 verticalAlign="middle"/>
 	
-	<s:ComboBox id="combobox" width="150" dataProvider="{_dataProvider}" labelField="{_labelField}" selectedIndex="0"  />
+	<s:ComboBox id="combobox" width="150" dataProvider="{_dataProvider}" labelField="{_labelField}" selectedIndex="0" change="onComboboxChange(event)" />
 </extension:ExFormItem>

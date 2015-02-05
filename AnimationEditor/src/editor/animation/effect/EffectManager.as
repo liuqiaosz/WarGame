@@ -1,6 +1,6 @@
 package editor.animation.effect
 {
-	import editor.asset.AvatarAssetManager;
+	import editor.asset.ResourceManager;
 	
 	import flash.events.Event;
 	import flash.utils.Dictionary;
@@ -88,7 +88,7 @@ package editor.animation.effect
 			if(id in configDict)
 			{
 				var cfg:ConfigEffect = configDict[id];
-				return new EffectNative(cfg,AvatarAssetManager.instance.getAssetById(id));
+				return new EffectNative(cfg,ResourceManager.instance.getAssetById(id));
 			}
 			return null;
 		}

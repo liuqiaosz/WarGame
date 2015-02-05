@@ -14,6 +14,7 @@ package editor.extension
 		public static const UI_TAB_UPDATE:String = "onTabUpdate";
 		
 		public static const UI_CHANGE:String = "onChange";
+		public static const UI_TEXT_CHANGE:String = "onTextChange";
 		
 		public static const DATA_UPDATE:String = "onDataUpdate";
 		public var params:Object = null;

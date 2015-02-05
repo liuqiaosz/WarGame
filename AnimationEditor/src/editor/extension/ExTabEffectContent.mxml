@@ -9,7 +9,7 @@
 	<fx:Script>
 		<![CDATA[
 			import editor.animation.effect.EffectNative;
-			import editor.asset.AvatarAssetManager;
+			import editor.asset.ResourceManager;
 			
 			import lib.animation.effect.cfg.ConfigEffect;
 			
@@ -32,7 +32,7 @@
 				if(null != node)
 				{
 					//avatar = AvatarManager.instance.createtAvatarById(node.atom.id) as AvatarNav;
-					effect = new EffectNative(node,AvatarAssetManager.instance.getAssetById(node.id));
+					effect = new EffectNative(node,ResourceManager.instance.getAssetById(node.id));
 					//effect = new AvatarNav(node.avatar,AvatarAssetManager.instance.getAssetById(node.atom.id));
 					effect.x = container.width >> 1;
 					effect.y = container.height >> 1;

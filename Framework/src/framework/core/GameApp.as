@@ -15,7 +15,7 @@ package framework.core
 //	import guoyou.framework.module.anim.AnimationManager;
 	import framework.module.asset.AssetsManager;
 	import framework.module.cfg.ConfigManager;
-	import framework.module.msg.MessageConstants;
+	import framework.module.notification.NotificationIds;
 	import framework.module.scene.SceneManager;
 	import framework.module.sound.SoundManager;
 	
@@ -48,7 +48,7 @@ package framework.core
 //				IEventDispatcher(loaderInfo["uncaughtErrorEvents"]).addEventListener("uncaughtError", uncaughtErrorHandler);
 //			}
 			
-			addFrameworkListener(MessageConstants.MSG_FMK_START_COMPLETE,onStartComplete);
+			addFrameworkListener(NotificationIds.MSG_FMK_START_COMPLETE,onStartComplete);
 
 			if(GameContext.instance.appArgs)
 			{
@@ -93,7 +93,7 @@ package framework.core
 					//预加载资源
 					AssetsManager.instance.addLoadQueue(GameContext.instance.appArgs.preload as Array,
 						function():void{
-							addFrameworkListener(MessageConstants.MSG_FMK_FRAME_UPDATE,onFrameUpdate);
+							addFrameworkListener(NotificationIds.MSG_FMK_FRAME_UPDATE,onFrameUpdate);
 							onStageReady();
 						},
 						function(ratio:Number):void{
@@ -103,7 +103,7 @@ package framework.core
 			}
 			else
 			{
-				addFrameworkListener(MessageConstants.MSG_FMK_FRAME_UPDATE,onFrameUpdate);
+				addFrameworkListener(NotificationIds.MSG_FMK_FRAME_UPDATE,onFrameUpdate);
 				onStageReady();
 			}
 		}

@@ -7,7 +7,8 @@ package framework.module.scene.vo
 	public class ViewParam
 	{
 		public var anim:Boolean = true;
-		public var mode:Boolean = true;
+		public var modal:Boolean = true;
+		public var isPop:Boolean = false;
 		public var view:String = "";
 		public var data:Object = null;
 		public var pos:Point = null;

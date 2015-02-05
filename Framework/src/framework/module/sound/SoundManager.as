@@ -9,7 +9,7 @@ package framework.module.sound
 	
 	import framework.common.vo.SoundParam;
 	import framework.module.BaseModuleEx;
-	import framework.module.msg.MessageConstants;
+	import framework.module.notification.NotificationIds;
 
 	public class SoundManager extends BaseModuleEx
 	{
@@ -35,25 +35,25 @@ package framework.module.sound
 			soundDict = new Dictionary();
 			appDirectory = File.applicationDirectory;		//获取安装目录
 			
-			addFrameworkListener(MessageConstants.MSG_FMK_SOUND_PLAY,onPlay);				//播放
-			addFrameworkListener(MessageConstants.MSG_FMK_SOUND_PAUSE,onPause);				//暂停
-			addFrameworkListener(MessageConstants.MSG_FMK_SOUND_RESUME,onResume);			//恢复
-			addFrameworkListener(MessageConstants.MSG_FMK_SOUND_REMOVE,onRemove);			//移除
+			addFrameworkListener(NotificationIds.MSG_FMK_SOUND_PLAY,onPlay);				//播放
+			addFrameworkListener(NotificationIds.MSG_FMK_SOUND_PAUSE,onPause);				//暂停
+			addFrameworkListener(NotificationIds.MSG_FMK_SOUND_RESUME,onResume);			//恢复
+			addFrameworkListener(NotificationIds.MSG_FMK_SOUND_REMOVE,onRemove);			//移除
 //			addFrameworkListener(MessageConstants.MSG_FMK_SOUND_CHANGEVOL,onChangeVol);
-			addFrameworkListener(MessageConstants.MSG_FMK_SOUND_OFF,onSoundOff);
-			addFrameworkListener(MessageConstants.MSG_FMK_SOUND_ON,onSoundOn);
+			addFrameworkListener(NotificationIds.MSG_FMK_SOUND_OFF,onSoundOff);
+			addFrameworkListener(NotificationIds.MSG_FMK_SOUND_ON,onSoundOn);
 		}
 		
 		/**
 		 * 关闭声音
 		 **/
-		private function onSoundOff(id:String,params:Object = null):void
+		private function onSoundOff(params:Object = null):void
 		{
 			volumn = 0;
 			updateVol();
 		}
 		
-		private function onSoundOn(id:String,params:Object = null):void
+		private function onSoundOn(params:Object = null):void
 		{
 			volumn = 1;
 			updateVol();
@@ -80,7 +80,7 @@ package framework.module.sound
 //			}
 //		}
 		
-		private function onPlay(id:String,params:Object = null):void
+		private function onPlay(params:Object = null):void
 		{
 			var param:SoundParam = params as SoundParam;
 			var soundId:String = param.soundId;
@@ -159,7 +159,7 @@ package framework.module.sound
 		/**
 		 * 暂停正在播放的音乐
 		 */
-		private function onPause(id:String,params:Object = null):void
+		private function onPause(params:Object = null):void
 		{
 			var param:SoundParam = params as SoundParam;
 			if(param.soundId in soundDict)
@@ -173,7 +173,7 @@ package framework.module.sound
 		/**
 		 * 恢复音乐播放
 		 */
-		private function onResume(id:String,params:Object = null):void
+		private function onResume(params:Object = null):void
 		{
 			var param:SoundParam = params as SoundParam;
 			if(param.soundId in soundDict)
@@ -186,7 +186,7 @@ package framework.module.sound
 		/**
 		 * 移除音乐
 		 */
-		private function onRemove(id:String,params:Object = null):void
+		private function onRemove(params:Object = null):void
 		{
 			var param:SoundParam = params as SoundParam;
 			if(param.soundId in soundDict)

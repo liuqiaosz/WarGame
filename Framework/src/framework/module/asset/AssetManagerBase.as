@@ -17,7 +17,6 @@ package framework.module.asset
 	import flash.utils.Dictionary;
 	
 	import framework.common.CommonTools;
-	import framework.common.objectPool.ObjectPool;
 	import framework.core.GameContext;
 	import framework.module.BaseModule;
 	
@@ -377,12 +376,10 @@ package framework.module.asset
 	}
 }
 
-import framework.common.objectPool.IReuseable;
-
 /**
  * 批次任务数据
  */
-class TaskInfo implements IReuseable
+class TaskInfo
 {
 //	public static const TYPE_STARLING:int = 1;
 //	public static const TYPE_RAW:int = 2;

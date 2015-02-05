@@ -47,18 +47,37 @@
 				if(_cfg)
 				{
 					_cfg.duration = int(event.params);
+					modifyAndNotify();
 				}
 			}
 			
+			/**
+			 * 名称变更
+			 **/
+			protected function onNameChange(event:ExEvent):void
+			{
+				if(_cfg)
+				{
+					_cfg.name = event.params as String;
+					modifyAndNotify();	
+				}
+			}
+			
+			private function modifyAndNotify():void
+			{
+				var notify:ExEvent = new ExEvent(ExEvent.DATA_UPDATE);
+				notify.params = _cfg;
+				dispatchEvent(notify);
+			}
 		]]>
 	</fx:Script>
 	
 	<s:VGroup width="100%" height="100%">
 		
-		<extension:ExFormTextItem labelWidth="60" labelText="名称" textValue="{_name}" />
+		<extension:ExFormTextItem labelWidth="60" labelText="名称" textValue="{_name}" onTextChange="onNameChange(event)" />
 		<extension:ExFormSliderItem id="duration" width="100%" labelWidth="60" labelText="帧率"  sliderMax="2000" sliderMin="10" sliderStep="10" sliderValue="{_duration}" onChange="onChangeDuration(event)" />
 		<extension:ExFormSliderItem id="scaleRatio" width="100%" labelWidth="60" labelText="缩放"  sliderMax="10" sliderMin="1" sliderStep="0.1" sliderValue="{_scaleRatio}"/>
-		<extension:ExFormTextItem labelWidth="60" labelText="重复次数" textValue="{String(_loopCount)}" />
+		<extension:ExFormTextItem labelWidth="60" labelText="重复次数" textValue="{String(_loopCount)}" restrict="0-9" />
 		<extension:ExFormTextItem labelWidth="60" labelText="重复起始帧" textValue="{String(_loopOffset)}" />
 		
 		<s:HGroup>

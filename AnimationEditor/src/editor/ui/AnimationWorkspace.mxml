@@ -9,7 +9,7 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import editor.asset.AvatarAssetManager;
+			import editor.asset.ResourceManager;
 			import editor.cfg.ConfigManager;
 			import editor.extension.ExEvent;
 			import editor.extension.ExTabAvatarContent;
@@ -55,11 +55,11 @@
 					var currentAvatar:AvatarTreeNode = currentConfig as AvatarTreeNode;
 					debug("select avatar:" + currentAvatar.atom.id);
 					directory = EditorSetting.instance.setting.directory.avatarDirectory + "/" + currentAvatar.atom.id;
-					if(!AvatarAssetManager.instance.hasAsset(currentAvatar.atom.id))
+					if(!ResourceManager.instance.hasAsset(currentAvatar.atom.id))
 					{
 						if(FileSystemTool.fileExists(directory))
 						{
-							AvatarAssetManager.instance.loadAssetDirectory(currentAvatar.atom.id,
+							ResourceManager.instance.loadAssetDirectory(currentAvatar.atom.id,
 								EditorSetting.instance.setting.directory.avatarDirectory + "/" + currentAvatar.atom.id,
 								function(imgs:Vector.<Bitmap>):void{
 									onLoaded();
@@ -85,11 +85,11 @@
 					var currentEffect:EffectTreeNode = currentConfig as EffectTreeNode;
 					debug("select effect:" + currentEffect.config.id);
 					directory = EditorSetting.instance.setting.directory.effectDirectory + "/" + currentEffect.config.id;
-					if(!AvatarAssetManager.instance.hasAsset(currentEffect.config.id))
+					if(!ResourceManager.instance.hasAsset(currentEffect.config.id))
 					{
 						if(FileSystemTool.fileExists(directory))
 						{
-							AvatarAssetManager.instance.loadAssetDirectory(currentEffect.config.id,
+							ResourceManager.instance.loadAssetDirectory(currentEffect.config.id,
 								EditorSetting.instance.setting.directory.effectDirectory + "/" + currentEffect.config.id,
 								function(imgs:Vector.<Bitmap>):void{
 									onLoaded();
@@ -117,7 +117,7 @@
 					currentTab = workspace.appendTab(avatar.atom.name,avatar,ExTabAvatarContent) as ExTabAvatarContent;
 					actionPanel.actions = avatar.avatar.actions;
 					labelStateId.text = "ID:" + avatar.atom.id;
-					labelFrameCount.text = "Frames:" + AvatarAssetManager.instance.getAssetById(avatar.atom.id).length;
+					labelFrameCount.text = "Frames:" + ResourceManager.instance.getAssetById(avatar.atom.id).length;
 					statePanel.visible = true;
 					isEffect = false;
 					isAvatar = true;
@@ -128,7 +128,8 @@
 					var effect:EffectTreeNode = currentConfig as EffectTreeNode;
 					currentTab = workspace.appendTab(effect.config.name,effect.config,ExTabEffectContent);
 					labelStateId.text = "ID:" + effect.config.id;
-					labelFrameCount.text = "Frames:" + AvatarAssetManager.instance.getAssetById(effect.config.id).length;
+					labelFrameCount.text = "Frames:" + ResourceManager.instance.getAssetById(effect.config.id).length;
+					statePanel.visible = true;
 					isEffect = true;
 					isAvatar = false;
 					effectPanel.config = effect.config;
@@ -145,15 +146,30 @@
 				debug("快速保存");
 				if(currentTab && currentTab.isNeedSave)
 				{
-					//执行快速保存动作,将数据写入文件
-					if(ConfigManager.instance.saveAvatar())
+					if(currentTab.content is AvatarTreeNode)
 					{
-						showAlert("保存成功");
-						currentTab.isNeedSave = false;
+						//执行快速保存动作,将数据写入文件
+						if(ConfigManager.instance.saveAvatar())
+						{
+							showAlert("保存成功");
+							currentTab.isNeedSave = false;
+						}
+						else
+						{
+							showAlert("保存失败");
+						}
 					}
 					else
 					{
-						showAlert("保存失败");
+						if(ConfigManager.instance.saveEffect())
+						{
+							showAlert("保存成功");
+							currentTab.isNeedSave = false;
+						}
+						else
+						{
+							showAlert("保存失败");
+						}
 					}
 				}
 			}
@@ -216,10 +232,17 @@
 					var avatar:AvatarTreeNode = currentConfig as AvatarTreeNode;
 					actionPanel.actions = avatar.avatar.actions;
 					labelStateId.text = "ID:" + avatar.atom.id;
-					labelFrameCount.text = "Frames:" + AvatarAssetManager.instance.getAssetById(avatar.atom.id).length;
+					labelFrameCount.text = "Frames:" + ResourceManager.instance.getAssetById(avatar.atom.id).length;
 				}
 			}
 			
+			protected function onDataUpdate(event:ExEvent):void
+			{
+				if(currentTab)
+				{
+					currentTab.isNeedSave = true;
+				}
+			}
 		]]>
 	</fx:Script>
 	
@@ -259,7 +282,7 @@
 			
 		</ui:ActionWorkspace>
 		
-		<ui:EffectInspector id="effectPanel" width="100%" height="300" visible="{isEffect}" includeInLayout="{isEffect}" />
+		<ui:EffectInspector id="effectPanel" width="100%" height="300" visible="{isEffect}" includeInLayout="{isEffect}" onDataUpdate="onDataUpdate(event)" />
 	</s:VGroup>
 	
 	

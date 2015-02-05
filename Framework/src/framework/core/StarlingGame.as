@@ -2,8 +2,8 @@ package framework.core
 {
 	import flash.utils.getTimer;
 	
-	import framework.module.msg.MessageConstants;
-	import framework.module.msg.MessageManager;
+	import framework.module.notification.NotificationIds;
+	import framework.module.notification.NotificationManager;
 	
 	import starling.core.Starling;
 	import starling.display.Sprite;
@@ -24,7 +24,7 @@ package framework.core
 			removeEventListener(Event.ADDED_TO_STAGE,onAdded);
 			
 			//启动成功消息发送
-			MessageManager.instance.sendMessage(MessageConstants.MESSAGE_FRAMEWORK,MessageConstants.MSG_FMK_START_COMPLETE);
+			NotificationManager.instance.sendMessage(NotificationIds.MESSAGE_FRAMEWORK,NotificationIds.MSG_FMK_START_COMPLETE);
 			addEventListener(Event.ENTER_FRAME,onEnterFrame);
 			GameContext.instance.screenStage = this;
 		}
@@ -32,8 +32,8 @@ package framework.core
 		private function onEnterFrame(event:Event):void
 		{
 			var t:Number = flash.utils.getTimer();
-			MessageManager.instance.sendMessage(MessageConstants.MESSAGE_FRAMEWORK,MessageConstants.MSG_FMK_FRAME_UPDATE,t);
-			MessageManager.instance.update(t);
+			NotificationManager.instance.sendMessage(NotificationIds.MESSAGE_FRAMEWORK,NotificationIds.MSG_FMK_FRAME_UPDATE,t);
+			NotificationManager.instance.update(t);
 		}
 	}
 }

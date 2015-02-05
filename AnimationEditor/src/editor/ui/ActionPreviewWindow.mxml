@@ -8,9 +8,19 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import editor.asset.AvatarAssetManager;
+			import editor.anim.avatar.Avatar;
+			import editor.anim.core.Animation;
+			import editor.anim.eff.Effect;
+			import editor.asset.ResourceManager;
+			import editor.extension.ExEvent;
+			import editor.setting.EditorSetting;
+			import editor.utility.FileSystemTool;
 			
 			import flash.utils.getTimer;
+			
+			import lib.animation.AnimEnum;
+			import lib.animation.avatar.cfg.ConfigActionTrigger;
+			import lib.animation.effect.cfg.ConfigEffect;
 			
 			import mx.core.FlexGlobals;
 			
@@ -30,12 +40,27 @@
 			private var _end:int = 0;
 			[Bindable]
 			private var _duration:int = 0;
+			
+			private var effFrames:Vector.<Bitmap> = null;
+			private var _eff:ConfigEffect = null;
+			private var hasTrigger:Boolean = false;
+			private var _trigger:ConfigActionTrigger = null;
+			
+			private var avatar:Animation = null;
+			private var effect:Animation = null;
+
 			/**
 			 * 预览动作
 			 **/
-			public function playPreview(id:String,start:int,end:int,duration:int):void
+//			public function playPreview(id:String,start:int,end:int,duration:int,trigger:ConfigActionTrigger = null):void
+			public function playPreview(id:String,start:int,end:int,duration:int,trigger:ConfigActionTrigger = null):void
 			{
-				frames = AvatarAssetManager.instance.getAssetById(id);
+				var total:Vector.<Bitmap> = ResourceManager.instance.getAssetById(id);
+				frames = new Vector.<Bitmap>();
+				for(var idx:int = 0; idx<(end - start); idx++)
+				{
+					frames.push(total[start + idx]);
+				}
 				_duration = duration;
 				_totalFrame = end - start;
 				_start = start;
@@ -47,10 +72,48 @@
 					return;
 				}
 				
-				if(img)
+				if(trigger && trigger.triggerType == AnimEnum.Trigger_Effect && trigger.effectPosition == 1)
 				{
-					FlexGlobals.topLevelApplication.addEventListener(Event.ENTER_FRAME,onUpdate);
-					lastUpdate = flash.utils.getTimer();
+					_trigger = trigger;
+					hasTrigger = true;
+					//特效触发器
+					if(ResourceManager.instance.hasAsset(trigger.value))
+					{
+						//有资源
+						effFrames = ResourceManager.instance.getAssetById(trigger.value);
+					}
+					else
+					{
+						var directory:String = EditorSetting.instance.setting.directory.effectDirectory + "/" + trigger.value;
+						//preload
+						if(FileSystemTool.fileExists(directory))
+						{
+							ResourceManager.instance.loadAssetDirectory(trigger.value,
+								directory,function(imgs:Vector.<Bitmap>):void{
+									effFrames = imgs;
+									playAnim();
+								});
+						}
+					}
+				}
+				else
+				{
+					playAnim();
+				}
+			}
+			
+			private function playAnim():void
+			{
+				if(container)
+				{
+					avatar = new Animation(frames);
+					avatar.play(_duration,1,onProgress);
+					container.addElement(avatar);
+					
+					avatar.x = (container.width - avatar.width) >> 1;
+					avatar.y = ((container.height) >> 1) + avatar.height;
+					//FlexGlobals.topLevelApplication.addEventListener(Event.ENTER_FRAME,onUpdate);
+					//lastUpdate = flash.utils.getTimer();
 				}
 				else
 				{
@@ -58,11 +121,12 @@
 				}
 			}
 			
+			
 			override protected function onShow():void
 			{
 				if(waitPlay)
 				{
-					FlexGlobals.topLevelApplication.addEventListener(Event.ENTER_FRAME,onUpdate);
+					//FlexGlobals.topLevelApplication.addEventListener(Event.ENTER_FRAME,onUpdate);
 					lastUpdate = flash.utils.getTimer();
 					waitPlay = false;
 				}
@@ -71,27 +135,58 @@
 			
 			override protected function onClose():void
 			{
-				FlexGlobals.topLevelApplication.removeEventListener(Event.ENTER_FRAME,onUpdate);
-				frames = null;
+				//FlexGlobals.topLevelApplication.removeEventListener(Event.ENTER_FRAME,onUpdate);
+				if(avatar)
+				{
+					avatar.stop();
+					avatar.dispose();
+					avatar = null;
+				}
+				if(effect)
+				{
+					effect.stop();
+					effect.dispose();
+					effect = null;
+				}
+				effFrames = frames = null;
+				_trigger = null;
 				super.onClose();
 			}
 			
-			private function onUpdate(event:Event):void
+			private function onProgress(current:int,total:int):void
 			{
-				var now:int = flash.utils.getTimer();
-				if(now - lastUpdate >= _duration)
+				avatar.x = (container.width - avatar.width) >> 1;
+				avatar.y = ((container.height) >> 1) + avatar.height;
+				if(hasTrigger)
 				{
-					img.source = frames[_start + currentIndex];
-					img.x = (container.width - img.width) >> 1;
-					img.y = (container.height - img.height) >> 1;
-					currentIndex++;
-					if(currentIndex >= _totalFrame)
+					//触发器
+					if(_trigger.triggerFrame == currentIndex)
 					{
-						currentIndex = 0;
+						effect = new Animation(effFrames);
+						container.addElement(effect);
+						effectResposition();
 					}
-					lastUpdate = now;
 				}
 			}
+			
+			private function effectResposition():void
+			{
+				if(_trigger.offset)
+				{
+					
+					effect.x = avatar.x + (int(_trigger.offset.substr(0,_trigger.offset.indexOf(","))));
+					effect.y = avatar.y + (int(_trigger.offset.substr(_trigger.offset.indexOf(",") + 1)));
+				}
+			}
+			
+			protected function playAgain(event:MouseEvent):void
+			{
+				if(avatar && !avatar.running)
+				{
+					avatar.play(_duration,1,onProgress);
+				}
+			}
+			
 		]]>
 	</fx:Script>
 	<s:HGroup width="100%" height="100%" paddingBottom="5" paddingLeft="5" paddingRight="5" paddingTop="5">
@@ -100,10 +195,11 @@
 			<extension:ExFormLabelItem labelText="播放速率" id="playDurtaion" labelValue="{String(_duration)}" />
 			<extension:ExFormLabelItem labelText="开始帧" id="start" labelValue="{String(_start)}"/>
 			<extension:ExFormLabelItem labelText="结束帧" id="end" labelValue="{String(_end)}" />
+			<s:Button label="重播" click="playAgain(event)" />
 		</s:VGroup>
 		
 		<s:Group width="100%" height="100%" id="container">
-			<s:Image id="img" />
+			
 		</s:Group>
 
 	</s:HGroup>

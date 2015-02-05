@@ -8,7 +8,7 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import editor.asset.AvatarAssetManager;
+			import editor.asset.ResourceManager;
 			
 			import lib.animation.avatar.cfg.ConfigAvatar;
 			import lib.animation.avatar.cfg.ConfigAvatarAction;
@@ -21,7 +21,7 @@
 			public function set avatar(value:ConfigAvatar):void
 			{
 				_avatar = value;
-				_images = AvatarAssetManager.instance.getAssetById(_avatar.id);
+				_images = ResourceManager.instance.getAssetById(_avatar.id);
 				
 				if(_images && _images.length)
 				{

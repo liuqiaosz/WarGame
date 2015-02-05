@@ -95,6 +95,11 @@
 			{
 				var num:Number = Number(labelValue.text);
 				_sliderValue = num;
+				
+				var notify:ExEvent = new ExEvent(ExEvent.UI_CHANGE);
+				notify.params = _sliderValue;
+				dispatchEvent(notify);
+				
 				_quickEditor = false;
 			}
 			

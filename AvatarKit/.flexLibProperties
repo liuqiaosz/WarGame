@@ -6,7 +6,7 @@
     <classEntry path="lib.animation.avatar.cfg.ConfigAvatar"/>
     <classEntry path="lib.animation.avatar.cfg.ConfigAvatarAction"/>
     <classEntry path="lib.animation.avatar.cfg.ConfigActionTrigger"/>
-    <classEntry path="lib.animation.avatar.AvatarEnum"/>
+    <classEntry path="lib.animation.AnimEnum"/>
     <classEntry path="lib.animation.avatar.cfg.atom.ConfigUnitLevel"/>
     <classEntry path="lib.animation.avatar.cfg.atom.ConfigSkillLevel"/>
     <classEntry path="lib.animation.avatar.cfg.atom.ConfigConstants"/>

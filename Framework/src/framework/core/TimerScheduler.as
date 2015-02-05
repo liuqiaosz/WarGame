@@ -2,9 +2,8 @@ package framework.core
 {
 	import flash.utils.Dictionary;
 	
-	import framework.common.objectPool.ObjectPool;
 	import framework.common.vo.SchedulerItem;
-	import framework.module.msg.MessageConstants;
+	import framework.module.notification.NotificationIds;
 
 	/**
 	 * 定时管理器
@@ -20,7 +19,7 @@ package framework.core
 			taskList = new Vector.<SchedulerItem>();
 			taskDict = new Dictionary();
 			cycle = new Vector.<SchedulerItem>();
-			addFrameworkListener(MessageConstants.MSG_FMK_FRAME_UPDATE,onUpdate);
+			addFrameworkListener(NotificationIds.MSG_FMK_FRAME_UPDATE,onUpdate);
 		}
 		
 		private var len:int = 0;
@@ -56,7 +55,6 @@ package framework.core
 				item = cycle.pop();
 				taskList.splice(taskList.indexOf(item),1);
 				delete taskDict[item.handler];
-				ObjectPool.returnInstance(item);
 			}
 			item = null;
 			isUpdating = false;
@@ -78,7 +76,7 @@ package framework.core
 		{
 			if(!(handler in taskDict))
 			{
-				var info:SchedulerItem = ObjectPool.getInstanceOf(SchedulerItem);
+				var info:SchedulerItem = new SchedulerItem();
 				info.delay = delay;
 				info.handler = handler;
 				info.repeat = repeatCount;
@@ -102,7 +100,6 @@ package framework.core
 					//非更新状态
 					delete taskDict[handler];
 					taskList.splice(taskList.indexOf(info),1);
-					ObjectPool.returnInstance(info);
 				}
 				else
 				{

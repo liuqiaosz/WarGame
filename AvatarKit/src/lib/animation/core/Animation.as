@@ -10,6 +10,7 @@ package lib.animation.core
 		protected var _frames:Vector.<Texture> = null;
 		protected var _running:Boolean = false;
 		protected var currentFrame:int = 0;
+		protected var totalFrame:int = 0;
 		protected var onPlayDelay:Boolean = false;
 		protected var frameLoaded:Boolean = false;
 		protected var loopCount:int = 0;
@@ -39,7 +40,7 @@ package lib.animation.core
 			}
 			else
 			{
-				AnimationManager.instance.addAnim(this);
+				AnimationManager.instance.removeAnim(this);
 			}
 		}
 		
@@ -80,7 +81,9 @@ package lib.animation.core
 				loopCount = loop;
 				lastChange = 0;
 				playedCount = 0;
+				currentFrame = 0;
 				running = true;
+				totalFrame = _frames.length;
 			}
 			else
 			{
@@ -110,16 +113,21 @@ package lib.animation.core
 					content.x = -(navTexture.width >> 1);
 					content.y = -navTexture.height;
 					currentFrame++;
+					if(null != onProgress)
+					{
+						onProgress(currentFrame,totalFrame);
+					}
 					if(currentFrame >= _frames.length)
 					{
 						playedCount++;
 						if(loopCount > 0 && loopCount == playedCount)
 						{
+							running = false;
 							if(null != onComplete)
 							{
 								//播放完毕回调
 								onComplete(this);
-								running = false;
+								
 								navTexture = null;
 							}
 						}
@@ -135,8 +143,10 @@ package lib.animation.core
 		
 		override public function dispose():void
 		{
+			running = false;
 			navTexture = null;
 			_frames = null;
+			
 			super.dispose();
 		}
 	}

@@ -5,11 +5,11 @@
  */
 package
 {
-	import framework.module.msg.MessageConstants;
-	import framework.module.msg.MessageManager;
+	import framework.module.notification.NotificationIds;
+	import framework.module.notification.NotificationManager;
 
 	public function sendLogicMessage(id:String,params:Object = null,sync:Boolean = false):void
 	{
-		MessageManager.instance.sendMessage(MessageConstants.MESSAGE_LOGIC,id,params,sync);
+		NotificationManager.instance.sendMessage(NotificationIds.MESSAGE_LOGIC,id,params,sync);
 	}
 }

@@ -1,6 +1,6 @@
 package editor.animation.avatar
 {
-	import editor.asset.AvatarAssetManager;
+	import editor.asset.ResourceManager;
 	
 	import flash.events.Event;
 	import flash.utils.Dictionary;
@@ -88,7 +88,7 @@ package editor.animation.avatar
 			if(id in configDict)
 			{
 				var cfg:ConfigAvatar = configDict[id];
-				return new AvatarNav(cfg,AvatarAssetManager.instance.getAssetById(id));
+				return new AvatarNav(cfg,ResourceManager.instance.getAssetById(id));
 			}
 			return null;
 		}

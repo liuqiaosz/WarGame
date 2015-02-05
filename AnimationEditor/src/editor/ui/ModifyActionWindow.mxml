@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ui:PopUpWindowProxy xmlns:fx="http://ns.adobe.com/mxml/2009" 
 					 xmlns:s="library://ns.adobe.com/flex/spark" 
-					 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:ui="editor.ui.*" width="600" height="590" xmlns:extension="editor.extension.*">
+					 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:ui="editor.ui.*" width="600" height="620" xmlns:extension="editor.extension.*">
 	<fx:Declarations>
 		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
 	</fx:Declarations>
 	
 	<fx:Script>
 		<![CDATA[
-			import editor.asset.AvatarAssetManager;
+			import editor.asset.ResourceManager;
 			
-			import lib.animation.avatar.AvatarEnum;
+			import lib.animation.AnimEnum;
 			import lib.animation.avatar.cfg.ConfigActionTrigger;
 			import lib.animation.avatar.cfg.ConfigAvatar;
 			import lib.animation.avatar.cfg.ConfigAvatarAction;
@@ -36,12 +36,14 @@
 			public function setData(value:ConfigAvatar,action:String):void
 			{
 				_avatar = value;
-				_images = AvatarAssetManager.instance.getAssetById(_avatar.id);
+				actionName.textValue = action;
+				_images = ResourceManager.instance.getAssetById(_avatar.id);
 				for each(var act:ConfigAvatarAction in _avatar.actions)
 				{
 					if(act.name == action)
 					{
 						_action = act;
+						
 						break;
 					}
 				}
@@ -100,28 +102,31 @@
 			protected function onPreview(event:MouseEvent):void
 			{
 				//预览动作
-				if(checkParameter())
+				if(checkParameter(true))
 				{
 					var window:ActionPreviewWindow = popup(ActionPreviewWindow) as ActionPreviewWindow;
 					window.playPreview(_avatar.id,int(actionStart.textValue),int(actionEnd.textValue),int(duration.sliderValue));
 				}
 			}
 			
-			private function checkParameter():Boolean
+			private function checkParameter(isPreview:Boolean = false):Boolean
 			{
-				if(!actionName.textValue)
+				if(!isPreview)
 				{
-					showAlert("动作名不能为空");
-					return false;
-				}
-				else
-				{
-					for each(var act:ConfigAvatarAction in _avatar.actions)
+					if(isPreview && !actionName.textValue)
 					{
-						if(act.name == actionName.textValue)
+						showAlert("动作名不能为空");
+						return false;
+					}
+					else
+					{
+						for each(var act:ConfigAvatarAction in _avatar.actions)
 						{
-							showAlert("动作名不能重复");
-							return false;
+							if(act.name == actionName.textValue)
+							{
+								showAlert("动作名不能重复");
+								return false;
+							}
 						}
 					}
 				}
@@ -159,16 +164,16 @@
 				
 				switch(type)
 				{
-					case AvatarEnum.Trigger_Effect:
+					case AnimEnum.Trigger_Effect:
 						return "特效";
 						break;
-					case AvatarEnum.Trigger_Audio:
+					case AnimEnum.Trigger_Audio:
 						return "音效";
 						break;
-					case AvatarEnum.Trigger_Event:
+					case AnimEnum.Trigger_Event:
 						return "事件";
 						break;
-					case AvatarEnum.Trigger_Delay:
+					case AnimEnum.Trigger_Delay:
 						return "延时";
 						break;
 				}
@@ -178,13 +183,13 @@
 			{
 				switch(type)
 				{
-					case AvatarEnum.EffectPosition_Self:
+					case AnimEnum.EffectPosition_Self:
 						return "释放者";
 						break;
-					case AvatarEnum.EffectPosition_Target:
+					case AnimEnum.EffectPosition_Target:
 						return "目标";
 						break;
-					case AvatarEnum.EffectPosition_Screen:
+					case AnimEnum.EffectPosition_Screen:
 						return "屏幕";
 						break;
 				}

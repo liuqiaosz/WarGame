@@ -4,13 +4,14 @@ package framework.module.scene
 	import flash.geom.Point;
 	import flash.utils.Dictionary;
 	
+	import framework.core.AnimationMarshal;
+	import framework.core.AnimationTween;
 	import framework.core.GameContext;
 	import framework.module.asset.AssetsManager;
-	import framework.module.msg.MessageConstants;
+	import framework.module.notification.NotificationIds;
 	import framework.module.scene.vo.ViewParam;
 	
 	import starling.animation.Transitions;
-	import starling.animation.Tween;
 	import starling.core.Starling;
 	import starling.display.DisplayObject;
 	import starling.display.Quad;
@@ -20,7 +21,7 @@ package framework.module.scene
 	/**
 	 * 场景基类
 	 */
-	public class SceneBase extends starling.display.Sprite implements IScene
+	public class SceneBase extends Sprite implements IScene
 	{
 		public static const LAYER_GUIDE:String = "LayerGuide";	//引导层
 		public static const LAYER_DRAMA:String = "LayerDrama";	//drama层
@@ -29,7 +30,7 @@ package framework.module.scene
 		public static const LAYER_EFFECT:String = "LayerEffect";//特效层
 		public static const LAYER_TIP:String = "LayerTip";		//tip层
 		public static const LAYER_TOP:String = "LayerTop";
-		
+		public static const ANIMATION_DURATION:Number = .2;
 		public static const LAYERS:Array = [
 			LAYER_UI,LAYER_DRAMA,LAYER_EFFECT,LAYER_GUIDE,LAYER_DIALOG,LAYER_TIP,LAYER_TOP
 		];
@@ -38,9 +39,9 @@ package framework.module.scene
 		private var regDict:Dictionary = new Dictionary();
 		private var insDict:Dictionary = new Dictionary();
 		private var _id:String = "";
-		private var _viewStack:Vector.<ISceneView> = new Vector.<ISceneView>();
-		private var viewPopStack:Vector.<ISceneView> = new Vector.<ISceneView>();
-		
+		private var _views:Vector.<ISceneView> = new Vector.<ISceneView>();
+		private var screenWidth:int = 0;
+		private var screenHeight:int = 0;
 		public function get id():String
 		{
 			return _id;
@@ -64,10 +65,8 @@ package framework.module.scene
 				layers.push(gameLayer);
 			}
 			
-			screenWidth = GameContext.STAND_WIDTH;
-			screenHeight = GameContext.STAND_HEIGHT;
-//			scaleRatio = screenWidth / GameContext.STAND_WIDTH;
-//			scaleRatio = screenHeight / GameContext.STAND_HEIGHT;
+			screenWidth = GameContext.instance.screenFullWidth;
+			screenHeight = GameContext.instance.screenFullHeight;
 		}
 		
 		public function scale(ratio:Number):void
@@ -89,71 +88,67 @@ package framework.module.scene
 			return null;
 		}
 		
-		private var curPopView:String = "";
-		private function onPopView(id:String,params:Object = null):void
-		{
-			var arg:ViewParam = params as ViewParam;
-			if(arg && arg.view != curPopView)
-			{
-				curPopView = arg.view;
-				var ins:Boolean = hasInstanceView(arg.view);
-				var view:ISceneView = getView(arg.view);
-				if(view && !view.isViewShow)
-				{
-					view.data = arg.data;
-					if(!ins && view)
-					{
-						var res:Array = view.getResource();
-						if(res)
-						{
-							loadViewResource(view,null,null,function():void{
-								view.onShow();
-//								DialogManager.instance.showDialog(view as DisplayObject,arg);
-								showDialog(view as DisplayObject,arg);
-								curPopView = "";
-							});
-						}
-						else
-						{
-							view.onShow();
-//							DialogManager.instance.showDialog(view as DisplayObject,arg);
-							showDialog(view as DisplayObject,arg);
-							curPopView = "";
-						}
-					}
-					else
-					{
-						view.onShow();
-//						DialogManager.instance.showDialog(view as DisplayObject,arg);
-						showDialog(view as DisplayObject,arg);
-						curPopView = "";
-					}
-					if(viewPopStack.indexOf(view) < 0)
-					{
-						viewPopStack.push(view);
-					}
-				}
-			}
-		}
+//		private var curPopView:String = "";
+//		private function onPopView(params:Object = null):void
+//		{
+//			var arg:ViewParam = params as ViewParam;
+//			if(arg && arg.view != curPopView)
+//			{
+//				curPopView = arg.view;
+//				var ins:Boolean = hasInstanceView(arg.view);
+//				var view:ISceneView = getView(arg.view);
+//				if(view && !view.isViewShow)
+//				{
+//					view.data = arg.data;
+//					if(!ins && view)
+//					{
+//						var res:Array = view.getResource();
+//						if(res)
+//						{
+//							loadViewResource(view,null,null,function():void{
+//								view.onShow();
+////								DialogManager.instance.showDialog(view as DisplayObject,arg);
+//								showDialog(view as DisplayObject,arg);
+//								curPopView = "";
+//							});
+//						}
+//						else
+//						{
+//							view.onShow();
+////							DialogManager.instance.showDialog(view as DisplayObject,arg);
+//							showDialog(view as DisplayObject,arg);
+//							curPopView = "";
+//						}
+//					}
+//					else
+//					{
+//						view.onShow();
+////						DialogManager.instance.showDialog(view as DisplayObject,arg);
+//						showDialog(view as DisplayObject,arg);
+//						curPopView = "";
+//					}
+//					if(viewPopStack.indexOf(view) < 0)
+//					{
+//						viewPopStack.push(view);
+//					}
+//				}
+//			}
+//		}
 		
 		/**
 		 * 显示视图消息响应
 		 */
-		private function onShowView(id:String,params:Object = null):void
+		private function onShowView(params:Object = null):void
 		{
-			var args:Array = params as Array;
-			if(args && args.length)
-			{
-				showView(args[0],args);
-			}
+			showView(params as ViewParam);
 		}
 		
 		/**
 		 * 隐藏视图响应
 		 */
-		private function onHideView(id:String,params:Object = null):void
+		private function onHideView(params:Object = null):void
 		{
-			hideView(params as String);
+			hideView(params as ViewParam);
 		}
 		
 		/**
@@ -162,32 +157,32 @@ package framework.module.scene
 		override public function dispose():void
 		{
 			onHide();
-			for each(var id:ISceneView in insDict)
-			{
-				if(_viewStack.indexOf(id) >= 0)
-				{
-					_viewStack.splice(_viewStack.indexOf(id),1);
-				}
-				if(viewPopStack.indexOf(id) >= 0)
-				{
-					viewPopStack.splice(viewPopStack.indexOf(id),1);
-				}
-				
-				id.dispose();
-			}
+//			for each(var id:ISceneView in insDict)
+//			{
+//				if(_viewStack.indexOf(id) >= 0)
+//				{
+//					_viewStack.splice(_viewStack.indexOf(id),1);
+//				}
+//				if(viewPopStack.indexOf(id) >= 0)
+//				{
+//					viewPopStack.splice(viewPopStack.indexOf(id),1);
+//				}
+//				
+//				id.dispose();
+//			}
 			
-			var view:Sprite = null;
-			for each(view in _viewStack)
-			{
-				view.removeFromParent(true);	
-			}
-			for each(view in viewPopStack)
-			{
-				view.removeFromParent(true);	
-			}
-
-			_viewStack = null;
-			viewPopStack = null;
+//			var view:Sprite = null;
+//			for each(view in _viewStack)
+//			{
+//				view.removeFromParent(true);	
+//			}
+//			for each(view in viewPopStack)
+//			{
+//				view.removeFromParent(true);	
+//			}
+//
+//			_viewStack = null;
+//			viewPopStack = null;
 			insDict = null;
 			regDict = null;
 			//移除监听
@@ -207,27 +202,27 @@ package framework.module.scene
 //					addChild(view as starling.display.Sprite);
 //				}
 //			}
-			addViewListener(MessageConstants.MSG_VIEW_SHOWVIEW,onShowView);
-			addViewListener(MessageConstants.MSG_VIEW_HIDEVIEW,onHideView);
-			addViewListener(MessageConstants.MSG_VIEW_POPVIEW,onPopView);
+			addViewListener(NotificationIds.MSG_VIEW_SHOWVIEW,onShowView);
+			addViewListener(NotificationIds.MSG_VIEW_HIDEVIEW,onHideView);
+//			addViewListener(NotificationIds.MSG_VIEW_POPVIEW,onPopView);
 			
 //			for each(var view:ISceneView in insDict)
 //			{
 //				view.onShow();
+////			}
+//			for each(var view:ISceneView in viewPopStack)
+//			{
+//				if(currentView != view)
+//				{
+//					view.onShow();
+//				}
 //			}
-			for each(var view:ISceneView in viewPopStack)
-			{
-				if(currentView != view)
-				{
-					view.onShow();
-				}
-			}
-			if(currentView)
-			{
-				currentView.onShow();
-			}
+//			if(currentView)
+//			{
+//				currentView.onShow();
+//			}
 			
-			sendViewMessage(MessageConstants.MSG_VIEW_SCENESHOWN,this._id);
+			sendViewMessage(NotificationIds.MSG_VIEW_SCENESHOWN,this._id);
 		}
 		
 		/**
@@ -235,25 +230,25 @@ package framework.module.scene
 		 */
 		public function onHide():void
 		{
-			removeViewListener(MessageConstants.MSG_VIEW_SHOWVIEW,onShowView);
-			removeViewListener(MessageConstants.MSG_VIEW_HIDEVIEW,onHideView);
-			removeViewListener(MessageConstants.MSG_VIEW_POPVIEW,onPopView);
+			removeViewListener(NotificationIds.MSG_VIEW_SHOWVIEW,onShowView);
+			removeViewListener(NotificationIds.MSG_VIEW_HIDEVIEW,onHideView);
+//			removeViewListener(NotificationIds.MSG_VIEW_POPVIEW,onPopView);
 			
 //			for each(var view:ISceneView in insDict)
 //			{
 //				view.onHide();
 //			}
-			for each(var view:ISceneView in viewPopStack)
-			{
-				if(currentView != view)
-				{
-					view.onHide();
-				}
-			}
-			if(currentView)
-			{
-				currentView.onHide();
-			}
+//			for each(var view:ISceneView in viewPopStack)
+//			{
+//				if(currentView != view)
+//				{
+//					view.onHide();
+//				}
+//			}
+//			if(currentView)
+//			{
+//				currentView.onHide();
+//			}
 		}
 		
 		/**
@@ -292,136 +287,254 @@ package framework.module.scene
 		 * 显示视图，如果没有则先创建再添加
 		 */
 		//protected function showView(id:String,offset:Point = null,isPop:Boolean = false):void
-		protected function showView(id:String,args:Array,isPop:Boolean = false):void
+//		protected function showViewv(id:String,args:Array,isPop:Boolean = false):void
+//		{
+//			var ins:Boolean = hasInstanceView(id);
+//			var view:ISceneView = getView(id);
+//
+//			var argLen:int = args.length;
+//			var data:Object = argLen > 1 ? args[1]:null;
+//			var offset:Point = argLen > 2 ? args[2]:null;
+//			
+//			if(view != currentView)
+//			{
+//				view.data = data;
+//				hideView(currentViewId);
+//			
+//				if(_viewStack.indexOf(view) >= 0)
+//				{
+//					_viewStack.splice(_viewStack.indexOf(view),1);
+//				}
+//				_viewStack.push(view);
+//				currentViewId = id;
+//				currentView = view;
+//				
+//				if(!ins)
+//				{
+//					var res:Array = view.getResource();
+//					if(res)
+//					{
+//						loadViewResource(view,offset,data,function():void{
+//							addView(view,offset,data);
+//							view.onShow();
+//						});
+//					}
+//					else
+//					{
+//						addView(view,offset,data);
+//						view.onShow();
+//						view.onShowEnd();
+//					}
+//				}
+//				else
+//				{
+//					addView(view,offset,data);
+//					view.onShow();
+//					view.onShowEnd();
+//				}
+//			}
+//		}
+		
+		//当前已经弹出的视图
+		private var currentPopupView:ISceneView = null;
+		/**
+		 * 显示视图,重新实现逻辑
+		 **/
+		protected function showView(args:ViewParam):void
 		{
-			var ins:Boolean = hasInstanceView(id);
-			var view:ISceneView = getView(id);
-			//(args.length > 1 ? args[1]:null),(args.length > 2 ? args.length[2] : null)
-			var argLen:int = args.length;
-			var data:Object = argLen > 1 ? args[1]:null;
-			var offset:Point = argLen > 2 ? args[2]:null;
-			
-			if(view != currentView)
+			if(args.isPop)
 			{
-				view.data = data;
-				hideView(currentViewId);
-			
-				if(_viewStack.indexOf(view) >= 0)
+				popView(args);
+			}
+			else
+			{
+				var view:ISceneView = getView(args.view);
+				if(view)
 				{
-					_viewStack.splice(_viewStack.indexOf(view),1);
-				}
-				_viewStack.push(view);
-				currentViewId = id;
-				currentView = view;
-				
-				if(!ins)
-				{
-					var res:Array = view.getResource();
-					if(res)
+					if(_views.indexOf(view) < 0)//没有显示的视图列表的视图,已经在显示列表的不要显示
 					{
-						loadViewResource(view,offset,data,function():void{
-							addView(view,offset,data);
-							view.onShow();
-						});
+						view.data = args.data;//设置视图参数,如果有
+						if(!view.isLoaded())
+						{
+							showProgress();
+							view.loadResource(function(sceneview:ISceneView):void{
+								addViewToScene(view,args);
+							},onResourceLoadProgress);
+						}
+						else
+						{
+							//资源已经准备完成
+							addViewToScene(view,args);
+						}
+					}
+				}
+				else
+				{
+					//视图为空不处理
+				}
+			}
+		}
+		
+		private var popMaskDict:Dictionary = new Dictionary();
+		//弹出
+		protected function popView(args:ViewParam):void
+		{
+			var view:ISceneView = getView(args.view);
+			if(view)
+			{
+				if(_views.indexOf(view) < 0)//没有显示的视图列表的视图,已经在显示列表的不要显示
+				{
+					view.data = args.data;//设置视图参数,如果有
+					if(!view.isLoaded())
+					{
+						showProgress();
+						view.loadResource(function(sceneview:ISceneView):void{
+							addViewToScene(view,args);
+						},onResourceLoadProgress);
 					}
 					else
 					{
-						addView(view,offset,data);
-						view.onShow();
-						view.onShowEnd();
+						//资源已经准备完成
+						addViewToScene(view,args);
 					}
 				}
-				else
-				{
-					addView(view,offset,data);
-					view.onShow();
-					view.onShowEnd();
-				}
+			}
+			else
+			{
+				//视图为空不处理
 			}
 		}
 		
-		protected function addView(view:ISceneView,offset:Point,data:Object = null):void
+		protected function hideView(args:ViewParam):void
 		{
-			currentView = view;
-			var child:starling.display.Sprite = (view as starling.display.Sprite);
-			if(offset)
-			{
-				child.x = offset.x;
-				child.y = offset.y;
-			}
-//			else
-//			{
-//				child.x = child.y = 0;
-//			}
-			this.addChildToLayer(LAYER_UI,child);
-			currentView.data = data;
-		}
-		
-		/**
-		 * 加载视图必要的资源
-		 */
-		protected function loadViewResource(view:ISceneView,offset:Point,data:Object = null,complete:Function = null):void
-		{
-			function loadResComplete():void
-			{
-				addView(view,offset,data);
-			};
-			
-			function loadResProgress(ratio:Number):void
-			{
-				
-			};
-			
-			AssetsManager.instance.addLoadQueue(view.getResource(),loadResComplete,loadResProgress);
-		}
-		
-		/**
-		 * 隐藏视图
-		 * 
-		 * @param		id			要隐藏的视图ID
-		 * @param
-		 */
-		protected function hideView(id:String):void
-		{
-			var view:ISceneView = getView(id);
+			var view:ISceneView = getView(args.view);
 			if(view)
 			{
-				var needDispose:Boolean = view.isAutoDispose();
-				var child:starling.display.Sprite = (view as starling.display.Sprite);
-				var idx:int = _viewStack.indexOf(view);
-				if(idx >= 0)
+				if(_views.indexOf(view) >= 0)
 				{
-					_viewStack.splice(idx,1);
-				}
-				
-				if(viewPopStack.indexOf(view) >= 0)
-				{
-//					DialogManager.instance.closeDialog(view as DisplayObject);
-					closeDialog(view as DisplayObject);
-				}
-				else
-				{
-					if(contains(child))
-					{
-						this.removeChildByLayer(LAYER_UI,child);
-					}
-					view.onHide();
-				}
-				
-				if(needDispose)
-				{
-					view.dispose();
-					removeView(id);
-				}
-				
-				currentView = null;
-				if(_viewStack.length)
-				{
-					currentView = _viewStack[_viewStack.length - 1];
+					removeViewFromScene(view,args);
 				}
 			}
 		}
 		
+		private function onResourceLoadProgress(ratio:Number):void
+		{
+			updateProgress(ratio);
+		}
+				
+		protected function showProgress():void
+		{
+			
+		}
+		protected function hideProgress():void
+		{
+			
+		}
+		protected function updateProgress(ratio:Number):void
+		{
+			
+		}
+		
+		protected function playShowViewAnim(view:ISceneView,complete:Function):void
+		{
+			var posX:int = (screenWidth - view.viewBounds.width) >> 1;
+			var posY:int = (screenHeight - view.viewBounds.height) >> 1;
+			
+			var eff:AnimationTween = new AnimationTween(view as DisplayObject,ANIMATION_DURATION,Transitions.EASE_IN_OUT_BACK);
+			
+//			var eff:Tween = new Tween(currentDialogView,ANIMATION_DURATION,Transitions.EASE_IN_OUT_BACK);
+			eff.scaleTo(1);
+			Sprite(view).scaleX = Sprite(view).scaleY = 0;
+			eff.play(function():void{
+				if(null != complete)
+				{
+					complete(view);
+				}
+			});
+		}
+		
+		protected function playHideViewAnim(view:ISceneView,viewid:String,complete:Function):void
+		{
+			var eff:AnimationTween = new AnimationTween(view as DisplayObject,ANIMATION_DURATION,Transitions.EASE_IN_OUT_BACK);
+			eff.scaleTo(0);
+			eff.play(function():void{
+				if(null != complete)
+				{
+					complete(viewid,view);
+				}
+			});
+		}
+		
+		protected function addViewToScene(view:ISceneView,args:ViewParam):void
+		{
+			var child:Sprite = (view as Sprite);
+			if(args.offset)
+			{
+				child.x = args.offset.x;
+				child.y = args.offset.y;
+			}
+			var layer:String = (args.layer ? args.layer:LAYER_UI);
+			if(args.isPop)
+			{
+				//添加遮罩
+				var mask:Quad = new Quad(GameContext.instance.screenFullWidth,GameContext.instance.screenFullHeight,0,true);
+				mask.alpha = args.maskAlpha;
+				addChildToLayer(layer,mask);
+				popMaskDict[view] = mask;
+			}
+			addChildToLayer(layer,view as Sprite);
+			view.onShow();
+			
+			if(args.anim)
+			{
+				playShowViewAnim(view,onShowAnimationComplete);
+			}
+			else
+			{
+				onShowAnimationComplete(view);
+			}
+		}
+		
+		private function onShowAnimationComplete(view:ISceneView):void
+		{
+			_views.push(view);
+			view.onShowEnd();
+		}
+		
+		protected function removeViewFromScene(view:ISceneView,args:ViewParam):void
+		{
+			var child:Sprite = (view as Sprite);
+			view.onHide();
+			if(args.anim)
+			{
+				playHideViewAnim(view,args.view,onHideAnimationComplete);
+			}
+			else
+			{
+				onHideAnimationComplete(args.view,view);
+			}
+		}
+		private function onHideAnimationComplete(id:String,view:ISceneView):void
+		{
+			var idx:int = _views.indexOf(view);
+			if(idx >= 0)
+			{
+				_views.splice(idx,1);
+			}
+			if(view in popMaskDict)
+			{
+				Quad(popMaskDict[view]).removeFromParent(true);
+				delete popMaskDict[view];
+			}
+			view.onHideEnd();
+			
+			Sprite(view).removeFromParent(view.isAutoDispose());
+			if(view.isAutoDispose())
+			{
+				delete this.insDict[id];
+			}
+		}
+				
 		/**
 		 * 视图是否初始化
 		 */
@@ -453,17 +566,6 @@ package framework.module.scene
 			if(id in insDict)
 			{
 				delete insDict[id];
-			}
-		}
-		
-		
-		public function changeView(view:String,offset:Point = null):void
-		{
-			var viewIns:ISceneView = getView(view);
-//			if(view && (view in insDict))
-			if(view)
-			{
-				showView(view,[view,offset]);
 			}
 		}
 		
@@ -507,238 +609,19 @@ package framework.module.scene
 			return false;
 		}
 		
-		//DIALOG logic
-		private var viewQueue:Array = [];
-		private var currentDialogView:DisplayObject = null;
-		public static const ANIMATION_DURATION:Number = .2;
-		private var dialogMask:Quad = null;
-		private var dialogShow:Boolean = false;
-		private var screenWidth:int = 0;
-		private var screenHeight:int = 0;
-		private var scaleRatio:Number = 1;
-		private var dialogShowView:DisplayObject = null;
-		private var showAnimDict:Dictionary = new Dictionary();
-		private function onTouchListener(event:TouchEvent):void
-		{
-			event.stopImmediatePropagation();
-			event.stopPropagation();
-		}
-		/**
-		 * 在弹出层显示对象
-		 */
-		//		public function showDialog(view:DisplayObject,pos:Point = null,mode:Boolean = true,anim:Boolean = true,maskAlpha:Number = .75,offset):void
-		public function showDialog(view:DisplayObject,arg:ViewParam = null):void
-		{
-			var param:ViewParam = arg;
-			if(!param)
-			{
-				param = new ViewParam();
-			}
-			if(!dialogMask)
-			{
-				dialogMask = new Quad(screenWidth,screenHeight,0);
-				dialogMask.alpha = param.maskAlpha;
-				dialogMask.touchable = true;
-			}
-			else
-			{
-				if(dialogMask.alpha != param.maskAlpha)
-				{
-					dialogMask.alpha = param.maskAlpha;
-				}
-			}
-			
-			if(view)
-			{
-				if(currentDialogView == view)
-				{
-					return;
-				}
-				
-				dialogMask.visible = param.mode;
-				var idx:int = viewQueue.indexOf(view);
-				if(idx >= 0)
-				{
-					viewQueue.splice(idx,1);
-				}
-				
-//				viewQueue.push(view);
-				currentDialogView = view;
-				showAnimDict[view] = param.anim;
-				var viewWidth:int = 0;
-				var viewHeight:int = 0;
-				if(!param.pos)
-				{
-					if(view is ISceneView)
-					{
-						viewWidth = ISceneView(view).viewBounds.width;
-						viewHeight = ISceneView(view).viewBounds.height;
-					}
-					else
-					{
-						viewWidth = view.width;
-						viewHeight = view.height;
-					}
-					var posX:int = (screenWidth - viewWidth) >> 1;
-					var posY:int = (screenHeight - viewHeight) >> 1;
-//					if(param.anim)
-					if(false)
-					{
-						posX += (param.offset ? param.offset.x:0);
-						posY += (param.offset ? param.offset.y:0);
-						currentDialogView.x = screenWidth >> 1;
-						currentDialogView.y = screenHeight >> 1;
-						var eff:Tween = new Tween(currentDialogView,ANIMATION_DURATION,Transitions.EASE_IN_OUT_BACK);
-						eff.animate("scaleX", currentDialogView.scaleX);
-						eff.animate("scaleY", currentDialogView.scaleY);
-						eff.animate("x", posX);
-						eff.animate("y", posY);
-						currentDialogView.scaleX = currentDialogView.scaleY = 0;
-						eff.onComplete = function():void{
-							dialogShow = false;
-							onDialogShown(view);
-						};
-						Starling.juggler.add(eff); 
-					}
-					else
-					{
-						currentDialogView.x = posX;
-						currentDialogView.y = posY;
-//						onDialogShown(currentDialogView);
-					}
-				}
-				else
-				{
-					currentDialogView.x = param.pos.x + (param.offset ? param.offset.x:0);
-					currentDialogView.y = param.pos.y + (param.offset ? param.offset.y:0);
-//					onDialogShown(currentDialogView);
-				}
-				
-				//				SceneManager.instance.addChildToLayer(SceneManager.LAYER_DIALOG,dialogMask);
-				//				SceneManager.instance.addChildToLayer(SceneManager.LAYER_DIALOG,currentDialo
-//				SceneManager.instance.addChildToLayer(param.layer,dialogMask);
-//				SceneManager.instance.addChildToLayer(param.layer,currentDialogView);
-				addChildToLayer(param.layer,dialogMask);
-				addChildToLayer(param.layer,currentDialogView);
-				dialogShowView = view;
-//				dialogShow = true;
-				dialogShow = false;
-				onDialogShown(currentDialogView);
-			}
-		}
-		
-		private function onDialogShown(view:DisplayObject):void
-		{
-			if(view is ISceneView)
-			{
-				ISceneView(view).onShowEnd();
-			}
-			else if("onShow" in view)
-			{
-				view["onShow"]();
-			}
-			if(viewQueue.indexOf(view) < 0)
-			{
-				viewQueue.push(view);
-			}
-		}
-		
-		/**
-		 * 关闭指定的弹出视图，如指定的视图为空则关闭最上层的
-		 */
-		public function closeDialog(view:DisplayObject,dispose:Boolean = false):void
-		{
-			if(view)
-			{
-				if(viewQueue.indexOf(view) >= 0)
-				{
-					var anim:Boolean = true;
-					if(view in showAnimDict)
-					{
-						anim = showAnimDict[view];
-					}
-					
-					if(anim)
-					{
-	//					var eff:Tween = new Tween(currentDialogView,ANIMATION_DURATION,Transitions.EASE_IN_OUT_BACK);
-	//					eff.animate("scaleX", 0);
-	//					eff.animate("scaleY", 0);
-	//					eff.animate("x", (screenWidth >> 1));
-	//					eff.animate("y", (screenHeight >> 1));
-	//					eff.onComplete = function():void{
-	//						closeAndComplete(view,dispose);
-	//					};
-	//					Starling.juggler.add(eff); 
-						closeAndComplete(view,dispose);
-					}
-					else
-					{
-						closeAndComplete(view,dispose);
-					}
-				}
-				else
-				{
-					view.removeFromParent(dispose);
-				}
-				dialogShow = false;
-				//				var layer:Sprite = SceneManager.instance.findLayerById(SceneManager.LAYER_UI);
-				//				layer.touchable = true;
-			}
-		}
-		
-		private function closeAndComplete(view:DisplayObject,dispose:Boolean = false):void
-		{
-			if(view is ISceneView)
-			{
-				ISceneView(view).onHide();	
-			}
-			
-			var idx:int = viewQueue.indexOf(view);
-			
-			view.removeFromParent(dispose);
-			if(idx>=0)
-			{
-				viewQueue.splice(idx,1);
-			}
-			idx = viewPopStack.indexOf(view);
-			
-			if(idx >= 0)
-			{
-				viewPopStack.splice(idx,1);
-			}
-			if(viewQueue.length)
-			{
-				currentDialogView = viewQueue[viewQueue.length - 1];
-				curPopView = "";
-				dialogMask.visible = true;
-//				dialogMask.parent.addChild(dialogMask);
-				currentDialogView.parent.addChild(dialogMask);
-				currentDialogView.parent.addChild(currentDialogView);
-				
-			}
-			else
-			{
-//				if(!dialogShow)
-//				{
-//					dialogMask.visible = false;
-//					currentDialogView = null;
-//				}
-				dialogMask.visible = false;
-				currentDialogView = null;
-			}
-		}
 		
 		public function closeAll():void
 		{
-			var tmp:Array = viewQueue.concat();
-			for each(var view:Sprite in tmp)
-			{
-//				view.removeFromParent();
-				closeDialog(view,false);
-			}
-			tmp = null;
-			viewQueue = [];
-			currentDialogView = null;
+			
+//			var tmp:Array = viewQueue.concat();
+//			for each(var view:Sprite in tmp)
+//			{
+////				view.removeFromParent();
+//				closeDialog(view,false);
+//			}
+//			tmp = null;
+//			viewQueue = [];
+//			currentDialogView = null;
 		}
 	}
 }

@@ -1,13 +1,11 @@
 package framework.common.vo
 {
 	import flash.utils.getTimer;
-	
-	import framework.common.objectPool.IReuseable;
 
 	/**
 	 * 调度节点
 	 */
-	public class SchedulerItem implements IReuseable
+	public class SchedulerItem
 	{
 		public var repeat:int = 0;
 		public var delay:int = 0;
@@ -40,15 +38,6 @@ package framework.common.vo
 			{
 				handler(this);
 			}
-		}
-		
-		public function reuse():void
-		{
-			repeat = 0;
-			delay = 0;
-			handler = null;
-			comleteHandler = null;
-			_runCount = 0;
 		}
 		
 	}

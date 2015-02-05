@@ -6,8 +6,13 @@
 		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
 	</fx:Declarations>
 	
+	<fx:Metadata>
+		[Event(name="onTextChange", type="editor.extension.ExEvent")]
+	</fx:Metadata>
+	
 	<fx:Script>
 		<![CDATA[
+			import mx.events.FlexEvent;
 			
 			[Bindable]
 			private var _labelWidth:int = LABEL_MIN_WIDTH;
@@ -49,10 +54,18 @@
 			{
 				text.text = value;
 			}
+			
+			protected function onEnter(event:FlexEvent):void
+			{
+				var notify:ExEvent = new ExEvent(ExEvent.UI_TEXT_CHANGE);
+				notify.params = text.text;
+				dispatchEvent(notify);
+			}
+			
 		]]>
 	</fx:Script>
 	
 	<s:Label width="{_labelWidth}" height="22" minWidth="60" text="{_labelText}" textAlign="right"
 			 verticalAlign="middle"/>
-	<s:TextInput minWidth="100" width="{_textWidth}" restrict="{_restrict}" editable="{_editable}" id="text" />
+	<s:TextInput minWidth="100" width="{_textWidth}" restrict="{_restrict}" editable="{_editable}" id="text" enter="onEnter(event)" />
 </extension:ExFormItem>

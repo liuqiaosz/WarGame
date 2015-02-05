@@ -1,7 +1,7 @@
 package framework.module
 {
-	import framework.module.msg.MessageConstants;
-	import framework.module.msg.MessageManager;
+	import framework.module.notification.NotificationIds;
+	import framework.module.notification.NotificationManager;
 
 	/**
 	 * 模块基类扩展，除消息模块以外的基础模块继承此类
@@ -19,7 +19,7 @@ package framework.module
 		 */
 		protected function addViewListener(id:String,func:Function,params:Object = null):void
 		{
-			addMessageListener(MessageConstants.MESSAGE_VIEW,id,func,params);
+			addMessageListener(NotificationIds.MESSAGE_VIEW,id,func,params);
 		}
 		
 		/**
@@ -27,7 +27,7 @@ package framework.module
 		 */
 		protected function sendViewMessage(id:String,params:Object = null):void
 		{
-			sendMessageListener(MessageConstants.MESSAGE_VIEW,id,params);
+			sendMessageListener(NotificationIds.MESSAGE_VIEW,id,params);
 		}
 		
 		/**
@@ -35,7 +35,7 @@ package framework.module
 		 */
 		protected function addLogicListener(id:String,func:Function,params:Object = null):void
 		{
-			addMessageListener(MessageConstants.MESSAGE_LOGIC,id,func,params);
+			addMessageListener(NotificationIds.MESSAGE_LOGIC,id,func,params);
 		}
 		
 		/**
@@ -43,7 +43,7 @@ package framework.module
 		 */
 		protected function sendLogicMessage(id:String,params:Object = null):void
 		{
-			sendMessageListener(MessageConstants.MESSAGE_LOGIC,id,params);
+			sendMessageListener(NotificationIds.MESSAGE_LOGIC,id,params);
 		}
 		
 		/**
@@ -51,7 +51,7 @@ package framework.module
 		 */
 		protected function addDataListener(id:String,func:Function,params:Object = null):void
 		{
-			addMessageListener(MessageConstants.MESSAGE_DATA,id,func,params);
+			addMessageListener(NotificationIds.MESSAGE_DATA,id,func,params);
 		}
 		
 		/**
@@ -59,7 +59,7 @@ package framework.module
 		 */
 		protected function sendFrameworkMessage(id:String,params:Object = null):void
 		{
-			sendMessageListener(MessageConstants.MESSAGE_FRAMEWORK,id,params);
+			sendMessageListener(NotificationIds.MESSAGE_FRAMEWORK,id,params);
 		}
 		
 		/**
@@ -67,7 +67,7 @@ package framework.module
 		 */
 		protected function addFrameworkListener(id:String,func:Function,params:Object = null):void
 		{
-			addMessageListener(MessageConstants.MESSAGE_FRAMEWORK,id,func,params);
+			addMessageListener(NotificationIds.MESSAGE_FRAMEWORK,id,func,params);
 		}
 		
 		/**
@@ -75,16 +75,16 @@ package framework.module
 		 */
 		protected function sendDataMessage(id:String,params:Object = null):void
 		{
-			sendMessageListener(MessageConstants.MESSAGE_DATA,id,params);
+			sendMessageListener(NotificationIds.MESSAGE_DATA,id,params);
 		}
 		
 		private function addMessageListener(type:int,id:String,func:Function,params:Object = null):void
 		{
-			MessageManager.instance.addMessageListener(type,id,func,params);
+			NotificationManager.instance.addMessageListener(type,id,func,params);
 		}
 		private function sendMessageListener(type:int,id:String,params:Object = null):void
 		{
-			MessageManager.instance.sendMessage(type,id,params);
+			NotificationManager.instance.sendMessage(type,id,params);
 		}
 	}
 }

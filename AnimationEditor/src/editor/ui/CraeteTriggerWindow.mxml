@@ -8,7 +8,11 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import editor.cfg.ConfigManager;
+			import editor.extension.ExEvent;
 			import editor.utility.Constants;
+			
+			import lib.animation.effect.cfg.ConfigEffect;
 			
 			import mx.collections.ArrayCollection;
 			
@@ -16,6 +20,19 @@
 			private var _triggerType:ArrayCollection = Constants.COMBOBOX_TRIGGER_TYPE;
 			[Bindable]
 			private var _triggerEffPos:ArrayCollection = Constants.COMBOBOX_EFFECT_POS;
+			[Bindable]
+			private var _triggerEff:ArrayCollection = new ArrayCollection();
+			
+			private var _avr:String = "";
+			private var _act:String = "";
+			
+			/**
+			 * 
+			 **/
+			public function setData(avrId:String,actName:String):void
+			{
+				
+			}
 			
 			public function onCreateClick(event:MouseEvent):void
 			{
@@ -23,6 +40,15 @@
 				{
 					
 				}
+			}
+			
+			override protected function onShow():void
+			{
+				for each(var cfg:ConfigEffect in ConfigManager.instance.effects)
+				{
+					_triggerEff.addItem(cfg);	
+				}
+				super.onShow();
 			}
 			
 			private function check():Boolean
@@ -36,14 +62,26 @@
 				return true;
 			}
 			
+			[Bindable]
+			private var _type:int = 0;
+			
+			private var _triggerTypeParam:Object = null;
+			/**
+			 * 类型变更
+			 **/
+			private function onTriggerTypeChange(event:ExEvent):void
+			{
+				_triggerTypeParam = event.params;
+				_type = _triggerTypeParam.value;
+			}
 		]]>
 	</fx:Script>
 	<s:VGroup width="100%" height="100%">
 		<extension:ExFormTextItem id="triggerName" labelWidth="60" textWidth="160" labelText="名称" />
-		<extension:ExFormCombobox id="triggerType" labelWidth="60" labelText="类型" labelField="label" dataProvider="{_triggerType}" />
 		<extension:ExFormTextItem id="triggerFrame" labelWidth="60" textWidth="160" labelText="触发帧" />
-		<s:VGroup width="100%" height="100%">
-			<extension:ExFormCombobox id="effect" labelWidth="60" labelText="特效" labelField="label" dataProvider="{_triggerEffPos}" />
+		<extension:ExFormCombobox id="triggerType" labelWidth="60" labelText="类型" labelField="label" dataProvider="{_triggerType}" onChange="onTriggerTypeChange(event)" />
+		<s:VGroup width="100%" height="100" visible="{(_type == 1)}" includeInLayout="{(_type == 1)}">
+			<extension:ExFormCombobox id="effect" labelWidth="60" labelText="特效" labelField="name" dataProvider="{_triggerEff}" />
 			<extension:ExFormCombobox id="effectPos" labelWidth="60" labelText="特效位置" labelField="label" dataProvider="{_triggerEffPos}" />
 			<extension:ExFormTextItem id="effectOffset" labelWidth="60" textWidth="160" labelText="位置偏移" restrict="0-9," />
 		</s:VGroup>

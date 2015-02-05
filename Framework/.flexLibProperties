@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <flexLibProperties includeAllClasses="true" useMultiPlatformConfig="true" version="3">
-  <includeClasses/>
+  <includeClasses>
+    <classEntry path="showView"/>
+    <classEntry path="framework.module.scene.SceneViewBase"/>
+    <classEntry path="framework.core.AnimationMarshal"/>
+    <classEntry path="framework.core.AnimationTween"/>
+  </includeClasses>
   <includeResources/>
   <namespaceManifests/>
 </flexLibProperties>

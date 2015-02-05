@@ -226,5 +226,19 @@ package editor.cfg
 			}
 			return false;
 		}
+		public function saveEffect():Boolean
+		{
+			var cfgDir:File = new File(EditorSetting.instance.setting.directory.cfgDirectory);
+			if(cfgDir.exists)
+			{
+				var effectFile:File = cfgDir.resolvePath(Constants.EFFECT_CFG_FILE);
+				var json:String = JSON.stringify(effects);
+				var data:ByteArray = new ByteArray();
+				data.writeUTFBytes(json);
+				FileSystemTool.writeFile(effectFile.nativePath,data);
+				return true;
+			}
+			return false;
+		}
 	}
 }

@@ -5,11 +5,11 @@
  */
 package
 {
-	import framework.module.msg.MessageConstants;
-	import framework.module.msg.MessageManager;
+	import framework.module.notification.NotificationIds;
+	import framework.module.notification.NotificationManager;
 	
 	public function addViewListener(id:String,func:Function,params:Object = null,priority:int = 0):void
 	{
-		MessageManager.instance.addMessageListener(MessageConstants.MESSAGE_VIEW,id,func,params,priority);
+		NotificationManager.instance.addMessageListener(NotificationIds.MESSAGE_VIEW,id,func,params,priority);
 	}
 }

@@ -5,11 +5,11 @@
  */
 package
 {
-	import framework.module.msg.MessageConstants;
-	import framework.module.msg.MessageManager;
+	import framework.module.notification.NotificationIds;
+	import framework.module.notification.NotificationManager;
 
 	public function sendFrameworkMessage(id:String,params:Object = null):void
 	{
-		MessageManager.instance.sendMessage(MessageConstants.MESSAGE_FRAMEWORK,id,params);
+		NotificationManager.instance.sendMessage(NotificationIds.MESSAGE_FRAMEWORK,id,params);
 	}
 }

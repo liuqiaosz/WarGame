@@ -6,7 +6,7 @@ package framework.module.scene
 	import framework.common.CommonTools;
 	import framework.core.GameContext;
 	import framework.module.BaseModule;
-	import framework.module.msg.MessageConstants;
+	import framework.module.notification.NotificationIds;
 	import framework.module.scene.vo.ViewParam;
 	
 	import starling.display.DisplayObject;
@@ -91,13 +91,13 @@ package framework.module.scene
 		override public function initializer():void
 		{
 			//监听场景变更消息
-			addViewListener(MessageConstants.MSG_VIEW_CHANGESCENE,onChangeScene);
+			addViewListener(NotificationIds.MSG_VIEW_CHANGESCENE,onChangeScene);
 		}
 		
 		/**
 		 * 变更场景消息相应
 		 */
-		private function onChangeScene(id:String,params:Object = null):void
+		private function onChangeScene(params:Object = null):void
 		{
 			if(params is Array && (params as Array).length > 1)
 			{
@@ -205,7 +205,7 @@ package framework.module.scene
 //						SceneBase(_currentScene).showDialog(sceneView as DisplayObject,view);
 //					}
 					SceneBase(_currentScene).closeAll();
-					sendViewMessage(MessageConstants.MSG_VIEW_POPVIEW,view);
+					sendViewMessage(NotificationIds.MSG_VIEW_SHOWVIEW,view);
 //					_currentScene.changeView(view);
 				}
 			}
