@@ -3,10 +3,12 @@ package lib.ui.control
 	
 	import framework.module.asset.AssetsManager;
 	
+	import starling.display.Image;
 	import starling.textures.Texture;
 
 	public class UIImage extends Component
 	{
+		private var content:Image = null;
 		protected var _atlas:String = "";
 		protected var _img:String = "";
 		public function setTexture(id:String,atlas:String = null):void
@@ -15,8 +17,11 @@ package lib.ui.control
 			_img = id;
 		}
 		
+		private static var Empty:Texture = Texture.empty(1,1);
+		
 		public function UIImage()
 		{
+			super();
 		}
 		
 		override public function set componentXml(value:XML):void
@@ -30,9 +35,24 @@ package lib.ui.control
 			var img:Texture = AssetsManager.instance.getUITexture(_img,_atlas);
 			if(img)
 			{
-				texture = img;
+				if(!content)
+				{
+					content = new Image(img);
+					addChild(content);
+				}
+				else
+				{
+					content.texture = img;
+				}
 			}
-			
+		}
+		
+		public function set texture(value:Texture):void
+		{
+			if(content && value)
+			{
+				content.texture = value;
+			}
 		}
 	}
 }

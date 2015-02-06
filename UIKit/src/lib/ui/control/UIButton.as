@@ -6,7 +6,7 @@ package lib.ui.control
 	import starling.events.TouchEvent;
 	import starling.textures.Texture;
 
-	public class UIButton extends Component
+	public class UIButton extends UIImage
 	{
 		public function UIButton()
 		{
@@ -14,7 +14,6 @@ package lib.ui.control
 		
 		private var _normal:String = "";
 		private var _pressed:String = "";
-		private var _atlas:String = "";
 		
 		override public function set componentXml(value:XML):void
 		{

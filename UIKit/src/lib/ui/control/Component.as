@@ -3,33 +3,25 @@ package lib.ui.control
 	import lib.ui.core.IComponent;
 	
 	import starling.display.Image;
+	import starling.display.Sprite;
 	import starling.textures.Texture;
 
 	/**
 	 * 组件基类
 	 **/
-	public class Component extends Image implements IComponent
+	public class Component extends Sprite implements IComponent
 	{
-		private static var Empty:Texture = Texture.empty(1,1);
+		
 		private var _anchor:Anchor = null;
-		private var _navTexture:Texture = null;
-		public function set source(value:Texture):void
-		{
-			_navTexture = value;
-			if(_navTexture)
-			{
-				this.texture = _navTexture;
-			}
-		}
+		
 		public function Component()
 		{
-			super(Empty);
 		}
 		
 		public function set anchor(value:Anchor):void
 		{
 			_anchor = value;
-			anchorUpdate();
+			//anchorUpdate();
 		}
 		
 		private function anchorUpdate():void

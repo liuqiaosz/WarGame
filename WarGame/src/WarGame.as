@@ -42,6 +42,8 @@ package
 				var view:UIView = new UIView();
 				view.createComponent(doc);
 				
+				//var tx:Texture = AssetsManager.instance.getTexture("slash");
+				//view.addChild(new Image(tx));
 				GameContext.instance.screenStage.addChild(view);
 				
 			});
