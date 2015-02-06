@@ -10,6 +10,8 @@
     <classEntry path="lib.ui.control.UIView"/>
     <classEntry path="lib.ui.control.UIImage"/>
     <classEntry path="lib.ui.control.UIButton"/>
+    <classEntry path="lib.ui.control.UIScrollView"/>
+    <classEntry path="lib.ui.control.IRenderer"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

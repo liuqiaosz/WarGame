@@ -18,7 +18,6 @@ package lib.ui.control
 		}
 		
 		private static var Empty:Texture = Texture.empty(1,1);
-		
 		public function UIImage()
 		{
 			super();
@@ -32,26 +31,38 @@ package lib.ui.control
 		
 		override public function componentRender():void
 		{
-			var img:Texture = AssetsManager.instance.getUITexture(_img,_atlas);
-			if(img)
+			if(_img)
 			{
-				if(!content)
+				var img:Texture = AssetsManager.instance.getUITexture(_img,_atlas);
+				if(img)
 				{
-					content = new Image(img);
-					addChild(content);
-				}
-				else
-				{
-					content.texture = img;
+					if(!content)
+					{
+						content = new Image(img);
+						addChild(content);
+					}
+					else
+					{
+						content.texture = img;
+					}
 				}
 			}
+			super.componentRender();
 		}
 		
 		public function set texture(value:Texture):void
 		{
-			if(content && value)
+			if(value)
 			{
-				content.texture = value;
+				if(!content)
+				{
+					content = new Image(value);
+					addChild(content);
+				}
+				else
+				{
+					content.texture = value;
+				}
 			}
 		}
 	}

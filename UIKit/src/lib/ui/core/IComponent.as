@@ -4,5 +4,7 @@ package lib.ui.core
 	{
 		function set componentXml(value:XML):void;
 		function componentRender():void;
+		
+		function getVarName():String;
 	}
 }

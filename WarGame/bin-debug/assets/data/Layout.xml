@@ -8,7 +8,13 @@
 	 <!-- 
 	 	图片
 	  -->
-	<component type="img" atlas="comm" source="slash" width="" height="" posx="" posy="" var="" anchor="10,10,0,0"/>
+	  <component>
+	  	<component type="img" atlas="comm" source="slash" width="" height="" posx="" posy="" varname="slash" anchor="10,10,0,0"/>
+		<component type="button" atlas="comm"  width=""  height=""  posx=""  posy=""  varname="btn" anchor="500,10,0,0">
+			<normal>181001</normal>
+			<pressed>181002</pressed>
+		</component>
+	  </component>
 	
 	<!-- 
 	

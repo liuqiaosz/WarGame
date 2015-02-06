@@ -31,6 +31,11 @@ package lib.ui.control
 				if(!container)
 				{
 					addChild(comp as DisplayObject);
+					var vname:String = comp.getVarName();
+					if(this.hasOwnProperty(vname))
+					{
+						this[vname] = comp;
+					}
 				}
 				else
 				{

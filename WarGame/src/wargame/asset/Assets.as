@@ -10,12 +10,12 @@ package wargame.asset
 		
 		CONFIG::debug
 		{
-			public static const TEXTURE_SUFFIX:String = "png";
+			public static const TEXTURE_SUFFIX:String = ".png";
 		}
 		
 		CONFIG::release
 		{
-			public static const TEXTURE_SUFFIX:String = "atf";
+			public static const TEXTURE_SUFFIX:String = ".atf";
 		}
 		
 		public function Assets()
@@ -27,19 +27,19 @@ package wargame.asset
 		 **/
 		public static function getAssetNativePath(value:String):String
 		{
-			return value + "." + TEXTURE_SUFFIX;
+			return value + TEXTURE_SUFFIX;
 		}
 		
 		public static function getUIAssetPath(atlas:String,id:String):String
 		{
 			CONFIG::debug
 			{
-				return ASSET_BASE + atlas + "/" + id + TEXTURE_SUFFIX;
+				return ASSET_UI + atlas + "/" + id + TEXTURE_SUFFIX;
 			}
 			
 			CONFIG::release
 			{
-				return ASSET_BASE + atlas + TEXTURE_SUFFIX;
+				return ASSET_UI + atlas + TEXTURE_SUFFIX;
 			}
 		}
 	}

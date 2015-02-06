@@ -15,3 +15,257 @@
 1136 x 640 像素分辨率，326 ppi(1.775)
 
 960 x 640 (1.5)
+
+
+package
+{
+	import flash.events.MouseEvent;
+	import flash.geom.Point;
+	import flash.geom.Rectangle;
+	import flash.utils.getTimer;
+	
+	import starling.display.Sprite;
+	import starling.events.Event;
+	import starling.events.Touch;
+	import starling.events.TouchEvent;
+	import starling.events.TouchPhase;
+
+	/**
+	 * 容器
+	 **/
+	public class Container extends Sprite
+	{
+		private static const GAP:int = 10;
+		private static var SWIP_FRICTION:Number = 0.015;
+		private static const SWIP_TIME_THRESHOLD:int = 500;
+		private static const SWIP_POS_THRESHOLD:int = 50;
+		
+		private var _dataProvider:Vector.<int> = new Vector.<int>();
+		private var _content:Sprite = null;
+		
+		private var _itemW:Number = 0;
+		private var _itemH:Number = 0;
+		
+		private var _items:Vector.<Item> = new Vector.<Item>();
+		
+		public function Container(panelW:Number,panelH:Number,itemW:Number = 100,itemH:Number = 100)
+		{
+			_content = new Sprite();
+			addChild(_content);
+
+			clipRect = new Rectangle(0,0,panelW,panelH);
+			_itemW = itemW;
+			_itemH = itemH;
+
+			addEventListener(Event.ADDED_TO_STAGE,onAdded);
+		}
+		
+		private function onAdded(event:Event):void
+		{
+			removeEventListener(Event.ADDED_TO_STAGE,onAdded);
+			
+			var initCount:int = clipRect.width / (_itemW + GAP);
+			initCount += 2;
+			for(var idx:int = 0; idx<initCount; idx++)
+			{
+				addItemBack(new Item(_itemW,_itemH),idx);
+			}
+			stage.addEventListener(TouchEvent.TOUCH,onTouch);
+		}
+		
+		private var beginMousePosX:Number = 0;
+		private var endMousePosX:Number = 0;
+		private var lastMousePosX:Number = 0;
+		private var curMousePosX:Number = 0;
+		private var isScrolling:Boolean = false;
+		private var isSwip:Boolean = false;
+		private var beginTime:Number = 0;
+		private var endTime:Number = 0;
+		private var nowTime:Number = 0;
+		private var touch:Touch = null;
+		private var swipPixel:int = 0;
+		private function onTouch(event:TouchEvent):void
+		{
+			nowTime = flash.utils.getTimer();
+			touch = event.getTouch(stage,TouchPhase.BEGAN);
+			if(touch)
+			{
+				isSwip = false;
+				//begin
+				isScrolling = true;
+				beginMousePosX = curMousePosX = lastMousePosX = touch.globalX;
+				beginTime = nowTime;
+				return;
+				//addEventListener(MouseEvent.MOUSE_MOVE,onMove);
+			}
+			
+			touch = event.getTouch(stage,TouchPhase.MOVED);
+			if(touch)
+			{
+				//move
+				curMousePosX = touch.globalX;
+			}
+			
+			touch = event.getTouch(stage,TouchPhase.ENDED);
+			if(touch)
+			{
+				//up
+				isScrolling = false;
+				endTime = nowTime;
+				endMousePosX = touch.globalX;
+				if(endTime - beginTime <= SWIP_TIME_THRESHOLD && Math.abs(endMousePosX - beginMousePosX) >= SWIP_POS_THRESHOLD)
+				{
+					//满足滑屏缓动条件
+					SWIP_FRICTION = Math.abs(endTime - beginTime) * 0.0001;
+					isSwip = true;
+					swipDelta = 10;
+					swipPixel = endMousePosX - beginMousePosX;
+				}
+			}
+		}
+		
+		private var swipDelta:Number = 0;
+		
+		private function addItemFront(item:Item,index:int):void
+		{
+			item.x = index * _itemW + index * GAP;
+			_content.addChild(item);
+			_items.unshift(item);
+		}
+		private function addItemBack(item:Item,index:int):void
+		{
+			var item:Item = new Item(_itemW,_itemH,index);
+			item.x = index * _itemW + index * GAP;
+			_content.addChild(item);
+			_items.push(item);
+		}
+		
+		public function get dataProvider():Vector.<int>
+		{
+			return _dataProvider;
+		}
+		
+		public function set dataProvider(value:Vector.<int>):void
+		{
+			_dataProvider = value;
+		}
+		
+		public function onUpdate(frameDelta:Number):void
+		{
+			if(isSwip)
+			{
+				//滑屏滚动
+				if(swipPixel < 0)
+				{
+					//left
+					scrollLeft(-swipDelta);
+					if(int(swipDelta) <= 0)
+					{
+						isSwip = false;
+					}
+				}
+				else
+				{
+					//right
+					scrollRight(swipDelta);
+					
+					if(int(swipDelta) <= 0)
+					{
+						isSwip = false;
+					}
+				}
+				swipDelta -= (swipDelta * SWIP_FRICTION);
+				
+			}
+			else if(isScrolling && lastMousePosX != curMousePosX)
+			{
+				var delta:int = curMousePosX - lastMousePosX;
+				lastMousePosX = curMousePosX;
+				
+				if(delta < 0)
+				{
+					scrollLeft(delta);
+				}
+				else
+				{
+					scrollRight(delta);
+				}
+			}
+		}
+		
+		private var zero:Point = new Point();
+		private function scrollLeft(delta:Number):void
+		{
+			_content.x += delta;
+			if(_items && _items.length)
+			{
+				if(_items[0].localToGlobal(zero).x < -(_itemW + GAP))
+				{
+					var item:Item = _items.shift();
+					item.index = _items[_items.length - 1].index + 1;
+					item.x = item.index * _itemW + item.index * GAP;
+					_content.addChild(item);
+					_items.push(item);
+				}
+			}
+		}
+		
+		private var pos:Point = null;
+		private function scrollRight(delta:Number):void
+		{
+			_content.x += delta;
+			if(_content.x > 0)
+			{
+				_content.x = 0;
+			}
+			if(_items && _items.length)
+			{
+				pos = _items[_items.length - 1].localToGlobal(zero);
+				if(pos.x > clipRect.width && _items[0].index > 0)
+				{
+					var item:Item = _items.pop();
+					item.index = _items[0].index - 1;
+					item.x = item.index * _itemW + item.index * GAP;
+					
+					_content.addChild(item);
+					_items.unshift(item);
+				}
+			}
+		}
+	}
+}
+
+import starling.display.Quad;
+import starling.display.Sprite;
+import starling.text.TextField;
+import starling.text.TextFieldAutoSize;
+import starling.utils.HAlign;
+import starling.utils.VAlign;
+
+class Item extends Sprite
+{
+	private var _index:int = 0;
+	private var label:TextField = null;
+	private static const LABEL_SIZE:int = 50;
+	public function Item(itemW:Number,itemH:Number,index:int = 0)
+	{
+		addChild(new Quad(itemW,itemH,0xff0000));
+		label = new TextField(LABEL_SIZE,LABEL_SIZE,String(index),"Verdana",12,0xFFFFFF,true);
+		label.hAlign = HAlign.CENTER;
+		label.vAlign = VAlign.CENTER;
+		addChild(label);
+		label.x = (itemW - LABEL_SIZE) >> 1;
+		label.y = (itemH - LABEL_SIZE) >> 1;
+		_index = index;
+	}
+	
+	public function set index(value:int):void
+	{
+		_index = value;
+		label.text = String(value);
+	}
+	public function get index():int
+	{
+		return _index;
+	}
+}

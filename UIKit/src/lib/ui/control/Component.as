@@ -11,9 +11,9 @@ package lib.ui.control
 	 **/
 	public class Component extends Sprite implements IComponent
 	{
-		
 		private var _anchor:Anchor = null;
-		
+		protected var compWidth:int = 0;
+		protected var compHeight:int = 0;
 		public function Component()
 		{
 		}
@@ -55,7 +55,7 @@ package lib.ui.control
 		}
 		
 		private var _varName:String = "";
-		public function get varName():String
+		public function getVarName():String
 		{
 			return _varName;
 		}
@@ -92,6 +92,8 @@ package lib.ui.control
 					}
 				}
 				_varName = _componentXml.@varname;
+				compWidth = int(_componentXml.@width);
+				compHeight = int(_componentXml.@height);
 			}
 		}
 		
@@ -102,8 +104,7 @@ package lib.ui.control
 		
 		public function componentRender():void
 		{
-			
+			anchorUpdate();
 		}
 	}
-	
 }
