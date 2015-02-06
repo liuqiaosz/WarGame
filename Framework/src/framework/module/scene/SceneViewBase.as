@@ -69,6 +69,11 @@ package framework.module.scene
 			return _resourceReady;
 		}
 		
+		protected function onResourceLoadComplete():void
+		{
+			
+		}
+		
 		/**
 		 * 开始视图资源准备
 		 **/
@@ -78,6 +83,7 @@ package framework.module.scene
 			var self:ISceneView = this;
 			AssetsManager.instance.addLoadQueue(resources,function():void{
 				_resourceReady = true;
+				onResourceLoadComplete();
 				if(null != complete)
 				{
 					complete(self);

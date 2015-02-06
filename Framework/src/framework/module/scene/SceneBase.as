@@ -69,6 +69,11 @@ package framework.module.scene
 			screenHeight = GameContext.instance.screenFullHeight;
 		}
 		
+		public function initializer():void
+		{
+			
+		}
+		
 		public function scale(ratio:Number):void
 		{
 //			var realHeight:int = GameContext.instance.realContentHeight;
@@ -87,53 +92,6 @@ package framework.module.scene
 			}
 			return null;
 		}
-		
-//		private var curPopView:String = "";
-//		private function onPopView(params:Object = null):void
-//		{
-//			var arg:ViewParam = params as ViewParam;
-//			if(arg && arg.view != curPopView)
-//			{
-//				curPopView = arg.view;
-//				var ins:Boolean = hasInstanceView(arg.view);
-//				var view:ISceneView = getView(arg.view);
-//				if(view && !view.isViewShow)
-//				{
-//					view.data = arg.data;
-//					if(!ins && view)
-//					{
-//						var res:Array = view.getResource();
-//						if(res)
-//						{
-//							loadViewResource(view,null,null,function():void{
-//								view.onShow();
-////								DialogManager.instance.showDialog(view as DisplayObject,arg);
-//								showDialog(view as DisplayObject,arg);
-//								curPopView = "";
-//							});
-//						}
-//						else
-//						{
-//							view.onShow();
-////							DialogManager.instance.showDialog(view as DisplayObject,arg);
-//							showDialog(view as DisplayObject,arg);
-//							curPopView = "";
-//						}
-//					}
-//					else
-//					{
-//						view.onShow();
-////						DialogManager.instance.showDialog(view as DisplayObject,arg);
-//						showDialog(view as DisplayObject,arg);
-//						curPopView = "";
-//					}
-//					if(viewPopStack.indexOf(view) < 0)
-//					{
-//						viewPopStack.push(view);
-//					}
-//				}
-//			}
-//		}
 		
 		/**
 		 * 显示视图消息响应
@@ -156,35 +114,10 @@ package framework.module.scene
 		 */
 		override public function dispose():void
 		{
-			onHide();
-//			for each(var id:ISceneView in insDict)
-//			{
-//				if(_viewStack.indexOf(id) >= 0)
-//				{
-//					_viewStack.splice(_viewStack.indexOf(id),1);
-//				}
-//				if(viewPopStack.indexOf(id) >= 0)
-//				{
-//					viewPopStack.splice(viewPopStack.indexOf(id),1);
-//				}
-//				
-//				id.dispose();
-//			}
-			
-//			var view:Sprite = null;
-//			for each(view in _viewStack)
-//			{
-//				view.removeFromParent(true);	
-//			}
-//			for each(view in viewPopStack)
-//			{
-//				view.removeFromParent(true);	
-//			}
-//
-//			_viewStack = null;
-//			viewPopStack = null;
+			//onHide();
 			insDict = null;
 			regDict = null;
+			
 			//移除监听
 			super.dispose();
 		}
@@ -194,35 +127,18 @@ package framework.module.scene
 		 */
 		public function onShow():void
 		{
-//			if(insDict)
-//			{
-//				var offset:Point = new Point();
-//				for each(var view:ISceneView in insDict)
-//				{
-//					addChild(view as starling.display.Sprite);
-//				}
-//			}
 			addViewListener(NotificationIds.MSG_VIEW_SHOWVIEW,onShowView);
 			addViewListener(NotificationIds.MSG_VIEW_HIDEVIEW,onHideView);
-//			addViewListener(NotificationIds.MSG_VIEW_POPVIEW,onPopView);
-			
-//			for each(var view:ISceneView in insDict)
-//			{
-//				view.onShow();
-////			}
-//			for each(var view:ISceneView in viewPopStack)
-//			{
-//				if(currentView != view)
-//				{
-//					view.onShow();
-//				}
-//			}
-//			if(currentView)
-//			{
-//				currentView.onShow();
-//			}
 			
 			sendViewMessage(NotificationIds.MSG_VIEW_SCENESHOWN,this._id);
+			if(_isPause)
+			{
+				for(var idx:int = 0; idx<_views.length; idx++)
+				{
+					_views[idx].resume();
+				}
+				_isPause = false;
+			}
 		}
 		
 		/**
@@ -232,24 +148,18 @@ package framework.module.scene
 		{
 			removeViewListener(NotificationIds.MSG_VIEW_SHOWVIEW,onShowView);
 			removeViewListener(NotificationIds.MSG_VIEW_HIDEVIEW,onHideView);
-//			removeViewListener(NotificationIds.MSG_VIEW_POPVIEW,onPopView);
-			
-//			for each(var view:ISceneView in insDict)
-//			{
-//				view.onHide();
-//			}
-//			for each(var view:ISceneView in viewPopStack)
-//			{
-//				if(currentView != view)
-//				{
-//					view.onHide();
-//				}
-//			}
-//			if(currentView)
-//			{
-//				currentView.onHide();
-//			}
+			if(!this.needDispose())
+			{
+				//暂停所有场景
+				for(var idx:int = 0; idx<_views.length; idx++)
+				{
+					_views[idx].pause();
+				}
+				_isPause = true;
+			}
 		}
+		
+		private var _isPause:Boolean = false;
 		
 		/**
 		 * 注册视图
@@ -272,6 +182,11 @@ package framework.module.scene
 			if(id in insDict)
 			{
 				var view:ISceneView = insDict[id];
+				if(view in popMaskDict)
+				{
+					popMaskDict[view].removeFromParent(true);
+					delete popMaskDict[view];
+				}
 				delete insDict[id];
 				if(view)
 				{
@@ -283,57 +198,6 @@ package framework.module.scene
 		
 		private var currentView:ISceneView = null;
 		private var currentViewId:String = "";
-		/**
-		 * 显示视图，如果没有则先创建再添加
-		 */
-		//protected function showView(id:String,offset:Point = null,isPop:Boolean = false):void
-//		protected function showViewv(id:String,args:Array,isPop:Boolean = false):void
-//		{
-//			var ins:Boolean = hasInstanceView(id);
-//			var view:ISceneView = getView(id);
-//
-//			var argLen:int = args.length;
-//			var data:Object = argLen > 1 ? args[1]:null;
-//			var offset:Point = argLen > 2 ? args[2]:null;
-//			
-//			if(view != currentView)
-//			{
-//				view.data = data;
-//				hideView(currentViewId);
-//			
-//				if(_viewStack.indexOf(view) >= 0)
-//				{
-//					_viewStack.splice(_viewStack.indexOf(view),1);
-//				}
-//				_viewStack.push(view);
-//				currentViewId = id;
-//				currentView = view;
-//				
-//				if(!ins)
-//				{
-//					var res:Array = view.getResource();
-//					if(res)
-//					{
-//						loadViewResource(view,offset,data,function():void{
-//							addView(view,offset,data);
-//							view.onShow();
-//						});
-//					}
-//					else
-//					{
-//						addView(view,offset,data);
-//						view.onShow();
-//						view.onShowEnd();
-//					}
-//				}
-//				else
-//				{
-//					addView(view,offset,data);
-//					view.onShow();
-//					view.onShowEnd();
-//				}
-//			}
-//		}
 		
 		//当前已经弹出的视图
 		private var currentPopupView:ISceneView = null;
@@ -505,7 +369,7 @@ package framework.module.scene
 		{
 			var child:Sprite = (view as Sprite);
 			view.onHide();
-			if(args.anim)
+			if(args && args.anim)
 			{
 				playHideViewAnim(view,args.view,onHideAnimationComplete);
 			}
@@ -607,21 +471,6 @@ package framework.module.scene
 		public function needDispose():Boolean
 		{
 			return false;
-		}
-		
-		
-		public function closeAll():void
-		{
-			
-//			var tmp:Array = viewQueue.concat();
-//			for each(var view:Sprite in tmp)
-//			{
-////				view.removeFromParent();
-//				closeDialog(view,false);
-//			}
-//			tmp = null;
-//			viewQueue = [];
-//			currentDialogView = null;
 		}
 	}
 }

@@ -1,6 +1,8 @@
 package framework.module.asset
 {
 	import starling.events.Event;
+	import starling.textures.Texture;
+	import starling.textures.TextureAtlas;
 	
 
 	/**
@@ -48,6 +50,20 @@ package framework.module.asset
 				_instance = new AssetsManager();
 			}
 			return _instance;
+		}
+		
+		public function getUITexture(id:String,atlas:String = ""):Texture
+		{
+			if(atlas)
+			{
+				var textureAtlas:TextureAtlas = getTextureAtlas(atlas);
+				if(textureAtlas)
+				{
+					return textureAtlas.getTexture(id);
+				}
+			}
+			
+			return getTexture(id);
 		}
 	}
 }

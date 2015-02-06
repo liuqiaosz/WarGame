@@ -5,6 +5,8 @@
     <classEntry path="framework.module.scene.SceneViewBase"/>
     <classEntry path="framework.core.AnimationMarshal"/>
     <classEntry path="framework.core.AnimationTween"/>
+    <classEntry path="framework.device.Device"/>
+    <classEntry path="framework.device.DeviceInfo"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

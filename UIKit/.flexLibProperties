@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="true" version="3">
+  <includeClasses>
+    <classEntry path="lib.ui.control.Component"/>
+    <classEntry path="lib.ui.control.Anchor"/>
+    <classEntry path="lib.ui.core.UIManager"/>
+    <classEntry path="lib.ui.core.IComponent"/>
+    <classEntry path="lib.ui.core.IContainer"/>
+    <classEntry path="lib.ui.control.UIContainer"/>
+    <classEntry path="lib.ui.control.UIView"/>
+    <classEntry path="lib.ui.control.UIImage"/>
+    <classEntry path="lib.ui.control.UIButton"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>

@@ -10,8 +10,8 @@ package framework.module.scene
 	 */
 	public interface IScene
 	{
-		function onShow():void;					//暂停场景
-		function onHide():void;					//恢复场景
+		function onShow():void;
+		function onHide():void;
 		function get id():String;				//场景ID
 //		function changeView(view:String,offset:Point = null):void;	//切换视图
 		function scale(ratio:Number):void;
@@ -23,5 +23,7 @@ package framework.module.scene
 		function needDispose():Boolean;
 		
 		function findViewById(id:String):ISceneView;
+		
+		function initializer():void;
 	}
 }

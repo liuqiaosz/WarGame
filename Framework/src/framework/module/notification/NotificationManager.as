@@ -194,7 +194,7 @@ package framework.module.notification
 				for each(var handler:MessageHandler in funcs)
 				{
 //					func(id,params);
-					handler.handler(id,params);
+					handler.handler(params);
 				}
 			}
 		}

@@ -54,39 +54,10 @@ package framework.module.scene
 			dramaLayer = new Sprite();
 			dramaLayer.name = LAYER_DRAMA;
 			screen.addChild(dramaLayer);
-//			layers = new Vector.<Sprite>();
-//			var gameLayer:Sprite = null;
-//			var scale:Number = GameContext.instance.dpiScale();
-//			for each(var layer:String in LAYERS)
-//			{
-//				gameLayer = new Sprite();
-//				screen.addChild(gameLayer);
-//				gameLayer.name = layer;
-//				layers.push(gameLayer);
-//			}
 		}
 		
 		public var sceneOffset:Point = new Point();
 		public var sceneGlobalOffset:Point = new Point();
-		
-		/**
-		 * 设置所有图层的缩放
-		 */
-		public function scale(ratio:Number):void
-		{
-			dramaLayer.scaleX = dramaLayer.scaleY = sceneLayer.scaleX = sceneLayer.scaleY = scaleRatio = ratio;
-//			dramaLayer.scaleX = dramaLayer.scaleY = scaleRatio;
-//			var h:int = GameContext.instance.screenFullHeight;
-
-			sceneLayer.y = dramaLayer.y = ((GameContext.instance.screenFullHeight  - GameContext.instance.realContentHeight) >> 1);
-//			sceneLayer.x = dramaLayer.x = ((GameContext.instance.screenFullWidth - GameContext.instance.realContentWidth) >> 1);
-//			sceneOffset.x = sceneLayer.x;
-//			sceneOffset.y = sceneLayer.y;
-			
-			sceneGlobalOffset = sceneLayer.globalToLocal(new Point());
-//			var realWidth:int = GameContext.instance.realContentWidth;
-//			var offset:int = ((GameContext.instance.screenFullWidth  - realWidth) >> 1);
-		}
 		
 		override public function initializer():void
 		{
@@ -169,7 +140,8 @@ package framework.module.scene
 				if(!(id in insDict))
 				{
 					scene = insDict[id] = new cls();
-					scene.scale(scaleRatio);
+					scene.initializer();
+					//scene.scale(scaleRatio);
 				}
 				scene = insDict[id];
 				if(scene != _currentScene)
@@ -204,7 +176,7 @@ package framework.module.scene
 //						SceneBase(_currentScene).closeAll();
 //						SceneBase(_currentScene).showDialog(sceneView as DisplayObject,view);
 //					}
-					SceneBase(_currentScene).closeAll();
+					//SceneBase(_currentScene).closeAll();
 					sendViewMessage(NotificationIds.MSG_VIEW_SHOWVIEW,view);
 //					_currentScene.changeView(view);
 				}

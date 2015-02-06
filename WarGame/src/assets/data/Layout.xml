@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ui>
+	<!-- 
+		atlas 图集的ID
+	 -->
+	 
+	 <!-- 
+	 	图片
+	  -->
+	<component type="img" atlas="comm" source="slash" width="" height="" posx="" posy="" var="" anchor="10,10,0,0"/>
+	
+	<!-- 
+	
+		按钮
+		
+		normal: 常规状态图片
+		pressed: 按下状态图片
+	 
+	<component type="button" atlas="" width="" height="" posx="" posy="" var="">
+		<normal></normal>
+		<pressed></pressed>
+	</component>
+	-->
+	<!-- 
+		文本
+		
+		fontName: 字体
+		text: 显示文本
+	 
+	<component type="text" font="" text="aaa" width="" height="" posx="" posy="" var=""/>
+	
+	<component type="box" width="" height="" posx="" posy="" var="">
+		
+	</component>
+	
+	<component type="view">
+		
+	</component>
+	-->
+</ui>

@@ -18,6 +18,9 @@ package framework.module.notification
 		public static const MSG_FMK_START_COMPLETE:String = "MsgFmkStartupComplete";
 		//帧更新
 		public static const MSG_FMK_FRAME_UPDATE:String = "MsgFmkFrameUpdate";
+		//初始化失败
+		public static const MSG_FMK_INIT_ERROR:String = "MsgFmkInitError";
+		
 		//播放音乐/音效
 		public static const MSG_FMK_SOUND_PLAY:String = "MsgFmkPlaySound";
 		public static const MSG_FMK_SOUND_PAUSE:String = "MsgFmkPauseSound";

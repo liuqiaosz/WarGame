@@ -356,6 +356,10 @@ package framework.module.asset
 		{
 			starlingAsset.removeObject(url);
 		}
+		public function getXml(url:String):XML
+		{
+			return starlingAsset.getXml(url);
+		}
 		
 		public function purge():void
 		{
