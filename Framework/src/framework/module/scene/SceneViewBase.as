@@ -8,8 +8,10 @@ package framework.module.scene
 
 	public class SceneViewBase extends Sprite implements ISceneView
 	{
-		public function SceneViewBase()
+		protected var _id:String = "";
+		public function SceneViewBase(id:String)
 		{
+			_id = id;
 		}
 		
 		public function onHide():void

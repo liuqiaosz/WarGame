@@ -96,7 +96,7 @@ package lib.animation.core
 		
 		private var navTexture:Texture = null;
 		private var lastChange:int = 0;
-		public function update(delta:int):void
+		public function advanceTime(delta:Number):void
 		{
 			if(isPause || !_running)
 			{

@@ -3,7 +3,7 @@
   <includeClasses>
     <classEntry path="lib.ui.control.Component"/>
     <classEntry path="lib.ui.control.Anchor"/>
-    <classEntry path="lib.ui.core.UIManager"/>
+    <classEntry path="lib.ui.core.UIKit"/>
     <classEntry path="lib.ui.core.IComponent"/>
     <classEntry path="lib.ui.core.IContainer"/>
     <classEntry path="lib.ui.control.UIContainer"/>
@@ -12,6 +12,7 @@
     <classEntry path="lib.ui.control.UIButton"/>
     <classEntry path="lib.ui.control.UIScrollView"/>
     <classEntry path="lib.ui.control.IRenderer"/>
+    <classEntry path="lib.ui.control.UIScaleButton"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

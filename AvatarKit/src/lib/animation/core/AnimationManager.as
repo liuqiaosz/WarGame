@@ -18,14 +18,14 @@ package lib.animation.core
 			return _instance;
 		}
 		
-		protected var anims:Vector.<IAnimation> = null;
+		protected var anims:Vector.<IAnimatable> = null;
 		private var configDict:Dictionary = null;
 		private var isInit:Boolean = false;
 		private var lastAdvance:int = 0;
 		
 		public function AnimationManager()
 		{
-			anims = new Vector.<IAnimation>();
+			anims = new Vector.<IAnimatable>();
 			lastAdvance = getTimer();
 			configDict = new Dictionary();
 			Starling.juggler.add(this);
@@ -37,19 +37,19 @@ package lib.animation.core
 			var delta:int = now - lastAdvance;
 			for(var idx:int = 0; idx<anims.length; idx++)
 			{
-				anims[idx].update(delta);
+				anims[idx].advanceTime(delta);
 			}
 			lastAdvance = now;
 		}
 		
-		public function addAnim(value:IAnimation):void
+		public function addAnim(value:IAnimatable):void
 		{
 			if(anims.indexOf(value) < 0)
 			{
 				anims.push(value);
 			}
 		}
-		public function removeAnim(value:IAnimation):void
+		public function removeAnim(value:IAnimatable):void
 		{
 			if(anims.indexOf(value) >= 0)
 			{

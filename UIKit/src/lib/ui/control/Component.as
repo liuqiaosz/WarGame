@@ -1,8 +1,10 @@
 package lib.ui.control
 {
 	import lib.ui.core.IComponent;
+	import lib.ui.core.UIKit;
 	
 	import starling.display.Image;
+	import starling.display.Quad;
 	import starling.display.Sprite;
 	import starling.textures.Texture;
 
@@ -18,6 +20,7 @@ package lib.ui.control
 		{
 		}
 		
+		
 		public function set anchor(value:Anchor):void
 		{
 			_anchor = value;
@@ -26,29 +29,32 @@ package lib.ui.control
 		
 		private function anchorUpdate():void
 		{
-			if(_anchor.left || _anchor.top || _anchor.right || _anchor.bottom)
+			if(_anchor)
 			{
-				if(_anchor.left)
+				if(_anchor.left || _anchor.top || _anchor.right || _anchor.bottom)
 				{
-					x = _anchor.left;
-				}
-				else if(_anchor.right)
-				{
-					if(parent)
+					if(_anchor.left)
 					{
-						x = parent.width - _anchor.right;
+						x = _anchor.left;
 					}
-				}
-				
-				if(_anchor.top)
-				{
-					y = _anchor.top;
-				}
-				else if(_anchor.bottom)
-				{
-					if(parent)
+					else if(_anchor.right)
 					{
-						y = parent.height - _anchor.bottom;
+						if(parent)
+						{
+							x = parent.width - _anchor.right;
+						}
+					}
+					
+					if(_anchor.top)
+					{
+						y = _anchor.top;
+					}
+					else if(_anchor.bottom)
+					{
+						if(parent)
+						{
+							y = parent.height - _anchor.bottom;
+						}
 					}
 				}
 			}
@@ -95,6 +101,7 @@ package lib.ui.control
 				compWidth = int(_componentXml.@width);
 				compHeight = int(_componentXml.@height);
 			}
+			invalidate();
 		}
 		
 		public function get componentXml():XML
@@ -102,9 +109,35 @@ package lib.ui.control
 			return _componentXml;
 		}
 		
-		public function componentRender():void
+//		public function componentRender():void
+//		{
+//			anchorUpdate();
+//		}
+		
+		private var _invalidate:Boolean = false;
+		protected function invalidate():void
 		{
+			if(!_invalidate)
+			{
+				UIKit.instance.addInvalidate(this);
+				_invalidate = true;
+			}
+		}
+		
+		public function invalidateRender():void
+		{
+			_invalidate = false;
 			anchorUpdate();
+		}
+		
+		private var _data:Object = null;
+		public function set data(value:Object):void
+		{
+			_data = value;
+		}
+		public function get data():Object
+		{
+			return _data;
 		}
 	}
 }

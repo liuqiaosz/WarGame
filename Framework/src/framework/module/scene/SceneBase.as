@@ -4,14 +4,13 @@ package framework.module.scene
 	import flash.geom.Point;
 	import flash.utils.Dictionary;
 	
-	import framework.core.AnimationMarshal;
-	import framework.core.AnimationTween;
 	import framework.core.GameContext;
 	import framework.module.asset.AssetsManager;
 	import framework.module.notification.NotificationIds;
 	import framework.module.scene.vo.ViewParam;
 	
 	import starling.animation.Transitions;
+	import starling.animation.Tween;
 	import starling.core.Starling;
 	import starling.display.DisplayObject;
 	import starling.display.Quad;
@@ -221,9 +220,9 @@ package framework.module.scene
 						if(!view.isLoaded())
 						{
 							showProgress();
-							view.loadResource(function(sceneview:ISceneView):void{
+							view.loadResource(onResourceLoadProgress,function(sceneview:ISceneView):void{
 								addViewToScene(view,args);
-							},onResourceLoadProgress);
+							});
 						}
 						else
 						{
@@ -252,9 +251,9 @@ package framework.module.scene
 					if(!view.isLoaded())
 					{
 						showProgress();
-						view.loadResource(function(sceneview:ISceneView):void{
+						view.loadResource(onResourceLoadProgress,function(sceneview:ISceneView):void{
 							addViewToScene(view,args);
-						},onResourceLoadProgress);
+						});
 					}
 					else
 					{
@@ -304,29 +303,31 @@ package framework.module.scene
 			var posX:int = (screenWidth - view.viewBounds.width) >> 1;
 			var posY:int = (screenHeight - view.viewBounds.height) >> 1;
 			
-			var eff:AnimationTween = new AnimationTween(view as DisplayObject,ANIMATION_DURATION,Transitions.EASE_IN_OUT_BACK);
+			var eff:Tween = new Tween(view as DisplayObject,ANIMATION_DURATION,Transitions.EASE_IN_OUT_BACK);
 			
 //			var eff:Tween = new Tween(currentDialogView,ANIMATION_DURATION,Transitions.EASE_IN_OUT_BACK);
 			eff.scaleTo(1);
 			Sprite(view).scaleX = Sprite(view).scaleY = 0;
-			eff.play(function():void{
+			Starling.juggler.add(eff);
+			eff.onComplete = function():void{
 				if(null != complete)
 				{
 					complete(view);
 				}
-			});
+			};
 		}
 		
 		protected function playHideViewAnim(view:ISceneView,viewid:String,complete:Function):void
 		{
-			var eff:AnimationTween = new AnimationTween(view as DisplayObject,ANIMATION_DURATION,Transitions.EASE_IN_OUT_BACK);
+			var eff:Tween = new Tween(view as DisplayObject,ANIMATION_DURATION,Transitions.EASE_IN_OUT_BACK);
 			eff.scaleTo(0);
-			eff.play(function():void{
+			Starling.juggler.add(eff);
+			eff.onComplete = function():void{
 				if(null != complete)
 				{
 					complete(viewid,view);
 				}
-			});
+			};
 		}
 		
 		protected function addViewToScene(view:ISceneView,args:ViewParam):void

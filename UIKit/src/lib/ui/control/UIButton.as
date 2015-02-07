@@ -78,7 +78,7 @@ package lib.ui.control
 		
 		private var _normalTex:Texture = null;
 		private var _pressedTex:Texture = null;
-		override public function componentRender():void
+		override public function invalidateRender():void
 		{
 			_normalTex = AssetsManager.instance.getUITexture(_normal,_atlas);
 			_pressedTex = AssetsManager.instance.getUITexture(_pressed,_atlas);
@@ -87,7 +87,7 @@ package lib.ui.control
 			{
 				texture = _normalTex;
 			}
-			super.componentRender();
+			super.invalidateRender();
 		}
 		
 		private var _isToggle:Boolean = false;
@@ -147,5 +147,6 @@ package lib.ui.control
 		{
 			selectFunc = value;
 		}
+		
 	}
 }

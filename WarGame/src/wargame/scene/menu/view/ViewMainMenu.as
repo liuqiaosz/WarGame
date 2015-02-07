@@ -3,11 +3,21 @@ package wargame.scene.menu.view
 	import framework.module.asset.AssetsManager;
 	import framework.module.scene.SceneViewBase;
 	
+	import starling.display.Quad;
+	
 	import wargame.asset.Assets;
+	import wargame.scene.menu.ui.MenuView;
 
 	public class ViewMainMenu extends SceneViewBase
 	{
-		public function ViewMainMenu()
+		private var _view:MenuView = null;
+		
+		public function ViewMainMenu(id:String)
+		{
+			super(id);
+		}
+		
+		override public function onShow():void
 		{
 			
 		}
@@ -17,13 +27,22 @@ package wargame.scene.menu.view
 		 **/
 		override protected function onResourceLoadComplete():void
 		{
-			var data:Object = AssetsManager.instance.getObject("Layout"); 
-			trace("");
+			if(!_view)
+			{
+				_view = new MenuView();
+				_view.onSelect = function():void{
+				
+					trace("!!");
+					_view.fadeFlyOut();
+				};
+				addChild(_view);
+			}
 		}
 		
 		override public function getResource():Array
 		{
-			return [Assets.getAssetNativePath("assets/slash"),"assets/data/Layout.xml"];
+			return [Assets.getUIAssetPath("comm","bg_menuitem"),"assets/data/MenuUI.xml"];
 		}
+		
 	}
 }

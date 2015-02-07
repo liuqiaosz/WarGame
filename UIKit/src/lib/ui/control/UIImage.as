@@ -8,7 +8,7 @@ package lib.ui.control
 
 	public class UIImage extends Component
 	{
-		private var content:Image = null;
+		protected var content:Image = null;
 		protected var _atlas:String = "";
 		protected var _img:String = "";
 		public function setTexture(id:String,atlas:String = null):void
@@ -29,7 +29,7 @@ package lib.ui.control
 			super.componentXml = value;
 		}
 		
-		override public function componentRender():void
+		override public function invalidateRender():void
 		{
 			if(_img)
 			{
@@ -45,9 +45,11 @@ package lib.ui.control
 					{
 						content.texture = img;
 					}
+					content.x = -(img.width >> 1);
+					content.y = -(img.height >> 1);
 				}
 			}
-			super.componentRender();
+			super.invalidateRender();
 		}
 		
 		public function set texture(value:Texture):void
@@ -57,6 +59,8 @@ package lib.ui.control
 				if(!content)
 				{
 					content = new Image(value);
+					content.x = -(value.width >> 1);
+					content.y = -(value.height >> 1);
 					addChild(content);
 				}
 				else

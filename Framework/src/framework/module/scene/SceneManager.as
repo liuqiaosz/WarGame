@@ -139,7 +139,7 @@ package framework.module.scene
 				var cls:Class = regDict[id];
 				if(!(id in insDict))
 				{
-					scene = insDict[id] = new cls();
+					scene = insDict[id] = new cls(id);
 					scene.initializer();
 					//scene.scale(scaleRatio);
 				}
@@ -165,6 +165,8 @@ package framework.module.scene
 //					Sprite(scene).y = Math.abs(sceneLayer.y);
 					sceneLayer.addChild(scene as DisplayObject);
 					_currentScene = scene;
+					DisplayObject(_currentScene).x = GameContext.instance.getDesignPixelAspect().screenWidth >> 1; 
+					DisplayObject(_currentScene).y = GameContext.instance.getDesignPixelAspect().screenHeight >> 1;
 					scene.onShow();
 				}
 				

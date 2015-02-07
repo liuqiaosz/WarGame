@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<view>
+	<!-- 
+		atlas 图集的ID
+	 -->
+	 <component type="box" layout="2" gap="20">
+	  	<component type="scalebtn" atlas="comm" source="bg_menuitem" scale="0.9" varname="itemBar1" />
+		<component type="scalebtn" atlas="comm" source="bg_menuitem" scale="0.9" varname="itemBar2" />
+		<component type="scalebtn" atlas="comm" source="bg_menuitem" scale="0.9" varname="itemBar3" />
+	  </component>
+	 	<!-- 
+	 	<component type="scalebtn" atlas="comm" source="181001" scale="0.9" varname="btn" />
+	  	
+	  	
+	  	
+	  	<component type="button" atlas="comm"  width=""  height=""  posx=""  posy=""  varname="btn">
+				<normal>181001</normal>
+				<pressed>181002</pressed>
+			</component>
+		-->
+
+	 <!-- 
+	 <component type="button" atlas="comm"  width=""  height=""  posx=""  posy=""  varname="btn" anchor="500,10,0,0">
+				<normal>181001</normal>
+				<pressed>181002</pressed>
+			</component>
+	 	图片
+	 <component>
+	 	<component type="scroll" width="600" height="200" layout="1" posx="" posy="" varname="scroll" anchor="10,10,0,0"/>
+	 </component>
+	-->
+	<!-- 
+		文本
+		
+		fontName: 字体
+		text: 显示文本
+	 
+	<component type="text" font="" text="aaa" width="" height="" posx="" posy="" var=""/>
+	
+	<component type="box" width="" height="" posx="" posy="" var="">
+		
+	</component>
+	
+	<component type="view">
+		
+	</component>
+	-->
+</view>
