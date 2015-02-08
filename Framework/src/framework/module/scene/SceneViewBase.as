@@ -8,20 +8,23 @@ package framework.module.scene
 
 	public class SceneViewBase extends Sprite implements ISceneView
 	{
-		protected var _id:String = "";
-		public function SceneViewBase(id:String)
+		//protected var _id:String = "";
+		public function SceneViewBase(resources:Array = null)
 		{
-			_id = id;
+			_resources = resources;
+			//_id = id;
 		}
 		
 		public function onHide():void
 		{
 			
 		}
+		
 		public function onHideEnd():void
 		{
 			
 		}
+		
 		public function onShow():void
 		{
 			
@@ -38,9 +41,11 @@ package framework.module.scene
 		{
 			
 		}
+		
+		private var _resources:Array = null;
 		public function getResource():Array
 		{
-			return [];
+			return _resources;
 		}
 
 		public function set data(value:Object):void

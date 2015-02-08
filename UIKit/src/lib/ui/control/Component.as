@@ -16,6 +16,16 @@ package lib.ui.control
 		private var _anchor:Anchor = null;
 		protected var compWidth:int = 0;
 		protected var compHeight:int = 0;
+		protected var _anchorX:Number = 0;
+		public function get anchorX():Number
+		{
+			return _anchorX;
+		}
+		protected var _anchorY:Number = 0;
+		public function get anchorY():Number
+		{
+			return _anchorY;
+		}
 		public function Component()
 		{
 		}
@@ -27,38 +37,38 @@ package lib.ui.control
 			//anchorUpdate();
 		}
 		
-		private function anchorUpdate():void
-		{
-			if(_anchor)
-			{
-				if(_anchor.left || _anchor.top || _anchor.right || _anchor.bottom)
-				{
-					if(_anchor.left)
-					{
-						x = _anchor.left;
-					}
-					else if(_anchor.right)
-					{
-						if(parent)
-						{
-							x = parent.width - _anchor.right;
-						}
-					}
-					
-					if(_anchor.top)
-					{
-						y = _anchor.top;
-					}
-					else if(_anchor.bottom)
-					{
-						if(parent)
-						{
-							y = parent.height - _anchor.bottom;
-						}
-					}
-				}
-			}
-		}
+//		private function anchorUpdate():void
+//		{
+//			if(_anchor)
+//			{
+//				if(_anchor.left || _anchor.top || _anchor.right || _anchor.bottom)
+//				{
+//					if(_anchor.left)
+//					{
+//						x = _anchor.left;
+//					}
+//					else if(_anchor.right)
+//					{
+//						if(parent)
+//						{
+//							x = parent.width - _anchor.right;
+//						}
+//					}
+//					
+//					if(_anchor.top)
+//					{
+//						y = _anchor.top;
+//					}
+//					else if(_anchor.bottom)
+//					{
+//						if(parent)
+//						{
+//							y = parent.height - _anchor.bottom;
+//						}
+//					}
+//				}
+//			}
+//		}
 		
 		private var _varName:String = "";
 		public function getVarName():String
@@ -74,18 +84,18 @@ package lib.ui.control
 			{
 				var str:String;
 				var args:Array = null;
-				str = _componentXml.@anchor;
-				if(str)
-				{
-					str = _componentXml.@anchor;
-					args = str.split(",");
-					if(args.length >= 4)
-					{
-						anchor = new Anchor(args[0],args[1],args[2],args[3]);
-					}
-				}
-				else
-				{
+//				str = _componentXml.@anchor;
+//				if(str)
+//				{
+//					str = _componentXml.@anchor;
+//					args = str.split(",");
+//					if(args.length >= 4)
+//					{
+//						anchor = new Anchor(args[0],args[1],args[2],args[3]);
+//					}
+//				}
+//				else
+//				{
 					str = _componentXml.@posx;
 					if(str)
 					{
@@ -96,13 +106,32 @@ package lib.ui.control
 					{
 						y = int(str);
 					}
-				}
+//				}
 				_varName = _componentXml.@varname;
-				compWidth = int(_componentXml.@width);
-				compHeight = int(_componentXml.@height);
+				width = compWidth = int(_componentXml.@width);
+				height = compHeight = int(_componentXml.@height);
+				_data = String(_componentXml.@data);
 			}
 			invalidate();
 		}
+		
+//		override public function set width(value:Number):void
+//		{
+//			compWidth = value;
+//		}
+//		override public function get width():Number
+//		{
+//			return compWidth;
+//		}
+//		
+//		override public function set height(value:Number):void
+//		{
+//			compHeight = value;
+//		}
+//		override public function get height():Number
+//		{
+//			return compHeight;
+//		}
 		
 		public function get componentXml():XML
 		{
@@ -127,7 +156,7 @@ package lib.ui.control
 		public function invalidateRender():void
 		{
 			_invalidate = false;
-			anchorUpdate();
+//			anchorUpdate();
 		}
 		
 		private var _data:Object = null;

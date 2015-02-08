@@ -416,7 +416,7 @@ package framework.module.scene
 				if(id in regDict)
 				{
 					var cls:Class = regDict[id];
-					view = insDict[id] = new cls(id);
+					view = insDict[id] = new cls();
 				}
 			}
 			else

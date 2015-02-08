@@ -21,6 +21,8 @@ package lib.ui.control
 		public function UIImage()
 		{
 			super();
+			
+			_anchorX = _anchorY = 0.5;
 		}
 		
 		override public function set componentXml(value:XML):void
@@ -45,8 +47,24 @@ package lib.ui.control
 					{
 						content.texture = img;
 					}
-					content.x = -(img.width >> 1);
-					content.y = -(img.height >> 1);
+					
+					if(_anchorX > 0)
+					{
+						content.x = -(img.width * _anchorX);
+					}
+					else
+					{
+						content.y = 0;
+					}
+					
+					if(_anchorY > 0)
+					{
+						content.y = -(img.height * _anchorY);
+					}
+					else
+					{
+						content.y = 0;
+					}
 				}
 			}
 			super.invalidateRender();

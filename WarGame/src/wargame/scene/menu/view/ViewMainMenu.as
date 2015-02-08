@@ -12,9 +12,12 @@ package wargame.scene.menu.view
 	{
 		private var _view:MenuView = null;
 		
-		public function ViewMainMenu(id:String)
+		public function ViewMainMenu()
 		{
-			super(id);
+			super([
+				Assets.getUIAssetPath("comm","bg_menuitem"),
+				"assets/data/MenuUI.xml"
+			]);
 		}
 		
 		override public function onShow():void
@@ -38,11 +41,5 @@ package wargame.scene.menu.view
 				addChild(_view);
 			}
 		}
-		
-		override public function getResource():Array
-		{
-			return [Assets.getUIAssetPath("comm","bg_menuitem"),"assets/data/MenuUI.xml"];
-		}
-		
 	}
 }
