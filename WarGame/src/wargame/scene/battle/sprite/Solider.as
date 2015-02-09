@@ -72,15 +72,5 @@ package wargame.scene.battle.sprite
 		{
 			
 		}
-		
-		public function moveByFrame():void
-		{
-			_avatar.x += _moveSpeed;
-		}
-		
-		public function update(delta:int):void
-		{
-			
-		}
 	}
 }

@@ -42,8 +42,8 @@ package
 			
 			SceneManager.instance.register(SceneIds.SCENE_MENU,SceneMenu);
 			SceneManager.instance.register(SceneIds.SCENE_BATTLE,SceneBattle);
-			
 			SceneManager.instance.changeScene(SceneIds.SCENE_BATTLE);
+			
 			/**
 			AssetsManager.instance.addLoadQueue([
 				Assets.getUIAssetPath("comm","slash"),
@@ -57,7 +57,7 @@ package
 					view.x = GameContext.instance.getDesignPixelAspect().screenWidth >> 1;
 					GameContext.instance.screenStage.addChild(view);
 			});
-			*/
+			**/
 		}
 	}
 }
