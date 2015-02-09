@@ -7,6 +7,7 @@ package editor.cfg
 	import flash.filesystem.File;
 	import flash.utils.ByteArray;
 	
+	import lib.animation.avatar.cfg.AtomConfigManager;
 	import lib.animation.avatar.cfg.ConfigActionTrigger;
 	import lib.animation.avatar.cfg.ConfigAvatar;
 	import lib.animation.avatar.cfg.atom.ConfigSkill;
@@ -159,15 +160,17 @@ package editor.cfg
 				{
 					data = FileSystemTool.readFile(unitFile.nativePath);
 					json = data.readUTFBytes(data.length);
-					jsonArr = JSON.parse(json) as Array;
-					
-					if(jsonArr && jsonArr.length)
-					{
-						for each(obj in jsonArr)
-						{
-							units.push(ConfigUnit.decode(obj));
-						}
-					}
+//					jsonArr = JSON.parse(json) as Array;
+//					
+//					if(jsonArr && jsonArr.length)
+//					{
+//						for each(obj in jsonArr)
+//						{
+//							units.push(ConfigUnit.decode(obj));
+//						}
+//					}
+					AtomConfigManager.instance.loadUnitAtom(json);
+					units = AtomConfigManager.instance.units;
 				}
 				
 				var skillFile:File = cfgDir.resolvePath(Constants.EXCEL_SKILL_CFG_FILE);
@@ -175,15 +178,17 @@ package editor.cfg
 				{
 					data = FileSystemTool.readFile(skillFile.nativePath);
 					json = data.readUTFBytes(data.length);
-					jsonArr = JSON.parse(json) as Array;
-					
-					if(jsonArr && jsonArr.length)
-					{
-						for each(obj in jsonArr)
-						{
-							skills.push(ConfigSkill.decode(obj));
-						}
-					}
+//					jsonArr = JSON.parse(json) as Array;
+//					
+//					if(jsonArr && jsonArr.length)
+//					{
+//						for each(obj in jsonArr)
+//						{
+//							skills.push(ConfigSkill.decode(obj));
+//						}
+//					}
+					AtomConfigManager.instance.loadSkillAtom(json);
+					skills = AtomConfigManager.instance.skills;
 				}
 			}
 		}

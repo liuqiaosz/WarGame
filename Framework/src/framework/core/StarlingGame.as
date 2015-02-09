@@ -27,13 +27,19 @@ package framework.core
 			NotificationManager.instance.sendMessage(NotificationIds.MESSAGE_FRAMEWORK,NotificationIds.MSG_FMK_START_COMPLETE);
 			addEventListener(Event.ENTER_FRAME,onEnterFrame);
 			GameContext.instance.screenStage = this;
+			now = getTimer();
 		}
 		
+		private var last:int = 0;
+		private var now:int = 0;
+		private var delta:int = 0;
 		private function onEnterFrame(event:Event):void
 		{
-			var t:Number = flash.utils.getTimer();
-			NotificationManager.instance.sendMessage(NotificationIds.MESSAGE_FRAMEWORK,NotificationIds.MSG_FMK_FRAME_UPDATE,t);
-			NotificationManager.instance.update(t);
+			now = getTimer();
+			delta = now - last;
+			last = now;
+			sendFrameworkMessage(NotificationIds.MSG_FMK_FRAME_UPDATE,delta);
+			NotificationManager.instance.update(delta);
 		}
 	}
 }

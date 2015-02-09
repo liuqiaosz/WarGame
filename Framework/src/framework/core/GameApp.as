@@ -98,7 +98,7 @@ package framework.core
 			}
 		}
 		
-		private function onFrameUpdate(id:String,params:Object = null):void
+		private function onFrameUpdate(params:Object = null):void
 		{
 			onUpdate(int(params));
 		}

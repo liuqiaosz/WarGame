@@ -27,6 +27,15 @@ package lib.animation.avatar
 			
 		}
 		
+		public function getConfig(id:String):ConfigAvatar
+		{
+			if(id in cfgDict)
+			{
+				return cfgDict[id];
+			}
+			return null;
+		}
+		
 		public function getAvatar(id:String):IAvatar
 		{
 			if(id in cfgDict)

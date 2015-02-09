@@ -165,8 +165,8 @@ package framework.module.scene
 //					Sprite(scene).y = Math.abs(sceneLayer.y);
 					sceneLayer.addChild(scene as DisplayObject);
 					_currentScene = scene;
-					DisplayObject(_currentScene).x = GameContext.instance.getDesignPixelAspect().screenWidth >> 1; 
-					DisplayObject(_currentScene).y = GameContext.instance.getDesignPixelAspect().screenHeight >> 1;
+					//DisplayObject(_currentScene).x = GameContext.instance.getDesignPixelAspect().screenWidth >> 1; 
+					//DisplayObject(_currentScene).y = GameContext.instance.getDesignPixelAspect().screenHeight >> 1;
 					scene.onShow();
 				}
 				

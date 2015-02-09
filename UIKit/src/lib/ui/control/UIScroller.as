@@ -3,6 +3,10 @@ package lib.ui.control
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
 	import flash.utils.getTimer;
+	
+	import starling.animation.Transitions;
+	import starling.animation.Tween;
+	import starling.core.Starling;
 	import starling.events.Event;
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
@@ -23,9 +27,7 @@ package lib.ui.control
 		public function set viewport(value:Rectangle):void
 		{
 			_viewport = value;
-			//_viewport.x = (_viewport.x + -(_viewport.width>>1));
-			//_viewport.y = (_viewport.y + -(_viewport.height>>1));
-			
+			this.invalidate();
 		}
 		public function get viewport():Rectangle
 		{
@@ -65,12 +67,15 @@ package lib.ui.control
 		private var curMousePos:Point = new Point();
 		private var isScrolling:Boolean = false;
 		private var isSwip:Boolean = false;
+		private var isElasticity:Boolean = false;
 		private var beginTime:Number = 0;
 		private var endTime:Number = 0;
 		private var nowTime:Number = 0;
 		private var touch:Touch = null;
 		private var swipPixel:Point = new Point();
 		private var swipDelta:Point = new Point();
+		private var elasticityDelta:Point = new Point();
+		private var elasticityPixel:Point = new Point();
 		
 		private function onScrollerTouchHandler(event:TouchEvent):void
 		{
@@ -107,18 +112,26 @@ package lib.ui.control
 				if(endTime - beginTime <= SWIP_TIME_THRESHOLD && (Math.abs(endMousePos.x - beginMousePos.x) >= SWIP_POS_THRESHOLD || 
 					Math.abs(endMousePos.y - beginMousePos.y) >= SWIP_POS_THRESHOLD))
 				{
-					//满足滑屏缓动条件
-					SWIP_FRICTION = Math.abs(endTime - beginTime) * 0.0001;
-					isSwip = true;
-					swipPixel.x = (endMousePos.x - beginMousePos.x);
-					swipPixel.y = (endMousePos.y - beginMousePos.y);
-					
-					swipDelta.x = Math.abs(swipPixel.x) * .15;
-					swipDelta.y = Math.abs(swipPixel.y) * .15;
+					isElasticity= checkElasticity();
+					if(!isElasticity)
+					{
+						//满足滑屏缓动条件
+						SWIP_FRICTION = Math.abs(endTime - beginTime) * 0.0004;
+						isSwip = true;
+						swipPixel.x = (endMousePos.x - beginMousePos.x);
+						swipPixel.y = (endMousePos.y - beginMousePos.y);
+						
+						swipDelta.x = Math.abs(swipPixel.x) * .15;
+						swipDelta.y = Math.abs(swipPixel.y) * .15;
+					}
 				}
 				else
 				{
-					removeEventListener(Event.ENTER_FRAME,onUpdate);
+					isElasticity= checkElasticity();
+					if(!isElasticity)
+					{
+						removeEventListener(Event.ENTER_FRAME,onUpdate);
+					}
 				}
 			}
 		}
@@ -157,6 +170,7 @@ package lib.ui.control
 					{
 						//top
 						_content.y += -swipDelta.y;
+						
 						if(_content.y < _range.height)
 						{
 							_content.y = _range.height;	
@@ -177,7 +191,11 @@ package lib.ui.control
 				if(swipDelta.x < 0 && swipDelta.y < 0)
 				{
 					isSwip = false;
-					removeEventListener(Event.ENTER_FRAME,onUpdate);
+					isElasticity= checkElasticity();
+					if(!isElasticity)
+					{
+						removeEventListener(Event.ENTER_FRAME,onUpdate);
+					}
 				}
 			}
 			else if(isScrolling)
@@ -187,6 +205,72 @@ package lib.ui.control
 				lastMousePos.x = curMousePos.x;
 				lastMousePos.y = curMousePos.y;
 			}
+			else if(isElasticity)
+			{
+//				removeEventListener(Event.ENTER_FRAME,onUpdate);
+//				
+//				var a:Tween = new Tween(_content,.1,Transitions.EASE_IN_OUT_BACK);
+//				Starling.juggler.add(a);
+//				a.moveTo(_content.x + elasticityPixel.x ,_content.y + elasticityPixel.y); 
+//				a.onComplete = function():void{
+//					isElasticity = false;
+//				};
+//				var ox:Number = (elasticityPixel.x * 0.1);
+//				var oy:int = (elasticityPixel.y * 0.1);
+//				_content.x += ox;
+//				_content.y += oy;
+//				
+//				elasticityDelta.x += ox;
+//				elasticityDelta.y += oy;
+//				
+//				if(elasticityDelta.x == elasticityPixel.x && elasticityDelta.y == elasticityPixel.y)
+//				{
+//					isElasticity = false;
+//				}
+			}
+			else
+			{
+				removeEventListener(Event.ENTER_FRAME,onUpdate);
+			}
+		}
+		
+		/**
+		 * 检查是否超过滚动范围需要弹性效果
+		 * 
+		 **/
+		private function checkElasticity():Boolean
+		{
+			elasticityPixel.x = elasticityPixel.y = elasticityDelta.x = elasticityDelta.y = 0;
+			if(_content.x < _range.width)
+			{
+//				elasticityPixel.x = Math.abs(_range.width - _content.x);
+				_content.x = _range.width;
+			}
+			if(_content.x > _range.x)
+			{
+//				elasticityPixel.x = -(Math.abs(_content.x - _range.x));
+				_content.x = _range.x;
+			}
+			
+			if(_content.y < _range.height)
+			{
+//				elasticityPixel.y = Math.abs(_range.height - _content.y);
+				_content.y = _range.height;	
+			}
+			if(_content.y > _range.y)
+			{
+//				elasticityPixel.y = -(Math.abs(_content.y - _range.y));
+				_content.y = _range.y;	
+			}
+			
+//			return (elasticityPixel.x != 0 || elasticityPixel.y != 0);
+			return false;
+		}
+		
+		private var _elasticity:Number = 0;
+		private function set elasticity(value:Number):void
+		{
+			_elasticity = value;
 		}
 		
 		public function UIScroller()

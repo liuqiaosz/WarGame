@@ -21,6 +21,7 @@
     <classEntry path="lib.animation.effect.IEffect"/>
     <classEntry path="lib.animation.effect.EffectManager"/>
     <classEntry path="lib.animation.avatar.AvatarManager"/>
+    <classEntry path="lib.animation.avatar.cfg.AtomConfigManager"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

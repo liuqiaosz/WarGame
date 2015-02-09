@@ -11,8 +11,10 @@ package lib.animation.avatar.cfg.atom
 		public var unitType:int = 0;
 		public var moveType:int = 0;
 		public var atkType:int = 0;
+		public var atkRange:int = 0;
 		public var skill:String = "";
 		public var specialSkill:String = "";
+		public var speedByFrame:Number = 0;
 		
 		public var level:Vector.<ConfigUnitLevel> = null;
 		public function ConfigUnit()
@@ -80,6 +82,12 @@ package lib.animation.avatar.cfg.atom
 						break;
 					case "SP技能":
 						unit.specialSkill = values[idx];
+						break;
+					case "伤害距离":
+						unit.atkRange = int(values[idx]);
+						break;
+					case "移动速度":
+						unit.speedByFrame = Number(values[idx]);
 						break;
 				}
 			}

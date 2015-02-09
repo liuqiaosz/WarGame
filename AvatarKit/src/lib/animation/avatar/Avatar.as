@@ -1,7 +1,9 @@
 package lib.animation.avatar
 {
+	import lib.animation.avatar.cfg.AtomConfigManager;
 	import lib.animation.avatar.cfg.ConfigAvatar;
 	import lib.animation.avatar.cfg.ConfigAvatarAction;
+	import lib.animation.avatar.cfg.atom.ConfigUnit;
 	import lib.animation.core.AnimAssetManager;
 	import lib.animation.core.Animation;
 	
@@ -16,9 +18,15 @@ package lib.animation.avatar
 		private var config:ConfigAvatar = null;
 		private var avatarFrames:Vector.<Texture> = null;
 		private var actionFrames:Vector.<Texture> = null;
+		private var _atom:ConfigUnit = null;
+		public function get atom():ConfigUnit
+		{
+			return _atom;
+		}
 		public function Avatar(config:ConfigAvatar)
 		{
 			this.config = config;
+			_atom = AtomConfigManager.instance.findUnitById(config.id);
 			var atlas:TextureAtlas = AnimAssetManager.instance.getTextureAtlas(config.id);
 			if(atlas)
 			{

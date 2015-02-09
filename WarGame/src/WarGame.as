@@ -19,6 +19,7 @@ package
 	import wargame.TestView;
 	import wargame.asset.Assets;
 	import wargame.scene.SceneIds;
+	import wargame.scene.battle.SceneBattle;
 	import wargame.scene.menu.SceneMenu;
 	import wargame.scene.menu.ui.MenuView;
 	import wargame.scene.menu.view.ScrollTest;
@@ -38,9 +39,11 @@ package
 		override protected function gameReady():void
 		{
 			Starling.current.showStats = true;
-			SceneManager.instance.register(SceneIds.SCENE_MENU,SceneMenu);
 			
-			SceneManager.instance.changeScene(SceneIds.SCENE_MENU);
+			SceneManager.instance.register(SceneIds.SCENE_MENU,SceneMenu);
+			SceneManager.instance.register(SceneIds.SCENE_BATTLE,SceneBattle);
+			
+			SceneManager.instance.changeScene(SceneIds.SCENE_BATTLE);
 			/**
 			AssetsManager.instance.addLoadQueue([
 				Assets.getUIAssetPath("comm","slash"),

@@ -10,6 +10,7 @@ package lib.animation.avatar.cfg.atom
 		public var atkType:int = 0;
 		public var unlockLevel:int = 0;
 		public var atkRange:int = 0;
+		public var atkDistance:int = 0;
 		public var desc:String = "";
 		
 		public var level:Vector.<ConfigSkillLevel> = null;
@@ -63,6 +64,9 @@ package lib.animation.avatar.cfg.atom
 						break;
 					case "技能描述":
 						skill.desc = values[idx];
+						break;
+					case "伤害距离":
+						skill.atkDistance = int(values[idx]);
 						break;
 				}
 			}
