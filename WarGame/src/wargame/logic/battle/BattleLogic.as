@@ -2,6 +2,8 @@ package wargame.logic.battle
 {
 	import flash.geom.Point;
 	
+	import framework.module.scene.SceneManager;
+	
 	import lib.animation.avatar.Avatar;
 	import lib.animation.avatar.AvatarManager;
 	import lib.animation.avatar.cfg.AtomConfigManager;
@@ -21,6 +23,7 @@ package wargame.logic.battle
 	import wargame.logic.game.GameLogic;
 	import wargame.logic.game.vo.SaveComponent;
 	import wargame.logic.game.vo.SaveInfo;
+	import wargame.scene.SceneIds;
 	import wargame.scene.battle.sprite.Solider;
 	import wargame.scene.menu.view.Test;
 	import wargame.utility.NotifyIds;
@@ -84,12 +87,15 @@ package wargame.logic.battle
 		 **/
 		private function onBattleRequest(args:Array):void
 		{
-			debug("发起请求[" + args.join(",") + "]");
+			debug("收到战斗请求[" + args.join(",") + "]");
 			if(_isFightLock)
 			{
 				debug("锁定状态，可能是重复请求");
 				return;
 			}
+			_isFightLock = true;
+			
+			startFight(args[0],args[1]);
 		}
 		
 		//开始战斗
@@ -102,13 +108,13 @@ package wargame.logic.battle
 			
 			if(type == FIGHT_PVE)
 			{
+				debug("PVE");
 				//PVE推图
 				if(args && args.length)
 				{
 					_fightLevelId = args[0];//关卡ID
 					var levelClass:int = args[1];//难度
 					initBattleInfo(type,_fightLevelId,levelClass);
-					
 				}
 			}
 			else
@@ -125,8 +131,8 @@ package wargame.logic.battle
 		 **/
 		private function initBattleInfo(type:int,levelId:String,levelClass:int = 0):void
 		{
-			_fightType = type;
 			debug("初始化战斗数据");
+			_fightType = type;
 			if(_fightType == FIGHT_PVE)
 			{
 				_fightLevelId = levelId;
@@ -143,6 +149,9 @@ package wargame.logic.battle
 				//构建玩家阵营数据
 				_selfClan = createPlayerClan();
 				//数据准备完成
+				
+				SceneManager.instance.changeScene(SceneIds.SCENE_BATTLE);
+				
 				sendLogicMessage(NotifyIds.LOGIC_BATTLE_ENTER,_fightLevelId);
 			}
 			else	

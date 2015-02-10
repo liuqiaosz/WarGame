@@ -113,22 +113,14 @@
 			{
 				if(!isPreview)
 				{
-					if(isPreview && !actionName.textValue)
-					{
-						showAlert("动作名不能为空");
-						return false;
-					}
-					else
-					{
-						for each(var act:ConfigAvatarAction in _avatar.actions)
-						{
-							if(act.name == actionName.textValue)
-							{
-								showAlert("动作名不能重复");
-								return false;
-							}
-						}
-					}
+//					for each(var act:ConfigAvatarAction in _avatar.actions)
+//					{
+//						if(act.name == actionName.textValue)
+//						{
+//							showAlert("动作名不能重复");
+//							return false;
+//						}
+//					}
 				}
 				
 				if(actionEnd.textValue)
@@ -156,6 +148,7 @@
 					{
 						_onCreateHandler(actionName.textValue,int(actionStart.textValue),int(actionEnd.textValue),int(duration.sliderValue));
 					}
+					closeWindow();
 				}
 			}
 			

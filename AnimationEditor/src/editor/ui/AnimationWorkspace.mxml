@@ -211,6 +211,15 @@
 				var action:ConfigAvatarAction = event.params as ConfigAvatarAction;
 				var window:ModifyActionWindow = popup(ModifyActionWindow) as ModifyActionWindow;
 				window.setData(AvatarTreeNode(currentConfig).avatar,action.name);
+				window.onActionModify = function(newName:String,newStart:int,newEnd:int,newDuration:int):void{
+					action.duration = newDuration;
+					action.name = newName;
+					action.start = newStart;
+					action.end = newEnd;
+					
+					actionPanel.actions = AvatarTreeNode(currentConfig).avatar.actions;
+					onDataUpdate(null);
+				};
 			}
 			
 			protected function onTabCloseCheck(index:int):Boolean

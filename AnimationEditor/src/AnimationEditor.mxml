@@ -40,6 +40,7 @@
 			import editor.ui.DirectorySettingWindow;
 			import editor.ui.LoggerPanel;
 			import editor.ui.PopUpWindowProxy;
+			import editor.ui.TexturePackWindow;
 			import editor.utility.AvatarConfigManager;
 			import editor.utility.KeyboardManager;
 			import editor.vo.AvatarTreeNode;
@@ -61,6 +62,8 @@
 			public static const MENU_SETTING:String = "Setting";
 			public static const CHILD_SETTING_PATH:String = "SettingPath";
 			
+			public static const CHILD_RES_TEXTUREPACK:String = "TexturePack";
+			
 			[Bindable]
 			private var menuData:Array = [
 				{
@@ -69,6 +72,15 @@
 						{
 							id: CHILD_SETTING_PATH,
 							label: "路径设置"
+						}
+					]
+				},
+				{
+					label: "资源",
+					children: [
+						{
+							id: CHILD_RES_TEXTUREPACK,
+							label: "资源打包"
 						}
 					]
 				}
@@ -86,6 +98,10 @@
 						//PopUpManager.createPopUp(FlexGlobals.topLevelApplication as DisplayObject,DirectorySettingWindow,true);
 						popup(DirectorySettingWindow);
 						break;
+					case CHILD_RES_TEXTUREPACK:
+						debug("资源打包");
+						popup(TexturePackWindow);
+						break;
 				}
 			}
 			
@@ -100,6 +116,8 @@
 			protected function onTreeBuildProgress(event:ExEvent):void
 			{
 				// TODO Auto-generated method stub
+				
+				
 			}
 			
 			/**
@@ -118,7 +136,6 @@
 			{
 				EditorSetting.instance;
 				onSettingUpdate();
-				
 				KeyboardManager.instance;
 			}
 			

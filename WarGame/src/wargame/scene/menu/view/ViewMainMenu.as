@@ -1,5 +1,8 @@
 package wargame.scene.menu.view
 {
+	import flash.events.KeyboardEvent;
+	
+	import framework.core.GameContext;
 	import framework.module.asset.AssetsManager;
 	import framework.module.scene.SceneViewBase;
 	
@@ -7,6 +10,7 @@ package wargame.scene.menu.view
 	
 	import wargame.asset.Assets;
 	import wargame.scene.menu.ui.MenuView;
+	import wargame.utility.NotifyIds;
 
 	public class ViewMainMenu extends SceneViewBase
 	{
@@ -22,7 +26,14 @@ package wargame.scene.menu.view
 		
 		override public function onShow():void
 		{
-			
+			CONFIG::debug
+			{
+				
+				GameContext.instance.flashStage.addEventListener(KeyboardEvent.KEY_DOWN,function(event:KeyboardEvent):void{
+					
+					sendLogicMessage(NotifyIds.LOGIC_BATTLE_REQUEST,[1,"30001"]);
+				});
+			}
 		}
 		
 		/**
@@ -34,8 +45,6 @@ package wargame.scene.menu.view
 			{
 				_view = new MenuView();
 				_view.onSelect = function():void{
-				
-					trace("!!");
 					_view.fadeFlyOut();
 				};
 				addChild(_view);

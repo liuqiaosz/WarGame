@@ -9,7 +9,11 @@ package editor.setting.vo
 		//特效动画目录
 		public var effectDirectory:String = "";
 		//发布目录
-		public var publisherDirectory:String = "";
+		//public var publisherDirectory:String = "";
+		
+		public var publish_avatar:String = "";
+		
+		public var publish_effect:String = "";
 		
 		public function SettingDirectory()
 		{

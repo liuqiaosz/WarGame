@@ -153,41 +153,18 @@ package editor.cfg
 				var data:ByteArray = null;
 				var json:String = "";
 				var jsonArr:Array = null;
-				var obj:Object = null;
 				//load unit
-				var unitFile:File = cfgDir.resolvePath(Constants.EXCEL_UNIT_CFG_FILE);
-				if(unitFile.exists)
+				var cfgFile:File = cfgDir.resolvePath(Constants.EXCEL_CFG_FILE);
+				if(cfgFile.exists)
 				{
-					data = FileSystemTool.readFile(unitFile.nativePath);
+					data = FileSystemTool.readFile(cfgFile.nativePath);
 					json = data.readUTFBytes(data.length);
-//					jsonArr = JSON.parse(json) as Array;
-//					
-//					if(jsonArr && jsonArr.length)
-//					{
-//						for each(obj in jsonArr)
-//						{
-//							units.push(ConfigUnit.decode(obj));
-//						}
-//					}
-					AtomConfigManager.instance.loadUnitAtom(json);
+					
+					var obj:Object = JSON.parse(json);
+					AtomConfigManager.instance.loadUnitAtomByJson(obj.unit as Array);
+					AtomConfigManager.instance.loadSkillAtomByJson(obj.skill as Array);
+					
 					units = AtomConfigManager.instance.units;
-				}
-				
-				var skillFile:File = cfgDir.resolvePath(Constants.EXCEL_SKILL_CFG_FILE);
-				if(skillFile.exists)
-				{
-					data = FileSystemTool.readFile(skillFile.nativePath);
-					json = data.readUTFBytes(data.length);
-//					jsonArr = JSON.parse(json) as Array;
-//					
-//					if(jsonArr && jsonArr.length)
-//					{
-//						for each(obj in jsonArr)
-//						{
-//							skills.push(ConfigSkill.decode(obj));
-//						}
-//					}
-					AtomConfigManager.instance.loadSkillAtom(json);
 					skills = AtomConfigManager.instance.skills;
 				}
 			}

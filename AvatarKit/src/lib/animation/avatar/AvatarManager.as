@@ -27,6 +27,19 @@ package lib.animation.avatar
 			
 		}
 		
+		public function loadConfigByJson(data:Array):void
+		{
+			if(data)
+			{
+				var avr:ConfigAvatar = null;
+				for each(var obj:Object in data)
+				{
+					avr = ConfigAvatar.decode(obj);
+					cfgDict[avr.id] = avr;
+				}
+			}
+		}
+		
 		public function getConfig(id:String):ConfigAvatar
 		{
 			if(id in cfgDict)

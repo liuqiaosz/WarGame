@@ -4,7 +4,9 @@ package wargame.cfg
 	
 	import framework.module.asset.AssetsManager;
 	
+	import lib.animation.avatar.AvatarManager;
 	import lib.animation.avatar.cfg.AtomConfigManager;
+	import lib.animation.effect.EffectManager;
 	
 	import wargame.cfg.vo.ConfigCamp;
 	import wargame.cfg.vo.ConfigComponent;
@@ -43,18 +45,28 @@ package wargame.cfg
 		{
 			AssetsManager.instance.addLoadQueue([
 				"assets/cfg/Config",
+				"assets/cfg/avatar",
+				"assets/cfg/effect",
 			],function():void{
+				//游戏配置
 				var data:Object = AssetsManager.instance.getObject("Config");
 				if(data)
 				{
 					AtomConfigManager.instance.loadUnitAtomByJson(data.unit as Array);
-					AtomConfigManager.instance.loadSkillAtomByJson(data.skill);
+					AtomConfigManager.instance.loadSkillAtomByJson(data.skill as Array);
 					loadCamp(data.camp);
 					loadLevel(data.level);
 					loadComponent(data.component);
 				}
 				
+				debug("开始加载avatar配置");
+				//动画配置
+				data = AssetsManager.instance.getObject("avatar");
+				AvatarManager.instance.loadConfigByJson(data as Array);
 				
+				debug("开始加载effect配置");
+				data = AssetsManager.instance.getObject("effect");
+				EffectManager.instance.loadConfigByJson(data as Array);
 			},function(ratio:Number):void{});
 		}
 		

@@ -13,9 +13,9 @@ package editor.utility
 		public static const EFFECT_CFG_FILE:String = "effect";
 		
 		//Excel配置表JSON配置
-		public static const EXCEL_UNIT_CFG_FILE:String = "unit";
-		public static const EXCEL_SKILL_CFG_FILE:String = "skill";
-		
+		//public static const EXCEL_UNIT_CFG_FILE:String = "unit";
+		//public static const EXCEL_SKILL_CFG_FILE:String = "skill";
+		public static const EXCEL_CFG_FILE:String = "Config";
 		
 		public static const COMBOBOX_TRIGGER_TYPE:ArrayCollection = new ArrayCollection([
 			{label: "特效",value:1},

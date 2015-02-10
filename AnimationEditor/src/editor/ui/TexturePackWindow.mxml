@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ui:PopUpWindowProxy xmlns:fx="http://ns.adobe.com/mxml/2009" 
+					 xmlns:s="library://ns.adobe.com/flex/spark" 
+					 xmlns:extension="editor.extension.*"
+					 xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:ui="editor.ui.*" width="500" height="500">
+	<fx:Declarations>
+		<!-- 将非可视元素（例如服务、值对象）放在此处 -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import editor.setting.EditorSetting;
+			import editor.utility.FileSystemTool;
+			private function appendText(value:String):void
+			{
+				msgBox.appendText(value + "\n");
+			}
+			
+			private static const COMM_ARGS:Vector.<String> = Vector.<String>(["texturepacker",
+				"--texture-format","png","--format","sparrow","--enable-rotation","--shape-padding","1","--border-padding","0","--trim-mode None",
+				"--trim-sprite-names","--opt","RGBA8888","--size-constraints","POT","--max-width","1024","--max-height","1024","--sheet"
+			]);
+			protected function publishAvatar(event:MouseEvent):void
+			{
+				var publishDir:String = EditorSetting.instance.setting.directory.publish_avatar;
+				var dir:File = new File(publishDir);
+				var dirs:Array = null;
+				var invoker:NativeProcess = new NativeProcess();
+				var program:NativeProcessStartupInfo = new NativeProcessStartupInfo();
+				program.executable = new File("D:\\TexturePacker\\bin\\TexturePacker.exe");
+
+				invoker.addEventListener(ProgressEvent.STANDARD_OUTPUT_DATA,function(progress:ProgressEvent):void{
+					var msg:Vector.<String> = new Vector.<String>();
+					var data:ByteArray = new ByteArray();
+					invoker.standardOutput.readBytes(data);
+					while(data.bytesAvailable)
+					{
+						msg.push(data.readMultiByte(1,"iso-8859-1"));
+					}
+					trace(msg.join(""));
+				});
+				
+				invoker.addEventListener(NativeProcessExitEvent.EXIT,function(exit:NativeProcessExitEvent):void{
+
+				});
+
+				var sourceDir:File = new File(EditorSetting.instance.setting.directory.avatarDirectory);
+				if(sourceDir.exists && sourceDir.isDirectory)
+				{
+					dirs = sourceDir.getDirectoryListing();
+					var source:String = "";
+					var subDir:File = null;
+					var args:Vector.<String> = null;
+					
+					var batFile:File = File.applicationDirectory.resolvePath("texturepacker.bat");
+					var str:String = "";
+					for(var idx:int = 0; idx<dirs.length; idx++)
+					{
+						subDir = dirs[idx];
+						if(subDir.isDirectory)
+						{
+							args = COMM_ARGS.concat();
+							source = subDir.nativePath;
+							var sheet:String  = publishDir + "/" + subDir.name + ".png";
+							args.push(sheet);
+							args.push("--data");
+							var data:String = publishDir + "/" + subDir.name + ".xml";
+							args.push(data);
+							args.push(subDir.nativePath);
+							
+							str += args.join(" ") + "\n";
+						
+						}
+					}
+					var vda:ByteArray = new ByteArray();
+					vda.writeUTFBytes(str);
+					FileSystemTool.writeFile(batFile.nativePath,vda);
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	<ui:layout>
+		<s:VerticalLayout horizontalAlign="center" />
+	</ui:layout>
+	
+	<mx:HBox width="100%" paddingLeft="5" paddingTop="5">
+		<s:Button label="发布角色" click="publishAvatar(event)" />
+		<s:Button label="发布特效" />
+	</mx:HBox>
+	
+	<s:TextArea width="96%" height="90%" editable="false" id="msgBox" />
+</ui:PopUpWindowProxy>

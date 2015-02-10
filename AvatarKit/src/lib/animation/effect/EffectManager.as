@@ -21,6 +21,19 @@ package lib.animation.effect
 		{
 		}
 		
+		public function loadConfigByJson(data:Array):void
+		{
+			if(data)
+			{
+				var eff:ConfigEffect = null;
+				for each(var obj:Object in data)
+				{
+					eff = ConfigEffect.decode(obj);
+					cfgDict[eff.id] = eff;
+				}
+			}
+		}
+		
 		public function loadConfig(path:String):void
 		{
 			

@@ -31,15 +31,13 @@
 				return _labelText;
 			}
 			
-			[Bindable]
-			private var _selected:Boolean = false;
-			public function set selected(value):void
+			public function set selected(value:Boolean):void
 			{
-				_selected = value;
+				ck.selected = value;
 			}
 			public function get selected():Boolean
 			{
-				return _selected;
+				return ck.selected;
 			}
 			protected function onCheckboxClick(event:MouseEvent):void
 			{
@@ -53,5 +51,5 @@
 	
 	<s:Label width="{_labelWidth}" height="22" minWidth="60" text="{_labelText}" textAlign="right"
 			 verticalAlign="middle"/>
-	<s:CheckBox click="onCheckboxClick(event)" id="ck" selected="{_selected}" />
+	<s:CheckBox click="onCheckboxClick(event)" id="ck" />
 </extension:ExFormItem>

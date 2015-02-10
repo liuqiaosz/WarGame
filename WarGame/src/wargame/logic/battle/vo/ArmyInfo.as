@@ -25,6 +25,8 @@ package wargame.logic.battle.vo
 		
 		public function ArmyInfo()
 		{
+			campComs = new Vector.<CampCmInfo>();
+			solider = new Vector.<SoliderInfo>();
 		}
 		
 	}

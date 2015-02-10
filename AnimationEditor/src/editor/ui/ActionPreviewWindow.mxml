@@ -187,6 +187,28 @@
 				}
 			}
 			
+			protected function onRepeatChange(event:ExEvent):void
+			{
+				if(repeat.selected)
+				{
+					//重复播放
+					if(avatar)
+					{
+						avatar.stop();
+						avatar.play(_duration,0,onProgress);
+					}
+				}
+				else
+				{
+					//取消重复播放
+					if(avatar)
+					{
+						avatar.stop();
+						avatar.play(_duration,1,onProgress);
+					}
+				}
+			}
+			
 		]]>
 	</fx:Script>
 	<s:HGroup width="100%" height="100%" paddingBottom="5" paddingLeft="5" paddingRight="5" paddingTop="5">
@@ -195,6 +217,7 @@
 			<extension:ExFormLabelItem labelText="播放速率" id="playDurtaion" labelValue="{String(_duration)}" />
 			<extension:ExFormLabelItem labelText="开始帧" id="start" labelValue="{String(_start)}"/>
 			<extension:ExFormLabelItem labelText="结束帧" id="end" labelValue="{String(_end)}" />
+			<extension:ExFormCheckBox labelText="重复播放" id="repeat" onChange="onRepeatChange(event)" />
 			<s:Button label="重播" click="playAgain(event)" />
 		</s:VGroup>
 		

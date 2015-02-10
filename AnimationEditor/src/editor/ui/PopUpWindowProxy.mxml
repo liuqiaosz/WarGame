@@ -27,6 +27,11 @@
 				return window;
 			}
 			
+			public function closeWindow():void
+			{
+				PopUpManager.removePopUp(this);
+			}
+			
 			protected function onCloseWindow(event:CloseEvent):void
 			{
 				PopUpManager.removePopUp(this);

@@ -44,7 +44,9 @@ package editor.setting
 					_setting.directory.cfgDirectory = obj.directory.cfgDirectory;
 					_setting.directory.avatarDirectory = obj.directory.avatarDirectory;
 					_setting.directory.effectDirectory = obj.directory.effectDirectory;
-					_setting.directory.publisherDirectory = obj.directory.publisherDirectory;
+					//_setting.directory.publisherDirectory = obj.directory.publisherDirectory;
+					_setting.directory.publish_avatar = obj.directory.publish_avatar;
+					_setting.directory.publish_effect = obj.directory.publish_effect;
 				}
 				else
 				{

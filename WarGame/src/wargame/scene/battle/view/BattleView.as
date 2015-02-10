@@ -9,6 +9,7 @@ package wargame.scene.battle.view
 	import wargame.cfg.vo.ConfigLevel;
 	import wargame.logic.battle.BattleLogic;
 	import wargame.logic.battle.vo.ArmyInfo;
+	import wargame.utility.NotifyIds;
 
 	/**
 	 * 战斗主场景
@@ -38,13 +39,7 @@ package wargame.scene.battle.view
 			_stage = new BattleStageView();
 			addChild(_stage);
 			
-			CONFIG::debug
-			{
-				GameContext.instance.flashStage.addEventListener(KeyboardEvent.KEY_DOWN,function(event:KeyboardEvent):void{
-					
-					
-				});
-			}
+			
 		}
 	}
 }

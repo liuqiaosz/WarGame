@@ -20,6 +20,7 @@ package
 	import wargame.TestView;
 	import wargame.asset.Assets;
 	import wargame.cfg.GameConfig;
+	import wargame.logic.battle.BattleLogic;
 	import wargame.scene.SceneIds;
 	import wargame.scene.battle.SceneBattle;
 	import wargame.scene.menu.SceneMenu;
@@ -42,10 +43,10 @@ package
 		{
 			GameConfig.instance.loadConfig(null);
 			Starling.current.showStats = true;
-			
-			SceneManager.instance.register(SceneIds.SCENE_MENU,SceneMenu);
-			SceneManager.instance.register(SceneIds.SCENE_BATTLE,SceneBattle);
-			SceneManager.instance.changeScene(SceneIds.SCENE_BATTLE);
+//			BattleLogic.instance;
+//			SceneManager.instance.register(SceneIds.SCENE_MENU,SceneMenu);
+//			SceneManager.instance.register(SceneIds.SCENE_BATTLE,SceneBattle);
+//			SceneManager.instance.changeScene(SceneIds.SCENE_MENU);
 			/**
 			AssetsManager.instance.addLoadQueue([
 				Assets.getUIAssetPath("comm","slash"),

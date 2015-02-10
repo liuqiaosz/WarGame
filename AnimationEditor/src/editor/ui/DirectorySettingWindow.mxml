@@ -30,7 +30,9 @@
 					cfgDir.directoryPath = EditorSetting.instance.setting.directory.cfgDirectory;
 					avatarDir.directoryPath = EditorSetting.instance.setting.directory.avatarDirectory;
 					effectDir.directoryPath = EditorSetting.instance.setting.directory.effectDirectory;
-					publishDir.directoryPath = EditorSetting.instance.setting.directory.publisherDirectory;
+					publishAvr.directoryPath = EditorSetting.instance.setting.directory.publish_avatar;
+					publishEff.directoryPath = EditorSetting.instance.setting.directory.publish_effect;
+					//publishDir.directoryPath = EditorSetting.instance.setting.directory.publisherDirectory;
 				}
 				super.onCreated();
 			}
@@ -52,7 +54,9 @@
 				EditorSetting.instance.setting.directory.cfgDirectory = cfgDir.getDirectoryPath();
 				EditorSetting.instance.setting.directory.avatarDirectory = avatarDir.getDirectoryPath();
 				EditorSetting.instance.setting.directory.effectDirectory = effectDir.getDirectoryPath();
-				EditorSetting.instance.setting.directory.publisherDirectory = publishDir.getDirectoryPath();
+				//EditorSetting.instance.setting.directory.publisherDirectory = publishDir.getDirectoryPath();
+				EditorSetting.instance.setting.directory.publish_avatar = publishAvr.getDirectoryPath();
+				EditorSetting.instance.setting.directory.publish_effect = publishEff.getDirectoryPath();
 				EditorSetting.instance.save();
 			}
 			
@@ -61,7 +65,9 @@
 	<extension:ExFormDirectoryChoice id="cfgDir" labelWidth="90" textWidth="200" labelText="配置目录" />
 	<extension:ExFormDirectoryChoice id="avatarDir" labelWidth="90" textWidth="200" labelText="角色动画目录" />
 	<extension:ExFormDirectoryChoice id="effectDir" labelWidth="90" textWidth="200" labelText="技能特效目录" />
-	<extension:ExFormDirectoryChoice id="publishDir" labelWidth="90" textWidth="200" labelText="发布目录" />
+
+	<extension:ExFormDirectoryChoice id="publishAvr" labelWidth="90" textWidth="200" labelText="角色发布目录" />
+	<extension:ExFormDirectoryChoice id="publishEff" labelWidth="90" textWidth="200" labelText="特效发布目录" />
 	
 	<s:HGroup>
 		<s:Button label="保存设置"  click="saveSetting(event)" />
