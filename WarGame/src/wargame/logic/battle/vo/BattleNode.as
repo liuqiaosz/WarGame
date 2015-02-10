@@ -16,14 +16,16 @@ package wargame.logic.battle.vo
 			
 		}
 		private var _dispose:Boolean = false;
-		protected function dispose():void
+		public function dispose():void
 		{
 			_dispose = true;
 		}
 		
 		public function isDispose():Boolean
 		{
-			
+			return _dispose;
 		}
+		
+		
 	}
 }

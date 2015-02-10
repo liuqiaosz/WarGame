@@ -57,6 +57,7 @@ package wargame.scene.battle.sprite
 			{
 				return _avatar.atom.atkRange;
 			}
+			return 0;
 		}
 		
 		//攻击类型，近战，远程
@@ -66,6 +67,7 @@ package wargame.scene.battle.sprite
 			{
 				return _avatar.atom.atkType;
 			}
+			return 0;
 		}
 		
 		public function moveTo(x:int,y:int):void

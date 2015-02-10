@@ -29,6 +29,22 @@ package lib.animation.avatar.cfg
 		{
 			return _skills;
 		}
+		
+		public function loadUnitAtomByJson(jsonArr:Array):void
+		{
+			for each(var obj:Object in jsonArr)
+			{
+				_units.push(ConfigUnit.decode(obj));
+			}
+		}
+		public function loadSkillAtomByJson(jsonArr:Array):void
+		{
+			for each(var obj:Object in jsonArr)
+			{
+				_skills.push(ConfigSkill.decode(obj));
+			}
+		}
+		
 		public function loadUnitAtom(json:String):void
 		{
 			_units.length = 0;

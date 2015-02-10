@@ -5,5 +5,7 @@ package wargame.logic.battle.vo
 		function update(delta:int,left:Vector.<IBattleNode>,right:Vector.<IBattleNode>):void;
 		
 		function isDispose():Boolean;
+		
+		function dispose():void;
 	}
 }

@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Domain\BaseDomain.cs" />
+    <Compile Include="Domain\Config.cs" />
     <Compile Include="Domain\Group.cs" />
     <Compile Include="Domain\Skill.cs" />
     <Compile Include="Domain\SkillLevel.cs" />

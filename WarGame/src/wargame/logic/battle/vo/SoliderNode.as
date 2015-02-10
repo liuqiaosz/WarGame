@@ -52,7 +52,7 @@ package wargame.logic.battle.vo
 			{
 				case STATE_IDLE:
 				case STATE_MOVE:
-					_lockTarget = findAttackTarget(targetClan);
+					_lockTarget = findAttackTarget(targetClan) as SoliderNode ;
 					if(_lockTarget)
 					{
 						//has target
@@ -73,7 +73,7 @@ package wargame.logic.battle.vo
 							if(_lockTarget.state == STATE_DEAD)
 							{
 								//target is dead
-								_lockTarget = findAttackTarget(targetClan);
+								_lockTarget = findAttackTarget(targetClan) as SoliderNode;
 								if(!_lockTarget)
 								{
 									//no target in range
@@ -83,7 +83,7 @@ package wargame.logic.battle.vo
 						}
 						else
 						{
-							_lockTarget = findAttackTarget(targetClan);
+							_lockTarget = findAttackTarget(targetClan) as SoliderNode;
 							if(!_lockTarget)
 							{
 								//no target in range
@@ -127,6 +127,7 @@ package wargame.logic.battle.vo
 					}
 				}
 			}
+			return null;
 		}
 
 		/**
@@ -149,7 +150,7 @@ package wargame.logic.battle.vo
 		/**
 		 * 销毁节点
 		 **/
-		override protected function dispose():void
+		override public function dispose():void
 		{
 			if(self)
 			{
