@@ -1,8 +1,8 @@
 package lib.ui.control
 {
-	import flash.geom.Point;
+	import extension.asset.AssetsManager;
 	
-	import framework.module.asset.AssetsManager;
+	import flash.geom.Point;
 	
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
@@ -80,8 +80,8 @@ package lib.ui.control
 		private var _pressedTex:Texture = null;
 		override public function invalidateRender():void
 		{
-			_normalTex = AssetsManager.instance.getUITexture(_normal,_atlas);
-			_pressedTex = AssetsManager.instance.getUITexture(_pressed,_atlas);
+			_normalTex = AssetsManager.instance.getTextureFromAtlas(_normal,_atlas);
+			_pressedTex = AssetsManager.instance.getTextureFromAtlas(_pressed,_atlas);
 			
 			if(_normalTex)
 			{

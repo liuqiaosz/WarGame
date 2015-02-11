@@ -1,6 +1,6 @@
 package lib.ui.control
 {
-	import framework.module.asset.AssetsManager;
+	import extension.asset.AssetsManager;
 	
 	import lib.ui.core.IComponent;
 	import lib.ui.core.IContainer;
@@ -27,6 +27,7 @@ package lib.ui.control
 		
 		protected function loadUI(url:String):void
 		{
+			
 			var doc:XML = AssetsManager.instance.getXml(url) as XML;
 			if(doc)
 			{

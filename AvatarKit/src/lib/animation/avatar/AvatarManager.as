@@ -6,7 +6,7 @@ package lib.animation.avatar
 
 	public class AvatarManager
 	{
-		public static var _instance:AvatarManager = null;
+		private static var _instance:AvatarManager = null;
 		public static function get instance():AvatarManager
 		{
 			if(!_instance)

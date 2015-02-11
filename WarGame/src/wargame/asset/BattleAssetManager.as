@@ -1,8 +1,10 @@
 package wargame.asset
 {
 	import framework.module.asset.AssetManagerBase;
+	
+	import starling.utils.AssetManager;
 
-	public class BattleAssetManager extends AssetManagerBase
+	public class BattleAssetManager extends AssetManager
 	{
 		private static var _instance:BattleAssetManager = null;
 		public static function get instance():BattleAssetManager

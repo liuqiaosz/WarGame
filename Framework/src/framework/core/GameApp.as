@@ -1,5 +1,7 @@
 package framework.core
 {
+	import extension.asset.AssetsManager;
+	
 	import flash.display.Bitmap;
 	import flash.display.LoaderInfo;
 	import flash.display.Sprite;
@@ -13,7 +15,6 @@ package framework.core
 	import flash.text.TextField;
 	
 	import framework.device.DeviceInfo;
-	import framework.module.asset.AssetsManager;
 	import framework.module.cfg.ConfigManager;
 	import framework.module.notification.NotificationIds;
 	import framework.module.scene.SceneManager;
@@ -38,7 +39,6 @@ package framework.core
 		private function onAdded(event:flash.events.Event):void
 		{
 			removeEventListener(flash.events.Event.ADDED_TO_STAGE,onAdded);
-			AssetsManager.instance.initializer();
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.align = StageAlign.TOP_LEFT;
 			var success:Boolean = GameContext.instance.initContext(stage);

@@ -10,6 +10,7 @@
 	<fx:Script>
 		<![CDATA[
 			import editor.setting.EditorSetting;
+			import editor.utility.ExternProgramInvoke;
 			import editor.utility.FileSystemTool;
 			private function appendText(value:String):void
 			{
@@ -25,25 +26,8 @@
 				var publishDir:String = EditorSetting.instance.setting.directory.publish_avatar;
 				var dir:File = new File(publishDir);
 				var dirs:Array = null;
-				var invoker:NativeProcess = new NativeProcess();
-				var program:NativeProcessStartupInfo = new NativeProcessStartupInfo();
-				program.executable = new File("D:\\TexturePacker\\bin\\TexturePacker.exe");
 
-				invoker.addEventListener(ProgressEvent.STANDARD_OUTPUT_DATA,function(progress:ProgressEvent):void{
-					var msg:Vector.<String> = new Vector.<String>();
-					var data:ByteArray = new ByteArray();
-					invoker.standardOutput.readBytes(data);
-					while(data.bytesAvailable)
-					{
-						msg.push(data.readMultiByte(1,"iso-8859-1"));
-					}
-					trace(msg.join(""));
-				});
 				
-				invoker.addEventListener(NativeProcessExitEvent.EXIT,function(exit:NativeProcessExitEvent):void{
-
-				});
-
 				var sourceDir:File = new File(EditorSetting.instance.setting.directory.avatarDirectory);
 				if(sourceDir.exists && sourceDir.isDirectory)
 				{
@@ -52,7 +36,7 @@
 					var subDir:File = null;
 					var args:Vector.<String> = null;
 					
-					var batFile:File = File.applicationDirectory.resolvePath("texturepacker.bat");
+					var batFile:File = File.applicationDirectory.resolvePath("tp.bat");
 					var str:String = "";
 					for(var idx:int = 0; idx<dirs.length; idx++)
 					{
@@ -72,9 +56,21 @@
 						
 						}
 					}
-					var vda:ByteArray = new ByteArray();
-					vda.writeUTFBytes(str);
-					FileSystemTool.writeFile(batFile.nativePath,vda);
+					var batData:ByteArray = new ByteArray();
+					batData.writeUTFBytes(str);
+					FileSystemTool.writeFile(batFile.nativePath,batData);
+					
+					var jsflInvoker:ExternProgramInvoke = new ExternProgramInvoke();
+					var command:File = File.applicationDirectory.resolvePath("cmd.exe");
+					jsflInvoker.execute(command,Vector.<String>(["/c " + batFile.nativePath]),function(code:int):void{
+						//				buildInvoker.executeBat(buildFile.nativePath,[],function(code:int):void{;
+						if(code == 0)
+						{
+							
+						}
+					},function(value:String):void{
+						trace(value);
+					});
 				}
 			}
 			

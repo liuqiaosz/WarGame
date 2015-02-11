@@ -1,5 +1,7 @@
 package wargame.asset
 {
+	import lib.animation.core.AnimAsset;
+
 	/**
 	 * 资源工具类
 	 **/
@@ -41,6 +43,27 @@ package wargame.asset
 			{
 				return ASSET_UI + atlas + TEXTURE_SUFFIX;
 			}
+		}
+		
+		/**
+		 * 获取战场地图
+		 * 
+		 * 这里返回列表，后期可能加入场景的层次背景，这里先简单处理
+		 **/
+		public static function getBattleMap(id:String):Array
+		{
+			return [
+				"assets/scene/battle/" + id + "_1" + TEXTURE_SUFFIX,
+				"assets/scene/battle/" + id + "_2" + TEXTURE_SUFFIX
+			];
+		}
+		
+		/**
+		 * 角色动画资源
+		 **/
+		public static function getAvatar(id:String):Array
+		{
+			return AnimAsset.getAvatarUrl(id);
 		}
 	}
 }

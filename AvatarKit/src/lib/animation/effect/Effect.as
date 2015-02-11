@@ -1,6 +1,8 @@
 package lib.animation.effect
 {
-	import lib.animation.core.AnimAssetManager;
+	import extension.asset.AssetsManager;
+	
+	import lib.animation.core.AnimAsset;
 	import lib.animation.core.Animation;
 	import lib.animation.effect.cfg.ConfigEffect;
 	
@@ -15,21 +17,21 @@ package lib.animation.effect
 		public function Effect(cfg:ConfigEffect)
 		{
 			config = cfg;
-			
-			var atlas:TextureAtlas = AnimAssetManager.instance.getTextureAtlas(config.id);
+
+			var atlas:TextureAtlas = AssetsManager.instance.getTextureAtlas(config.id);
 			if(atlas)
 			{
 				frames = atlas.getTextures();
 			}
 			else
 			{
-				AnimAssetManager.instance.loadAnimAsset(config.id,onAssetLoadComplete);
+				AssetsManager.instance.addLoadQueue(AnimAsset.getEffectUrl(config.id),onAssetLoadComplete);
 			}
 		}
 		
 		private function onAssetLoadComplete():void
 		{
-			var atlas:TextureAtlas = AnimAssetManager.instance.getTextureAtlas(config.id);
+			var atlas:TextureAtlas = AssetsManager.instance.getTextureAtlas(config.id);
 			if(atlas)
 			{
 				frames = atlas.getTextures();

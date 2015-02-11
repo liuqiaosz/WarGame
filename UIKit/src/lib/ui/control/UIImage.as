@@ -1,7 +1,7 @@
 package lib.ui.control
 {
 	
-	import framework.module.asset.AssetsManager;
+	import extension.asset.AssetsManager;
 	
 	import starling.display.Image;
 	import starling.textures.Texture;
@@ -35,7 +35,7 @@ package lib.ui.control
 		{
 			if(_img)
 			{
-				var img:Texture = AssetsManager.instance.getUITexture(_img,_atlas);
+				var img:Texture = AssetsManager.instance.getTextureFromAtlas(_atlas,_img);
 				if(img)
 				{
 					if(!content)

@@ -1,8 +1,8 @@
 package wargame.cfg
 {
-	import flash.utils.ByteArray;
+	import extension.asset.AssetsManager;
 	
-	import framework.module.asset.AssetsManager;
+	import flash.utils.ByteArray;
 	
 	import lib.animation.avatar.AvatarManager;
 	import lib.animation.avatar.cfg.AtomConfigManager;

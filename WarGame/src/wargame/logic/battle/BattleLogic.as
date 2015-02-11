@@ -2,6 +2,7 @@ package wargame.logic.battle
 {
 	import flash.geom.Point;
 	
+	import framework.module.notification.NotificationIds;
 	import framework.module.scene.SceneManager;
 	
 	import lib.animation.avatar.Avatar;
@@ -9,6 +10,7 @@ package wargame.logic.battle
 	import lib.animation.avatar.cfg.AtomConfigManager;
 	import lib.animation.avatar.cfg.atom.ConfigUnit;
 	
+	import wargame.asset.Assets;
 	import wargame.cfg.GameConfig;
 	import wargame.cfg.vo.ConfigComponent;
 	import wargame.cfg.vo.ConfigLevel;
@@ -48,6 +50,7 @@ package wargame.logic.battle
 			return _instance;
 		}
 		
+		private var inited:Boolean = false;
 		private var _fightType:int = 0;
 		private var _fightLevelId:String = "";
 		private var _fighting:Boolean = false;
@@ -58,9 +61,20 @@ package wargame.logic.battle
 		private var _allSprite:Vector.<IBattleNode> = null;
 		private var _fightLevel:ConfigLevel = null;
 		private var _isFightLock:Boolean = false;
+		private var _resourceList:Array = null;
 		public function BattleLogic()
 		{
+			
+		}
+		
+		public function initializer():void
+		{
+			if(inited)
+			{
+				return;
+			}
 			addLogicListener(NotifyIds.LOGIC_BATTLE_REQUEST,onBattleRequest);
+			inited = false;
 		}
 		
 		public function get fightType():int
@@ -144,15 +158,21 @@ package wargame.logic.battle
 					sendLogicMessage(NotifyIds.LOGIC_BATTLE_INIT_ERR,_fightLevelId);
 					return;
 				}
+				//资源列表
+				_resourceList = Assets.getBattleMap(_fightLevel.id);
+				
 				//构造NPC阵营数据
 				_enemyClan = createEnemyClan();
 				//构建玩家阵营数据
 				_selfClan = createPlayerClan();
 				//数据准备完成
 				
-				SceneManager.instance.changeScene(SceneIds.SCENE_BATTLE);
+				debug("战斗数据准备完毕,切换战斗场景");
+				//SceneManager.instance.changeScene(SceneIds.SCENE_BATTLE);
+				sendViewMessage(NotificationIds.MSG_VIEW_CHANGESCENE,SceneIds.SCENE_BATTLE);
 				
-				sendLogicMessage(NotifyIds.LOGIC_BATTLE_ENTER,_fightLevelId);
+				debug("发送进入战斗通知");
+				sendLogicMessage(NotifyIds.LOGIC_BATTLE_ENTER,_resourceList);
 			}
 			else	
 			{
@@ -179,6 +199,8 @@ package wargame.logic.battle
 			{
 				unit = AtomConfigManager.instance.findUnitById(army.uintId);
 				clan.solider.push(new SoliderInfo(unit,army.level));
+				
+				_resourceList = _resourceList.concat(Assets.getAvatar(unit.id));
 			}
 			clan.campLv = _fightLevel.campLv;
 			clan.clan = ArmyInfo.ARMY_AI;
@@ -221,6 +243,7 @@ package wargame.logic.battle
 				{
 					unit = AtomConfigManager.instance.findUnitById(saveSol.uintId);
 					clan.solider.push(new SoliderInfo(unit,saveSol.level));
+					_resourceList = _resourceList.concat(Assets.getAvatar(unit.id));
 				}
 				clan.campLv = info.camplv;
 			}

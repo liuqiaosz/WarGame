@@ -109,7 +109,15 @@ package lib.animation.core
 				{
 					lastChange = 0;
 					navTexture = _frames[currentFrame];
-					content.texture = navTexture;
+					if(!content)
+					{
+						content = new Image(navTexture);
+						addChild(content);
+					}
+					else
+					{
+						content.texture = navTexture;
+					}
 					content.x = -(navTexture.width >> 1);
 					content.y = -navTexture.height;
 					currentFrame++;

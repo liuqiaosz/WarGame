@@ -1,10 +1,12 @@
 package lib.animation.avatar
 {
+	import extension.asset.AssetsManager;
+	
 	import lib.animation.avatar.cfg.AtomConfigManager;
 	import lib.animation.avatar.cfg.ConfigAvatar;
 	import lib.animation.avatar.cfg.ConfigAvatarAction;
 	import lib.animation.avatar.cfg.atom.ConfigUnit;
-	import lib.animation.core.AnimAssetManager;
+	import lib.animation.core.AnimAsset;
 	import lib.animation.core.Animation;
 	
 	import starling.display.Image;
@@ -27,7 +29,7 @@ package lib.animation.avatar
 		{
 			this.config = config;
 			_atom = AtomConfigManager.instance.findUnitById(config.id);
-			var atlas:TextureAtlas = AnimAssetManager.instance.getTextureAtlas(config.id);
+			var atlas:TextureAtlas = AssetsManager.instance.getTextureAtlas(config.id);
 			if(atlas)
 			{
 				avatarFrames = atlas.getTextures();
@@ -35,13 +37,13 @@ package lib.animation.avatar
 			}
 			else
 			{
-				AnimAssetManager.instance.loadAnimAsset(config.id,onAssetLoadComplete);
+				AssetsManager.instance.addLoadQueue(AnimAsset.getAvatarUrl(config.id),onAssetLoadComplete);
 			}
 		}
 		
 		private function onAssetLoadComplete():void
 		{
-			var atlas:TextureAtlas = AnimAssetManager.instance.getTextureAtlas(config.id);
+			var atlas:TextureAtlas = AssetsManager.instance.getTextureAtlas(config.id);
 			if(atlas)
 			{
 				avatarFrames = atlas.getTextures();
@@ -66,7 +68,7 @@ package lib.animation.avatar
 							actionFrames.push(avatarFrames[idx]);
 						}
 						//设置帧序列
-						super.frames = avatarFrames;
+						super.frames = actionFrames;
 						//播放接口调用
 						super.play(currentAction.duration,_loop,_progress,_complete);
 						_progress = _complete = null;
@@ -107,7 +109,7 @@ package lib.animation.avatar
 						actionFrames.push(avatarFrames[idx]);
 					}
 					//设置帧序列
-					super.frames = avatarFrames;
+					super.frames = actionFrames;
 					//播放接口调用
 					super.play(currentAction.duration,loop,progress,complete);
 				}

@@ -16,12 +16,12 @@
     <classEntry path="lib.animation.core.IAnimation"/>
     <classEntry path="lib.animation.core.Animation"/>
     <classEntry path="lib.animation.core.AnimationManager"/>
-    <classEntry path="lib.animation.core.AnimAssetManager"/>
     <classEntry path="lib.animation.effect.Effect"/>
     <classEntry path="lib.animation.effect.IEffect"/>
     <classEntry path="lib.animation.effect.EffectManager"/>
     <classEntry path="lib.animation.avatar.AvatarManager"/>
     <classEntry path="lib.animation.avatar.cfg.AtomConfigManager"/>
+    <classEntry path="lib.animation.core.AnimAsset"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>

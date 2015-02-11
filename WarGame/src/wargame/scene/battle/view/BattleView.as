@@ -22,11 +22,9 @@ package wargame.scene.battle.view
 		private var self:ArmyInfo = null;
 		
 		private var _stage:BattleStageView = null;
-		public function BattleView()
+		public function BattleView(id:String)
 		{
-			super([
-				"assets/scene/battle.jpg"
-			]);
+			super(id);
 		}
 		
 		override public function onShow():void
@@ -45,11 +43,12 @@ package wargame.scene.battle.view
 }
 
 
+import extension.asset.AssetsManager;
+
 import flash.events.KeyboardEvent;
 import flash.geom.Rectangle;
 
 import framework.core.GameContext;
-import framework.module.asset.AssetsManager;
 
 import lib.ui.control.UIScroller;
 

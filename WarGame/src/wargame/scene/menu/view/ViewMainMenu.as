@@ -3,8 +3,11 @@ package wargame.scene.menu.view
 	import flash.events.KeyboardEvent;
 	
 	import framework.core.GameContext;
-	import framework.module.asset.AssetsManager;
+	import extension.asset.AssetsManager;
 	import framework.module.scene.SceneViewBase;
+	
+	import lib.animation.avatar.Avatar;
+	import lib.animation.avatar.AvatarManager;
 	
 	import starling.display.Quad;
 	
@@ -16,9 +19,9 @@ package wargame.scene.menu.view
 	{
 		private var _view:MenuView = null;
 		
-		public function ViewMainMenu()
+		public function ViewMainMenu(id:String)
 		{
-			super([
+			super(id,[
 				Assets.getUIAssetPath("comm","bg_menuitem"),
 				"assets/data/MenuUI.xml"
 			]);
@@ -30,7 +33,6 @@ package wargame.scene.menu.view
 			{
 				
 				GameContext.instance.flashStage.addEventListener(KeyboardEvent.KEY_DOWN,function(event:KeyboardEvent):void{
-					
 					sendLogicMessage(NotifyIds.LOGIC_BATTLE_REQUEST,[1,"30001"]);
 				});
 			}

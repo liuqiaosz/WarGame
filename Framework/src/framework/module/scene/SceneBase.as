@@ -5,7 +5,6 @@ package framework.module.scene
 	import flash.utils.Dictionary;
 	
 	import framework.core.GameContext;
-	import framework.module.asset.AssetsManager;
 	import framework.module.notification.NotificationIds;
 	import framework.module.scene.vo.ViewParam;
 	
@@ -71,16 +70,6 @@ package framework.module.scene
 		public function initializer():void
 		{
 			
-		}
-		
-		public function scale(ratio:Number):void
-		{
-//			var realHeight:int = GameContext.instance.realContentHeight;
-//			var offset:int = ((GameContext.instance.screenFullHeight  - realHeight) >> 1);
-//			for each(var layer:Sprite in layers)
-//			{
-//				layer.y = offset;
-//			}
 		}
 		
 		public function findViewById(id:String):ISceneView
@@ -416,7 +405,7 @@ package framework.module.scene
 				if(id in regDict)
 				{
 					var cls:Class = regDict[id];
-					view = insDict[id] = new cls();
+					view = insDict[id] = new cls(id);
 				}
 			}
 			else

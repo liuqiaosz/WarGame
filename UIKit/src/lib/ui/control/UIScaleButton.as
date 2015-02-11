@@ -2,8 +2,6 @@ package lib.ui.control
 {
 	import flash.geom.Point;
 	
-	import framework.module.asset.AssetsManager;
-	
 	import starling.events.Touch;
 	import starling.events.TouchEvent;
 	import starling.events.TouchPhase;

@@ -1,14 +1,16 @@
 package
 {
+	import extension.asset.AssetsManager;
+	
 	import flash.events.KeyboardEvent;
 	import flash.system.Capabilities;
 	
 	import framework.core.GameApp;
 	import framework.core.GameContext;
 	import framework.device.Device;
-	import framework.module.asset.AssetsManager;
 	import framework.module.scene.SceneManager;
 	
+	import lib.animation.core.AnimAsset;
 	import lib.ui.control.UIScrollView;
 	import lib.ui.control.UIView;
 	
@@ -41,12 +43,16 @@ package
 		 **/
 		override protected function gameReady():void
 		{
-			GameConfig.instance.loadConfig(null);
+			initDirectory();
+			initConfig();
+			initLogic();
+			
 			Starling.current.showStats = true;
-//			BattleLogic.instance;
-//			SceneManager.instance.register(SceneIds.SCENE_MENU,SceneMenu);
-//			SceneManager.instance.register(SceneIds.SCENE_BATTLE,SceneBattle);
-//			SceneManager.instance.changeScene(SceneIds.SCENE_MENU);
+			
+			SceneManager.instance.register(SceneIds.SCENE_MENU,SceneMenu);
+			SceneManager.instance.register(SceneIds.SCENE_BATTLE,SceneBattle);
+			SceneManager.instance.changeScene(SceneIds.SCENE_MENU);
+			
 			/**
 			AssetsManager.instance.addLoadQueue([
 				Assets.getUIAssetPath("comm","slash"),
@@ -61,6 +67,27 @@ package
 					GameContext.instance.screenStage.addChild(view);
 			});
 			**/
+		}
+		
+		private function initDirectory():void
+		{
+			AnimAsset.avatarDirectory = "assets/avatar";
+			AnimAsset.effectDirectory = "assets/effect";
+			
+			CONFIG::debug
+			{
+				AnimAsset.isDebug = true;
+			}
+		}
+		
+		private function initLogic():void
+		{
+			BattleLogic.instance.initializer();
+		}
+		
+		private function initConfig():void
+		{
+			GameConfig.instance.loadConfig(null);
 		}
 	}
 }

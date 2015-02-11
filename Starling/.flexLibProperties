@@ -2,6 +2,7 @@
 <flexLibProperties includeAllClasses="true" useMultiPlatformConfig="true" version="3">
   <includeClasses>
     <classEntry path="extension.asset.AtlasPackage"/>
+    <classEntry path="extension.asset.AssetsManager"/>
   </includeClasses>
   <includeResources/>
   <namespaceManifests/>
