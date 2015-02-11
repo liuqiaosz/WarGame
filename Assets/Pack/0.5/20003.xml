@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with TexturePacker http://www.codeandweb.com/texturepacker-->
+<!-- $TexturePacker:SmartUpdate:f1068cf3e887f2acadf0310babff9ffc:f85f8ac2689605390babcf8a54d36317:63b21826a44ce44c0af6176597c443ce$ -->
+<TextureAtlas imagePath="20003.png">
+    <SubTexture name="37954-1" x="196" y="0" width="49" height="64"/>
+    <SubTexture name="37954-2" x="258" y="65" width="53" height="63"/>
+    <SubTexture name="37954-3" x="300" y="193" width="51" height="62"/>
+    <SubTexture name="37954-4" x="296" y="0" width="50" height="63"/>
+    <SubTexture name="37954-5" x="164" y="131" width="49" height="64"/>
+    <SubTexture name="37955-1" x="51" y="68" width="49" height="67"/>
+    <SubTexture name="37955-2" x="142" y="0" width="53" height="65"/>
+    <SubTexture name="37955-3" x="0" y="138" width="54" height="67"/>
+    <SubTexture name="37955-4" x="0" y="0" width="50" height="68"/>
+    <SubTexture name="37955-5" x="55" y="136" width="48" height="67"/>
+    <SubTexture name="37955-6" x="101" y="68" width="50" height="66"/>
+    <SubTexture name="37955-7" x="51" y="0" width="52" height="67"/>
+    <SubTexture name="37955-8" x="0" y="69" width="50" height="68"/>
+    <SubTexture name="37957-15" x="46" y="206" width="59" height="25"/>
+    <SubTexture name="37958-1" x="46" y="232" width="60" height="24"/>
+    <SubTexture name="37959-1" x="208" y="65" width="49" height="64"/>
+    <SubTexture name="37960-1" x="152" y="66" width="55" height="64"/>
+    <SubTexture name="37961-1" x="104" y="135" width="59" height="64"/>
+    <SubTexture name="37961-2" x="312" y="64" width="47" height="62"/>
+    <SubTexture name="37961-3" x="221" y="195" width="39" height="60"/>
+    <SubTexture name="37961-4" x="292" y="129" width="46" height="63"/>
+    <SubTexture name="37961-5" x="446" y="0" width="63" height="54"/>
+    <SubTexture name="37961-6" x="404" y="56" width="69" height="54"/>
+    <SubTexture name="37961-7" x="107" y="200" width="68" height="55"/>
+    <SubTexture name="37961-8" x="347" y="0" width="54" height="57"/>
+    <SubTexture name="37961-9" x="176" y="196" width="44" height="60"/>
+    <SubTexture name="37968-1" x="246" y="0" width="49" height="64"/>
+    <SubTexture name="37968-10" x="395" y="170" width="42" height="54"/>
+    <SubTexture name="37968-11" x="352" y="183" width="42" height="55"/>
+    <SubTexture name="37968-12" x="339" y="127" width="43" height="55"/>
+    <SubTexture name="37968-13" x="360" y="58" width="43" height="55"/>
+    <SubTexture name="37968-2" x="214" y="130" width="38" height="64"/>
+    <SubTexture name="37968-3" x="253" y="130" width="38" height="64"/>
+    <SubTexture name="37968-4" x="104" y="0" width="37" height="66"/>
+    <SubTexture name="37968-5" x="383" y="114" width="37" height="55"/>
+    <SubTexture name="37968-6" x="261" y="195" width="38" height="58"/>
+    <SubTexture name="37968-7" x="421" y="111" width="42" height="54"/>
+    <SubTexture name="37968-8" x="0" y="206" width="45" height="50"/>
+    <SubTexture name="37968-9" x="464" y="111" width="44" height="51"/>
+    <SubTexture name="37969-1" x="402" y="0" width="43" height="55"/>
+</TextureAtlas>
