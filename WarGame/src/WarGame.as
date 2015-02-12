@@ -28,6 +28,7 @@ package
 	import wargame.scene.menu.SceneMenu;
 	import wargame.scene.menu.ui.MenuView;
 	import wargame.scene.menu.view.ScrollTest;
+	import wargame.utility.NotifyIds;
 	
 	[SWF(frameRate="60")]
 	public class WarGame extends GameApp
@@ -51,8 +52,10 @@ package
 			
 			SceneManager.instance.register(SceneIds.SCENE_MENU,SceneMenu);
 			SceneManager.instance.register(SceneIds.SCENE_BATTLE,SceneBattle);
-			SceneManager.instance.changeScene(SceneIds.SCENE_MENU);
-			
+			//SceneManager.instance.changeScene(SceneIds.SCENE_MENU);
+			Starling.juggler.delayCall(function():void{
+				sendLogicMessage(NotifyIds.LOGIC_BATTLE_REQUEST,[1,"30001"]);
+			},1);
 			/**
 			AssetsManager.instance.addLoadQueue([
 				Assets.getUIAssetPath("comm","slash"),

@@ -27,17 +27,20 @@ package lib.animation.avatar
 		}
 		public function Avatar(config:ConfigAvatar)
 		{
-			this.config = config;
-			_atom = AtomConfigManager.instance.findUnitById(config.id);
-			var atlas:TextureAtlas = AssetsManager.instance.getTextureAtlas(config.id);
-			if(atlas)
+			if(config)
 			{
-				avatarFrames = atlas.getTextures();
-				frameLoaded = true;
-			}
-			else
-			{
-				AssetsManager.instance.addLoadQueue(AnimAsset.getAvatarUrl(config.id),onAssetLoadComplete);
+				this.config = config;
+				_atom = AtomConfigManager.instance.findUnitById(config.id);
+				var atlas:TextureAtlas = AssetsManager.instance.getTextureAtlas(config.id);
+				if(atlas)
+				{
+					avatarFrames = atlas.getTextures();
+					frameLoaded = true;
+				}
+				else
+				{
+					AssetsManager.instance.addLoadQueue(AnimAsset.getAvatarUrl(config.id),onAssetLoadComplete);
+				}
 			}
 		}
 		
@@ -78,7 +81,7 @@ package lib.animation.avatar
 		}
 		
 //		public function play(name:String,loop:int = 0,complete:Function = null):void
-		public function playAction(name:String,loop:int = 0,progress:Function = null,complete:Function = null):void
+		public function playAction(name:String,loop:int = 0,progress:Function = null,complete:Function = null,trigger:Function = null):void
 		{
 			playedCount = 0;
 			_loop = loop;
@@ -91,6 +94,10 @@ package lib.animation.avatar
 					currentAction = config.actions[idx];
 				}
 			}
+			
+			_progress = progress;
+			_complete = complete;
+			_trigger = trigger;
 			
 			if(frameLoaded)
 			{
@@ -111,20 +118,45 @@ package lib.animation.avatar
 					//设置帧序列
 					super.frames = actionFrames;
 					//播放接口调用
-					super.play(currentAction.duration,loop,progress,complete);
+					super.play(currentAction.duration,loop,onProgress,onComplete);
 				}
 			}
 			else
 			{
 				onPlayDelay = true;
-				_progress = progress;
-				_complete = complete;
+				
+			}
+		}
+		
+		private function onProgress(current:int,total:int):void
+		{
+			if(null != _progress)
+			{
+				if(this.currentAction && currentAction.triggers.length)
+				{
+					for(var idx:int = 0; idx<currentAction.triggers.length; idx++)
+					{
+						if(currentAction.triggers[idx].triggerFrame == current && null != _trigger)
+						{
+							_trigger(currentAction.triggers[idx],this);
+						}
+					}
+				}
+				_progress(current,total);
+			}
+		}
+		private function onComplete():void
+		{
+			if(null != _complete)
+			{
+				_complete(this);
 			}
 		}
 		
 		private var _loop:int = 0;
 		private var _progress:Function = null;
 		private var _complete:Function = null;
+		private var _trigger:Function = null;
 		
 		/**
 		 * 重写基类的播放方法,使用avatar动画不允许直接调用底层的播放接口

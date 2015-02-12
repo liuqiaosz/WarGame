@@ -31,13 +31,14 @@ package wargame.scene.battle.view
 		
 		private function beginLoadResource(resource:Array):void
 		{
-			if(!resource)
-			{
-				debug("初始化资源异常");
-				sendLogicMessage(NotifyIds.LOGIC_BATTLE_RES_ERR);
-				return;
-			}
-			AssetsManager.instance.addLoadQueue(resource,onComplete,onProgress);
+//			if(!resource)
+//			{
+//				debug("初始化资源异常");
+//				sendLogicMessage(NotifyIds.LOGIC_BATTLE_RES_ERR);
+//				return;
+//			}
+//			AssetsManager.instance.addLoadQueue(resource,onComplete,onProgress);
+			sendLogicMessage(NotifyIds.LOGIC_BATTLE_READY);
 		}
 		
 		/**

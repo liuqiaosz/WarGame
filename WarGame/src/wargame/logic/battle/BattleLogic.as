@@ -2,6 +2,7 @@ package wargame.logic.battle
 {
 	import flash.geom.Point;
 	
+	import framework.core.GameContext;
 	import framework.module.notification.NotificationIds;
 	import framework.module.scene.SceneManager;
 	
@@ -36,9 +37,9 @@ package wargame.logic.battle
 		
 		public static const FIGHT_PVE:int = 1;
 		public static const FIGHT_PVP:int = 2;
-		
-		public static const RIGHT_CAMP_POS:Point = new Point(2780,100);
-		public static const LEFT_CAMP_POS:Point = new Point(100,100);
+
+		public static const RIGHT_CAMP_POS:Point = new Point(2780,GameContext.instance.getDesignPixelAspect().screenHeight - 100);
+		public static const LEFT_CAMP_POS:Point = new Point(100,GameContext.instance.getDesignPixelAspect().screenHeight - 100);
 		
 		private static var _instance:BattleLogic = null;
 		public static function get instance():BattleLogic
@@ -62,6 +63,11 @@ package wargame.logic.battle
 		private var _fightLevel:ConfigLevel = null;
 		private var _isFightLock:Boolean = false;
 		private var _resourceList:Array = null;
+		
+		//双方的资源
+		private var _selfWine:int = 0;
+		private var _enemyWine:int = 0;
+		
 		public function BattleLogic()
 		{
 			
@@ -162,7 +168,7 @@ package wargame.logic.battle
 				_resourceList = Assets.getBattleMap(_fightLevel.id);
 				
 				//构造NPC阵营数据
-				_enemyClan = createEnemyClan();
+				_enemyClan = createEnemyClan(ArmyInfo.ARMY_AI);
 				//构建玩家阵营数据
 				_selfClan = createPlayerClan();
 				//数据准备完成
@@ -173,6 +179,9 @@ package wargame.logic.battle
 				
 				debug("发送进入战斗通知");
 				sendLogicMessage(NotifyIds.LOGIC_BATTLE_ENTER,_resourceList);
+				
+				//添加开始消息监听
+				addLogicListener(NotifyIds.LOGIC_BATTLE_BEGIN,onBattleBegin);
 			}
 			else	
 			{
@@ -180,7 +189,7 @@ package wargame.logic.battle
 			}
 		}
 		
-		private function createEnemyClan():ArmyInfo
+		private function createEnemyClan(armyClan:int):ArmyInfo
 		{
 			var clan:ArmyInfo = new ArmyInfo();
 			//构建城堡组件
@@ -198,8 +207,7 @@ package wargame.logic.battle
 			for each(var army:ConfigLevelArmy in _fightLevel.armys)
 			{
 				unit = AtomConfigManager.instance.findUnitById(army.uintId);
-				clan.solider.push(new SoliderInfo(unit,army.level));
-				
+				clan.solider.push(new SoliderInfo(unit,army.level,armyClan));
 				_resourceList = _resourceList.concat(Assets.getAvatar(unit.id));
 			}
 			clan.campLv = _fightLevel.campLv;
@@ -226,6 +234,8 @@ package wargame.logic.battle
 					cominfo.lv = 1
 					clan.campComs.push(cominfo);
 				}
+				
+				clan.solider.push(new SoliderInfo(AtomConfigManager.instance.findUnitById("20001"),1,ArmyInfo.ARMY_PLAYER));
 			}
 			else
 			{
@@ -242,7 +252,7 @@ package wargame.logic.battle
 				for each(var saveSol:ConfigLevelArmy in info.rushSoliders)
 				{
 					unit = AtomConfigManager.instance.findUnitById(saveSol.uintId);
-					clan.solider.push(new SoliderInfo(unit,saveSol.level));
+					clan.solider.push(new SoliderInfo(unit,saveSol.level,ArmyInfo.ARMY_PLAYER));
 					_resourceList = _resourceList.concat(Assets.getAvatar(unit.id));
 				}
 				clan.campLv = info.camplv;
@@ -265,28 +275,30 @@ package wargame.logic.battle
 		 **/
 //		public function appendToBattle(value:Solider):void
 //		public function createSoliderToBattle(id:String,clan:int):Solider
-		public function createSoliderToBattle(info:SoliderInfo,clan:int):Solider
+		public function createSoliderToBattle(info:SoliderInfo,pos:Point):SoliderNode
 		{
-			var solider:Solider = new Solider(info.id,clan);
-			var node:SoliderNode = new SoliderNode(solider,info);
-			if(clan == ArmyInfo.ARMY_PLAYER)
+//			var solider:Solider = new Solider(info.id,clan);
+//			var node:SoliderNode = new SoliderNode(solider,info,clan);
+			var node:SoliderNode = new SoliderNode(info,pos);
+			if(info.clan == ArmyInfo.ARMY_PLAYER)
 			{
 				//我方阵营
 				_selfSoliders.push(node);
-				solider.moveTo(_selfClan.createPoint.x,_selfClan.createPoint.y);
+				//solider.moveTo(_selfClan.createPoint.x,_selfClan.createPoint.y);
 			}
 			else
 			{
 				_enemySoliders.push(node);
 				//AI或者PVP玩家属于敌方阵营
-				solider.moveTo(_enemyClan.createPoint.x,_enemyClan.createPoint.y);
+				//solider.moveTo(_enemyClan.createPoint.x,_enemyClan.createPoint.y);
 			}
 //			_allSprite.push(solider);
 			_allSprite.push(node);
-			return solider;
+			return node;
 		}
 		
-		private var solider:Solider = null;
+		private var deltaSum:int = 0;
+		//private var solider:Solider = null;
 		public function update(delta:int):void
 		{
 			if(_fighting)
@@ -300,6 +312,7 @@ package wargame.logic.battle
 					node.update(delta,_selfSoliders,_enemySoliders);
 					if(!node.isDispose())
 					{
+						
 						_allSprite.unshift(node);	
 					}
 					else
@@ -318,6 +331,21 @@ package wargame.logic.battle
 						}
 					}
 				}
+				
+				if(deltaSum >= 1000)
+				{
+					deltaSum = delta;
+					
+					//处理资源的更新
+					_selfWine += (_selfClan.campLv * 10);
+					_enemyWine += (_enemyClan.campLv * 10);
+				}
+				else
+				{
+					deltaSum += delta;
+				}
+				
+				sendLogicMessage(NotifyIds.LOGIC_BATTLE_UPDATE);
 			}
 		}
 		
@@ -350,6 +378,41 @@ package wargame.logic.battle
 				_allSprite.length = 0;
 				_allSprite = null;
 			}
+		}
+		
+		private function onBattleBegin(param:Object = null):void
+		{
+			removeLogicListener(NotifyIds.LOGIC_BATTLE_BEGIN,onBattleBegin);
+			//战斗开始
+			_fighting = true;
+			addLogicListener(NotifyIds.LOGIC_BATTLE_ADD,onAddBattleNode);
+			
+			GameLogicManager.instance.add(this);
+		}
+		
+		/**
+		 * 
+		 **/
+		private function onAddBattleNode(args:Array):void
+		{
+			var uid:String = args[0];
+			var clan:int = args[1];
+			var info:SoliderInfo = null;
+			var pos:Point = null;
+			if(clan == ArmyInfo.ARMY_PLAYER)
+			{
+				//left
+				info = _selfClan.findSoliderInfoById(uid);
+				pos = LEFT_CAMP_POS;
+			}
+			else
+			{
+				//right	
+				info = _enemyClan.findSoliderInfoById(uid);
+				pos = RIGHT_CAMP_POS;
+			}
+			var node:SoliderNode = createSoliderToBattle(info,pos);
+			sendLogicMessage(NotifyIds.LOGIC_BATTLE_ADDED,node);	
 		}
 		
 		public function dispose():void

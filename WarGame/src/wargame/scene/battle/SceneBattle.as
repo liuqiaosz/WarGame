@@ -35,7 +35,7 @@ package wargame.scene.battle
 		{
 			addLogicListener(NotifyIds.LOGIC_BATTLE_ENTER,onBattleEnter);
 			addLogicListener(NotifyIds.LOGIC_BATTLE_RES_ERR,onResourceError);
-			addLogicListener(NotifyIds.LOGIC_BATTLE_BEGIN,onBattleBegin);
+			addLogicListener(NotifyIds.LOGIC_BATTLE_READY,onBattleReady);
 			super.onShow();
 		}
 		
@@ -51,7 +51,7 @@ package wargame.scene.battle
 		{
 			removeLogicListener(NotifyIds.LOGIC_BATTLE_ENTER,onBattleEnter);
 			removeLogicListener(NotifyIds.LOGIC_BATTLE_RES_ERR,onResourceError);
-			removeLogicListener(NotifyIds.LOGIC_BATTLE_BEGIN,onBattleBegin);
+			removeLogicListener(NotifyIds.LOGIC_BATTLE_READY,onBattleReady);
 			super.onHide();	
 		}
 		
@@ -70,7 +70,7 @@ package wargame.scene.battle
 		/**
 		 * 战斗资源准备完成，进入战场
 		 **/
-		private function onBattleBegin(param:Object = null):void
+		private function onBattleReady(param:Object = null):void
 		{
 			var args:ViewParam = new ViewParam();
 			args.view = ViewIds.BATTLE_MAIN;

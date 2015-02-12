@@ -4,11 +4,16 @@ package wargame.logic.battle.vo
 
 	public class BattleNode implements IBattleNode
 	{
-		protected var self:IBattleSprite = null;
+//		protected var self:IBattleSprite = null;
 
-		public function BattleNode(target:IBattleSprite)
+//		public function BattleNode(target:IBattleSprite)
+//		{
+//			self = target;
+//		}
+		
+		public function BattleNode()
 		{
-			self = target;
+			
 		}
 		
 		public function update(delta:int,left:Vector.<IBattleNode>,right:Vector.<IBattleNode>):void
@@ -25,7 +30,5 @@ package wargame.logic.battle.vo
 		{
 			return _dispose;
 		}
-		
-		
 	}
 }

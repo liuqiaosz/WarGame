@@ -94,6 +94,7 @@ package lib.animation.core
 			}
 		}
 		
+		private var nextTexture:Texture = null;
 		private var navTexture:Texture = null;
 		private var lastChange:int = 0;
 		public function advanceTime(delta:Number):void
@@ -106,18 +107,25 @@ package lib.animation.core
 			{
 				lastChange += delta;
 				if(lastChange >= duration)
+//				if(lastChange >= 2000)
 				{
 					lastChange = 0;
-					navTexture = _frames[currentFrame];
+					nextTexture = _frames[currentFrame];
 					if(!content)
 					{
-						content = new Image(navTexture);
+						content = new Image(nextTexture);
 						addChild(content);
 					}
 					else
 					{
 						content.texture = navTexture;
+						if(nextTexture.width != navTexture.width || nextTexture.height != navTexture.height)
+						{
+							content.readjustSize();
+						}
 					}
+					
+					navTexture = nextTexture;
 					content.x = -(navTexture.width >> 1);
 					content.y = -navTexture.height;
 					currentFrame++;
@@ -135,7 +143,6 @@ package lib.animation.core
 							{
 								//播放完毕回调
 								onComplete(this);
-								
 								navTexture = null;
 							}
 						}

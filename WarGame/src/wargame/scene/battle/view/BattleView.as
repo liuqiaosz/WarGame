@@ -1,14 +1,24 @@
 package wargame.scene.battle.view
 {
 	import flash.events.KeyboardEvent;
+	import flash.utils.Dictionary;
 	
 	import framework.core.GameContext;
 	import framework.module.scene.SceneViewBase;
+	
+	import lib.animation.avatar.Avatar;
+	import lib.animation.avatar.AvatarManager;
+	import lib.animation.avatar.cfg.ConfigActionTrigger;
 	
 	import wargame.asset.Assets;
 	import wargame.cfg.vo.ConfigLevel;
 	import wargame.logic.battle.BattleLogic;
 	import wargame.logic.battle.vo.ArmyInfo;
+	import wargame.logic.battle.vo.IBattleNode;
+	import wargame.logic.battle.vo.SoliderInfo;
+	import wargame.logic.battle.vo.SoliderNode;
+	import wargame.scene.battle.sprite.Solider;
+	import wargame.scene.battle.sprite.SoliderTest;
 	import wargame.utility.NotifyIds;
 
 	/**
@@ -22,6 +32,8 @@ package wargame.scene.battle.view
 		private var self:ArmyInfo = null;
 		
 		private var _stage:BattleStageView = null;
+		private var all:Vector.<SoliderNode> = null;
+		private var dict:Dictionary = null;
 		public function BattleView(id:String)
 		{
 			super(id);
@@ -37,7 +49,71 @@ package wargame.scene.battle.view
 			_stage = new BattleStageView();
 			addChild(_stage);
 			
+			all = new Vector.<SoliderNode>();
+			dict = new Dictionary();
+			GameContext.instance.flashStage.addEventListener(KeyboardEvent.KEY_DOWN,onTestKeyEnter);
+			addLogicListener(NotifyIds.LOGIC_BATTLE_ADDED,onAddComplete);
+			addLogicListener(NotifyIds.LOGIC_BATTLE_UPDATE,onUpdate);
 			
+			sendLogicMessage(NotifyIds.LOGIC_BATTLE_BEGIN);
+		}
+		
+		private function onUpdate(param:Object):void
+		{
+			var info:SoliderInfo = null;
+			var solider:Solider = null;
+			var node:SoliderNode = null;
+			for(var idx:int = 0; idx<all.length; idx++)
+			{
+				node = all[idx];
+				
+				info = all[idx].info;
+				solider = dict[node];
+				
+				switch(node.state)
+				{
+					case SoliderNode.STATE_IDLE:
+						break;
+					case SoliderNode.STATE_MOVE:
+						solider.playWalk();
+						solider.x = node.soliderPos.x;
+						solider.y = node.soliderPos.y;
+						break;
+					case SoliderNode.STATE_ATTACK:
+						onSoliderAttack(node,solider);
+						break;
+					case SoliderNode.STATE_ATTACK_END:
+						break;
+					
+				}
+			}
+		}
+		
+		private function onSoliderAttack(node:SoliderNode,solider:Solider):void
+		{
+			solider.playAttack(function():void{
+				node.state = SoliderNode.STATE_ATTACK_END;
+			},function(trigger:ConfigActionTrigger,avr:Avatar):void{
+				node.state = SoliderNode.STATE_ATTACK_TRIGGER;
+			});
+		}
+		
+		
+		/**
+		 * 添加成功
+		 **/
+		private function onAddComplete(param:SoliderNode):void
+		{
+			all.push(param);
+//			var solider:Solider = new Solider(param.info.id,param.info.clan);
+			var solider:SoliderTest = new SoliderTest(param.info.id,param.info.clan);
+			dict[param] = solider;
+			addChild(solider);
+		}
+		
+		private function onTestKeyEnter(event:KeyboardEvent):void
+		{
+			sendLogicMessage(NotifyIds.LOGIC_BATTLE_ADD,["20001",ArmyInfo.ARMY_PLAYER]);
 		}
 	}
 }
@@ -76,8 +152,6 @@ class BattleStageView extends Sprite
 		addChild(_content);
 		buildBackground();
 		buildFloor();
-		
-		
 	}
 	
 	private function initBattle():void

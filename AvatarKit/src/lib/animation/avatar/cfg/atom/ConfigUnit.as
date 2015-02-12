@@ -105,6 +105,9 @@ package lib.animation.avatar.cfg.atom
 						case "等级":
 							level.lv = int(levelValue[idx]);
 							break;
+						case "建造花费":
+							level.cost = int(levelValue[idx]);
+							break;
 						case "升级花费":
 							level.upgradeCost = int(levelValue[idx]);
 							break;

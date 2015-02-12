@@ -29,13 +29,7 @@ package wargame.scene.menu.view
 		
 		override public function onShow():void
 		{
-			CONFIG::debug
-			{
-				
-				GameContext.instance.flashStage.addEventListener(KeyboardEvent.KEY_DOWN,function(event:KeyboardEvent):void{
-					sendLogicMessage(NotifyIds.LOGIC_BATTLE_REQUEST,[1,"30001"]);
-				});
-			}
+			
 		}
 		
 		/**

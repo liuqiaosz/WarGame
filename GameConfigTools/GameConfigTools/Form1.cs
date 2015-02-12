@@ -89,6 +89,7 @@ namespace GameConfigTools
 						};
 						Desc.SubTitle = new string[] { 
 							"等级",
+							"建造花费",
 							"升级花费",
 							"攻击",
 							"防御",

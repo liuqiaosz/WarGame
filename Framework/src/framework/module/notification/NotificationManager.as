@@ -2,7 +2,6 @@ package framework.module.notification
 {
 	import flash.utils.Dictionary;
 	
-
 	import framework.module.BaseModule;
 
 	/**
@@ -39,18 +38,23 @@ package framework.module.notification
 			return _instance;
 		}
 		
+		private var swap:Vector.<MessageSender> = null;
 		override public function update(t:Number):void
 		{
 			super.update(t);
 			if(sendQueue && sendQueue.length)
 			{
+				swap = sendQueue.concat();
+				sendQueue.length = 0;
 				//异步消息队列处理
 				var send:MessageSender = null;
-				while(sendQueue.length)
+//				while(swap.length)
+				for(var idx:int = 0; idx<swap.length; idx++)
 				{
-					send = sendQueue.shift();
+					send = swap[idx];
 					dispatchMessage(send.type,send.id,send.params);
 				}
+				swap = null;
 			}
 		}
 		
@@ -191,10 +195,11 @@ package framework.module.notification
 				var funcs:Vector.<MessageHandler> = _msgDict[type][id];
 //				for each(var func:Function in funcs)
 				funcs.sort(sortPriority);
-				for each(var handler:MessageHandler in funcs)
+//				for each(var handler:MessageHandler in funcs)
+				for(var idx:int = 0; idx<funcs.length; idx++)
 				{
 //					func(id,params);
-					handler.handler(params);
+					funcs[idx].handler(params);
 				}
 			}
 		}

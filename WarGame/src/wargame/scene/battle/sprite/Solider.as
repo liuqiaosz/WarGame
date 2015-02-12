@@ -32,21 +32,67 @@ package wargame.scene.battle.sprite
 			super(AvatarManager.instance.getConfig(id));
 //			_avatar = avr;
 			_clan = clanV;
-			_moveSpeed = _avatar.atom.speedByFrame;
-			if(ArmyInfo.ARMY_PLAYER != _clan)
+			if(_avatar)
 			{
-				_avatar.scaleX = -1;
-				_moveSpeed *= -1;
+				_moveSpeed = _avatar.atom.speedByFrame;
+				if(ArmyInfo.ARMY_PLAYER != _clan)
+				{
+					_avatar.scaleX = -1;
+					_moveSpeed *= -1;
+				}
+			}
+		}
+		
+		private var _currentPlay:String = "";
+		
+		/**
+		 * 待机
+		 **/
+		public function playIdel():void
+		{
+			if(_currentPlay != "idle")
+			{
+				_currentPlay = "idle";
+				_avatar.playAction(_currentPlay);
 			}
 		}
 		
 		/**
-		 * 被攻击
+		 * 攻击
 		 **/
-		public function onAttack():void
+		public function playAttack(complete:Function = null,trigger:Function = null):void
 		{
-			
+			if(_currentPlay != "attack")
+			{
+				_currentPlay = "attack";
+				_avatar.playAction(_currentPlay,1,null,complete,trigger);
+			}
 		}
+		
+		/**
+		 * 移动
+		 **/
+		public function playWalk():void
+		{
+			if(_currentPlay != "walk")
+			{
+				_currentPlay = "walk";
+				if(_avatar)
+				{
+					_avatar.playAction(_currentPlay);
+				}
+			}
+		}
+		
+		public function playHurt():void
+		{
+			if(_currentPlay != "hurt")
+			{
+				_currentPlay = "hurt";
+				_avatar.playAction(_currentPlay,1);
+			}
+		}
+		
 		
 		/**
 		 * 普通攻击范围
