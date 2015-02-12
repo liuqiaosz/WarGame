@@ -53,7 +53,10 @@ package wargame.scene.battle.sprite
 			if(_currentPlay != "idle")
 			{
 				_currentPlay = "idle";
-				_avatar.playAction(_currentPlay);
+				if(_avatar)
+				{
+					_avatar.playAction(_currentPlay);
+				}
 			}
 		}
 		
@@ -65,7 +68,22 @@ package wargame.scene.battle.sprite
 			if(_currentPlay != "attack")
 			{
 				_currentPlay = "attack";
-				_avatar.playAction(_currentPlay,1,null,complete,trigger);
+				if(isTest)
+				{
+					delayCall(0.5,function():void{
+						if(null != complete)
+						{
+							playIdel();
+							complete();
+							
+						}
+					});
+				}
+				
+				if(_avatar)
+				{
+					_avatar.playAction(_currentPlay,1,null,complete,trigger);
+				}
 			}
 		}
 		
@@ -89,10 +107,32 @@ package wargame.scene.battle.sprite
 			if(_currentPlay != "hurt")
 			{
 				_currentPlay = "hurt";
-				_avatar.playAction(_currentPlay,1);
+				if(_avatar)
+				{
+					_avatar.playAction(_currentPlay,1);
+				}
 			}
 		}
-		
+		public function playDead(complete:Function = null):void
+		{
+			if(_currentPlay != "dead")
+			{
+				_currentPlay = "dead";
+				if(isTest)
+				{
+					delayCall(0.5,function():void{
+						if(null != complete)
+						{
+							complete();
+						}
+					});
+				}
+				if(_avatar)
+				{
+					_avatar.playAction(_currentPlay,1,null,complete);
+				}
+			}
+		}
 		
 		/**
 		 * 普通攻击范围

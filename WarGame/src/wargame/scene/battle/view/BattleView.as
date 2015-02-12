@@ -1,6 +1,7 @@
 package wargame.scene.battle.view
 {
 	import flash.events.KeyboardEvent;
+	import flash.ui.Keyboard;
 	import flash.utils.Dictionary;
 	
 	import framework.core.GameContext;
@@ -84,15 +85,48 @@ package wargame.scene.battle.view
 						break;
 					case SoliderNode.STATE_ATTACK_END:
 						break;
+					case SoliderNode.STATE_DEAD:
+						//角色死亡，播放动画
+						onSoliderDead(node,solider);
+						node.dispose();
+						var index:int = all.indexOf(node);
+						if(idx >= 0)
+						{
+							all.splice(index,1);
+							delete dict[node];
+						}
+						break;
+//					case SoliderNode.STATE_DISPOSE:
+//						
+//						
+//						break;
 					
 				}
 			}
 		}
 		
+		private function onSoliderDead(node:SoliderNode,solider:Solider):void
+		{
+			solider.playDead(function():void{
+				//设置销毁状态
+//				node.state = SoliderNode.STATE_DISPOSE;
+				debug(node.info.id + "死亡动画结束，销毁");
+				
+				solider.removeFromParent(true);
+			});
+		}
+		
 		private function onSoliderAttack(node:SoliderNode,solider:Solider):void
 		{
+			debug(node.info.id + "对目标发起攻击动作");
+			node.state = SoliderNode.STATE_ATTACKING;
 			solider.playAttack(function():void{
-				node.state = SoliderNode.STATE_ATTACK_END;
+				if(node.state != SoliderNode.STATE_DEAD)
+				{
+					//还活着
+					node.state = SoliderNode.STATE_ATTACK_END;
+					debug(node.info.id + "攻击动作结束");
+				}
 			},function(trigger:ConfigActionTrigger,avr:Avatar):void{
 				node.state = SoliderNode.STATE_ATTACK_TRIGGER;
 			});
@@ -113,7 +147,16 @@ package wargame.scene.battle.view
 		
 		private function onTestKeyEnter(event:KeyboardEvent):void
 		{
-			sendLogicMessage(NotifyIds.LOGIC_BATTLE_ADD,["20001",ArmyInfo.ARMY_PLAYER]);
+			switch(event.keyCode)
+			{
+				case Keyboard.A:
+					sendLogicMessage(NotifyIds.LOGIC_BATTLE_ADD,["20001",ArmyInfo.ARMY_PLAYER]);
+					break;
+				case Keyboard.S:
+					sendLogicMessage(NotifyIds.LOGIC_BATTLE_ADD,["20002",ArmyInfo.ARMY_AI]);
+					break;
+			}
+			
 		}
 	}
 }

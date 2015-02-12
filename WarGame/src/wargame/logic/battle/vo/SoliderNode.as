@@ -13,14 +13,16 @@ package wargame.logic.battle.vo
 	 **/
 	public class SoliderNode extends BattleNode
 	{
-		public static const STATE_IDLE:int = 1;
-		public static const STATE_MOVE:int = 2;
-		public static const STATE_ATTACK:int = 3;
-		public static const STATE_ATTACK_TRIGGER:int = 4;
-		public static const STATE_ATTACK_END:int = 5;
-		public static const STATE_HURT:int = 6;
-		public static const STATE_DEAD:int = 7;
-		public static const STATE_DISPOSE:int = 8;//丢弃状态
+		public static var Flag:int = 0;
+		public static const STATE_IDLE:int = ++Flag;
+		public static const STATE_MOVE:int = ++Flag;
+		public static const STATE_ATTACK:int = ++Flag;
+		public static const STATE_ATTACKING:int = ++Flag;
+		public static const STATE_ATTACK_TRIGGER:int = ++Flag;
+		public static const STATE_ATTACK_END:int = ++Flag;
+		public static const STATE_HURT:int = ++Flag;
+		public static const STATE_DEAD:int = ++Flag;
+//		public static const STATE_DISPOSE:int = ++Flag;//丢弃状态
 		
 		private var _state:int = STATE_IDLE;
 		public function get state():int
@@ -40,7 +42,7 @@ package wargame.logic.battle.vo
 		private var distanceMul:int = 0;
 		private var _soliderPos:Point = new Point();
 		private var attackRange:Rectangle = null;
-		
+		public var hp:int = 0;
 		public function get soliderPos():Point
 		{
 			return _soliderPos;
@@ -58,6 +60,8 @@ package wargame.logic.battle.vo
 //			_soliderPos.y = _solider.y;
 			_soliderPos.x = pos.x;
 			_soliderPos.y = pos.y;
+			
+			hp = _info.hp;
 		}
 		
 		private var _hurtFlag:Boolean = false;
@@ -76,42 +80,29 @@ package wargame.logic.battle.vo
 					{
 						//has target
 						_state = STATE_ATTACK;
+						trace(_info.id + "进入攻击状态,目标[" + _lockTarget.info.id + "]");
 					}
 					else
 					{
 						_state = STATE_MOVE;
-//						this.soliderPos.x += (distanceMul * _info.atom.speedByFrame);
-						this.soliderPos.x += (distanceMul * 0.5);
+						this.soliderPos.x += (distanceMul * _info.atom.speedByFrame);
+//						this.soliderPos.x += (distanceMul * 0.5);
+						//trace(_info.id + "移动,新坐标[" + soliderPos.toString() + "]");
 					}
 					break;
 				case STATE_ATTACK:
-//					if(_lockTarget)
-//					{
-//						if(_lockTarget.state != STATE_DEAD)
-//						{
-//							//attack target
-//							_lockTarget.onAttack(this);
-//							if(_lockTarget.state == STATE_DEAD)
-//							{
-//								//target is dead
-//								_lockTarget = findAttackTarget(targetClan) as SoliderNode;
-//								if(!_lockTarget)
-//								{
-//									//no target in range
-//									_state = STATE_MOVE;
-//								}
-//							}
-//						}
-//						else
-//						{
-//							_lockTarget = findAttackTarget(targetClan) as SoliderNode;
-//							if(!_lockTarget)
-//							{
-//								//no target in range
-//								_state = STATE_MOVE;
-//							}
-//						}
-//					}
+					if(_lockTarget)
+					{
+						if(_lockTarget.state == STATE_DEAD)
+						{
+							_lockTarget = findAttackTarget(targetClan) as SoliderNode;
+							if(!_lockTarget)
+							{
+								//no target in range
+								_state = STATE_MOVE;
+							}
+						}
+					}
 					break;
 				case STATE_ATTACK_TRIGGER:
 					//触发器,设置当次攻击动作的伤害标记
@@ -159,12 +150,13 @@ package wargame.logic.battle.vo
 					break;
 				case STATE_DEAD:
 					//死亡
-					trace("玩家死亡");
+					//trace("玩家死亡");
+					
 					break;
-				case STATE_DISPOSE:
-					trace("销毁");
-					dispose();
-					break;
+//				case STATE_DISPOSE:
+//					trace("销毁");
+////					dispose();
+//					break;
 			}
 		}
 		
@@ -174,6 +166,7 @@ package wargame.logic.battle.vo
 			{
 				//attack target
 				_lockTarget.onAttack(this);
+				_state = STATE_ATTACK;
 				if(_lockTarget.state == STATE_DEAD)
 				{
 					//target is dead
@@ -182,10 +175,6 @@ package wargame.logic.battle.vo
 					{
 						//no target in range
 						_state = STATE_MOVE;
-					}
-					else
-					{
-						_state = STATE_ATTACK;
 					}
 				}
 			}
@@ -223,7 +212,7 @@ package wargame.logic.battle.vo
 				}
 				else
 				{
-					if(pos.x < rangeX && pos.x > _soliderPos.x)
+					if(pos.x < rangeX && pos.x > _soliderPos.x && state != STATE_DEAD)
 					{
 						return targetArmy[idx];
 					}
@@ -241,11 +230,13 @@ package wargame.logic.battle.vo
 			{
 				//攻击方的攻击力
 				var attack:int = caster.info.levelInfo.attack;
-				_info.hp -= attack;
-				if(_info.hp <= 0)//死亡
+				hp -= attack;
+				debug(_info.id + "受到[" + caster.info.id + "]的攻击，损失[" + attack + "]生命,剩余生命[" + hp + "]");
+				if(hp <= 0)//死亡
 				{
-					_info.hp = 0;
+					hp = 0;
 					_state = STATE_DEAD;
+					debug(_info.id + "被" + caster.info.id + "干死了!!!!!");
 				}
 			}
 		}

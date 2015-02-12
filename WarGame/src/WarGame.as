@@ -94,30 +94,3 @@ package
 		}
 	}
 }
-import lib.ui.control.IRenderer;
-
-import starling.display.Quad;
-import starling.display.Sprite;
-
-class Item extends Sprite implements IRenderer
-{
-	public function Item()
-	{
-		var cube:Quad = new Quad(150,150,0xff0000);
-		addChild(cube);
-	}
-	
-	public function set data(value:Object):void
-	{
-		
-	}
-	private var _index:int = 0;
-	public function set index(value:int):void
-	{
-		_index = value;
-	}
-	public function get index():int
-	{
-		return _index;
-	}
-}

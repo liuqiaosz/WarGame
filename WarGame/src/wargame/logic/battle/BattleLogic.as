@@ -33,13 +33,14 @@ package wargame.logic.battle
 
 	public class BattleLogic implements IGameLogic
 	{
-		public static const BATTLE_WIDTH:int = 2880;
+//		public static const BATTLE_WIDTH:int = 2880;
+		public static const BATTLE_WIDTH:int = 1136;
 		
 		public static const FIGHT_PVE:int = 1;
 		public static const FIGHT_PVP:int = 2;
 
-		public static const RIGHT_CAMP_POS:Point = new Point(2780,GameContext.instance.getDesignPixelAspect().screenHeight - 100);
-		public static const LEFT_CAMP_POS:Point = new Point(100,GameContext.instance.getDesignPixelAspect().screenHeight - 100);
+		public static const RIGHT_CAMP_POS:Point = new Point(BATTLE_WIDTH - 50,GameContext.instance.getDesignPixelAspect().screenHeight - 100);
+		public static const LEFT_CAMP_POS:Point = new Point(50,GameContext.instance.getDesignPixelAspect().screenHeight - 100);
 		
 		private static var _instance:BattleLogic = null;
 		public static function get instance():BattleLogic
@@ -225,7 +226,7 @@ package wargame.logic.battle
 			var id:String = "";
 			var unit:ConfigUnit = null;
 			
-			if(isTest())
+			if(isTest)
 			{
 				for each(var comp:ConfigComponent in GameConfig.instance.defaultCampComponent)
 				{
@@ -312,8 +313,7 @@ package wargame.logic.battle
 					node.update(delta,_selfSoliders,_enemySoliders);
 					if(!node.isDispose())
 					{
-						
-						_allSprite.unshift(node);	
+						_allSprite.push(node);	
 					}
 					else
 					{

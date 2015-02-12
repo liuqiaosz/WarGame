@@ -1,6 +1,6 @@
 package
 {
-	public function isTest():Boolean
+	public function get isTest():Boolean
 	{
 		CONFIG::test
 		{
