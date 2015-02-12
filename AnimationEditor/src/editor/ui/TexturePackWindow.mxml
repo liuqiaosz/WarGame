@@ -18,7 +18,7 @@
 			}
 			
 			private static const COMM_ARGS:Vector.<String> = Vector.<String>(["texturepacker",
-				"--texture-format","png","--format","sparrow","--enable-rotation","--shape-padding","1","--border-padding","0","--trim-mode None",
+				"--texture-format","png","--format","sparrow","--shape-padding","1","--border-padding","0","--trim-mode None",
 				"--trim-sprite-names","--opt","RGBA8888","--size-constraints","POT","--max-width","1024","--max-height","1024","--sheet"
 			]);
 			protected function publishAvatar(event:MouseEvent):void
