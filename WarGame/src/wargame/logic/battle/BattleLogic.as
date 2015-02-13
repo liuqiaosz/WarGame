@@ -170,6 +170,9 @@ package wargame.logic.battle
 				
 				//构造NPC阵营数据
 				_enemyClan = createEnemyClan(ArmyInfo.ARMY_AI);
+				_enemyClan.level = _fightLevel.campLv;
+				_enemyClan.campInfo = GameConfig.instance.findCampByLevel(_fightLevel.campLv);
+				
 				//构建玩家阵营数据
 				_selfClan = createPlayerClan();
 				//数据准备完成
@@ -232,7 +235,7 @@ package wargame.logic.battle
 				{
 					cominfo = new CampCmInfo();
 					cominfo.component = comp;
-					cominfo.lv = 1
+					cominfo.lv = 1;
 					clan.campComs.push(cominfo);
 				}
 				

@@ -2,6 +2,7 @@ package wargame.logic.battle.vo
 {
 	import flash.geom.Point;
 	
+	import wargame.cfg.vo.ConfigCamp;
 	import wargame.cfg.vo.ConfigComponent;
 
 	public class ArmyInfo
@@ -18,10 +19,19 @@ package wargame.logic.battle.vo
 		public var solider:Vector.<SoliderInfo>;		//普通兵种列表
 		public var campComs:Vector.<CampCmInfo>; 		//当前科技等级
 		public var campLv:int = 0;						//城堡等级
-		
+		public var _campInfo:ConfigCamp = null;
+		public function set campInfo(value:ConfigCamp):void
+		{
+			_campInfo = value;
+			hp = _campInfo.hp;
+		}
+		public function get campInfo():ConfigCamp
+		{
+			return _campInfo;
+		}
 		public var createPoint:Point = new Point();		//阵营单位创建坐标
 		public var stationPoint:Point = new Point();	//阵营主阵地坐标
-		
+		public var hp:int = 0;
 		
 		public function ArmyInfo()
 		{

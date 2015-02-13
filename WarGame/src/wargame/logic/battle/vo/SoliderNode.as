@@ -110,14 +110,14 @@ package wargame.logic.battle.vo
 					if(_lockTarget)
 					{
 						hurtAttackTarget(targetClan);
-						if(_lockTarget.state == STATE_DEAD)//目标死亡
-						{
-							_lockTarget = findAttackTarget(targetClan) as SoliderNode;
-							if(_lockTarget)
-							{
-								
-							}
-						}
+//						if(_lockTarget.state == STATE_DEAD)//目标死亡
+//						{
+//							_lockTarget = findAttackTarget(targetClan) as SoliderNode;
+//							if(_lockTarget)
+//							{
+//								
+//							}
+//						}
 					}
 					else
 					{
@@ -134,17 +134,19 @@ package wargame.logic.battle.vo
 							hurtAttackTarget(targetClan);
 						}
 					}
-					else
+					
+					if(_lockTarget.state == STATE_DEAD)//目标死亡
 					{
 						_lockTarget = findAttackTarget(targetClan) as SoliderNode;
-						if(_lockTarget)
-						{
-							_state = STATE_ATTACK;
-						}
-						else
-						{
-							_state = STATE_MOVE;
-						}
+					}
+					
+					if(_lockTarget)
+					{
+						_state = STATE_ATTACK;
+					}
+					else
+					{
+						_state = STATE_MOVE;
 					}
 					_hurtFlag = false;
 					break;
